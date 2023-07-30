@@ -1,0 +1,4 @@
+../Core/Src/led_driver.c:16:14:gamma_correct	288	static
+../Core/Src/led_driver.c:42:6:dma_buffer_init	8	static
+../Core/Src/led_driver.c:48:6:dma_buffer_write	48	static
+../Core/Src/led_driver.c:109:6:drive_led	16	static

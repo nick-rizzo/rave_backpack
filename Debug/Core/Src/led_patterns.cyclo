@@ -1,0 +1,4 @@
+led_patterns.c:39:6:static_color	2
+led_patterns.c:45:6:rainbow	14
+led_patterns.c:115:6:meteor	3
+led_patterns.c:137:6:breathe	18
