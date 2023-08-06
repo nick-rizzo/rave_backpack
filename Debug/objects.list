@@ -1,6 +1,7 @@
 "./Core/Src/led_driver.o"
 "./Core/Src/led_patterns.o"
 "./Core/Src/main.o"
+"./Core/Src/ssd1306.o"
 "./Core/Src/stm32f4xx_hal_msp.o"
 "./Core/Src/stm32f4xx_it.o"
 "./Core/Src/syscalls.o"

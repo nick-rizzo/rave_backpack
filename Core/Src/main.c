@@ -21,9 +21,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <string.h>
 #include "globals.h"
 #include "led_patterns.h"
 #include "led_driver.h"
+#include "ssd_1306.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,11 +44,25 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-I2C_HandleTypeDef hi2c1;
+//I2C_HandleTypeDef hi2c1;
 
+//SPI_HandleTypeDef hspi1;
 DMA_HandleTypeDef hdma_spi1_tx;
 
 /* USER CODE BEGIN PV */
+typedef enum {
+	LED_OFF=0, PATTERN=1, COLOR=3, SPEED=5, BRIGHTNESS=7
+}ctrl_state;
+
+typedef enum {
+	IDLE, STATIC, BREATHE, RAINBOW, METEOR
+}pattern_state;
+
+ctrl_state cur_mode_state = LED_OFF;
+ctrl_state new_mode_state = LED_OFF;
+
+pattern_state cur_col_state = IDLE;
+pattern_state new_col_state = IDLE;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -62,23 +78,13 @@ static void MX_I2C1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+
 /* USER CODE END 0 */
 
 /**
   * @brief  The application entry point.
   * @retval int
   */
-
-void drive_display(){
-	uint8_t i2c_data[2] = {0};
-	i2c_data[0] = 0xaf;
-	HAL_I2C_Master_Transmit(&hi2c1, (0x3C<<1), i2c_data, 1, HAL_MAX_DELAY);
-	HAL_Delay(100);
-	i2c_data[0] = 0b01000000;
-	i2c_data[1] = 0xa5;
-	HAL_I2C_Master_Transmit(&hi2c1, (0x3C<<1), i2c_data, 2, HAL_MAX_DELAY);
-}
-
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -107,22 +113,148 @@ int main(void)
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
   dma_buffer_init();
+  ssd1306_init();
+  HAL_Delay(500);
+
   /* USER CODE END 2 */
-//  drive_display();
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  drive_display();
-//	  static_color(test_red);
-//	  rainbow();
-//	  meteor(test_red);
-//	  breathe(test_red);
+	  switch (cur_mode_state){
+	  	  case LED_OFF:{
+	  		  if (1==1){
+	  			  display_init();
+	  			  new_mode_state = PATTERN;
+	  			  choice_selection(PATTERN);
+	  		  }
+	  		  else{
+	  			  new_mode_state = LED_OFF;
+	  		  }
+	  		  break;
+	  	  }
+	  	  case PATTERN:{
+	  		/*
+	  			if (change mode down){
+	  				new_mode_state = COLOR;
+	  				choice_selection(COLOR);
+	  			} else if (change mode up){
+	  			  	new_mode_state = BRIGHTNESS;
+	  			  	choice_selection(BRIGHTNESS);
+	  			} else {
+	  			  	new_mode_state = PATTERN;
+	  			}
+	  		*/
 
-//	  drive_display();
+	  		  switch(cur_col_state){
+	  		  	  case IDLE:{
 
+	  		  		  break;
+	  		  	  }
+	  		  	  case STATIC:{
+	  		  		  /*
+	  		  	  	  if (change mode right){
+	  		  	  	  	  new_state = BREATHE;
+	  		  	  	  } else if (change mode up){
+	  		  	  	  	  new_state = BRIGHTNESS;
+	  		  	  	  } else {
+	  		  	  	  	  new_state = STATIC;
+	  		  	  	  }
+	  		  		   */
+	  		  		  static_color(test_red);
+	  		  		  break;
+	  		  	  }
+	  		  	  case (BREATHE):{
+	  		  	  	  /*
+	  				  if (change mode right){
+	  		  	  	  	  new_state = RAINBOW;
+	  		  	  	  } else if (change mode up){
+	  		  	  	  	  new_state = STATIC;
+	  		  	  	  } else {
+	  		  	  	  	  new_state = BREATHE;
+	  		  	  	  }
+	  		   	   	   */
+	  			 	 breathe(test_red);
+	  			 	 break;
+	  		  	  }
+	  		  	  case (RAINBOW):{
+	  		  		  /*
+	  		  	  	  if (change mode right){
+	  		  	  	  	  new_state = METEOR;
+	  		  	  	  } else if (change mode up){
+	  		  	  	  new_state = BREATHE;
+	  		  	  	  } else {
+	  		  	  	  	  new_state = RAINBOW;
+	  		  	  	  }
+	  		  		   */
+	  		  		  rainbow();
+	  		  		  break;
+	  		  	  }
+	  		  	  case (METEOR):{
+	  		  		  /*
+	  		  	  	  if (change mode right){
+	  		  	  	  	  new_state = SPEED;
+	  		  	  	  } else if (change mode up){
+	  		  	  	  	  new_state = RAINBOW;
+	  		  	  	  } else {
+	  		  	  	  	  new_state = METEOR;
+	  		  	  	  }
+	  		  		   */
+	  		  		  meteor(test_red);
+	  		  		  break;
+	  		  	  }
+	  	  	  }// end switch
 
+	  		  cur_col_state = new_col_state;
+	  	  	  break;
+	  	  }
+	  	  case COLOR:{
+		  		/*
+		  			if (change mode down){
+		  				new_mode_state = SPEED;
+		  				choice_selection(SPEED);
 
+		  			} else if (change mode up){
+		  			  	new_mode_state = PATTERN;
+		  			  	choice_selection(PATTERN);
+		  			} else {
+		  			  	new_mode_state = COLOR;
+		  			}
+		  		*/
+	  		break;
+	  	  }
+	  	  case SPEED:{
+		  		/*
+		  			if (change mode down){
+		  				new_mode_state = BRIGHTNESS;
+		  				choice_selection(BRIGHTNESS);
+		  			} else if (change mode up){
+		  			  	new_mode_state = COLOR;
+		  			  	choice_selection(COLOR);
+		  			} else {
+		  			  	new_mode_state = SPEED;
+		  			}
+		  		*/
+	  		break;
+	  	  }
+	  	  case BRIGHTNESS:{
+		  		/*
+		  			if (change mode down){
+		  				new_mode_state = PATTERN;
+		  				choice_selection(PATTERN);
+		  			} else if (change mode up){
+		  			  	new_mode_state = SPEED;
+		  			  	choice_selection(SPEED);
+		  			} else {
+		  			  	new_mode_state = BRIGHTNESS;
+		  			}
+		  		*/
+	  		break;
+	  	  }
+	  }
+
+	  cur_mode_state = new_mode_state;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
