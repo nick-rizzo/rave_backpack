@@ -50,3 +50,7 @@ release
 *.su
 *.idb
 *.pdb
+
+
+#Launch file
+*.launch
