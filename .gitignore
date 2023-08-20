@@ -54,3 +54,7 @@ release
 
 #Launch file
 *.launch
+
+#vscode
+*.code-workspace
+.vscode
