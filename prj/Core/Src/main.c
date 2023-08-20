@@ -21,6 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stm32f446xx.h"
 #include <stdio.h>
 #include <string.h>
 #include "globals.h"
@@ -56,10 +57,6 @@ UART_HandleTypeDef huart2;
 typedef enum {
 	LED_OFF=0, PATTERN=1, COLOR=3, SPEED=5, BRIGHTNESS=7
 }ctrl_state;
-
-typedef enum {
-	IDLE, STATIC, BREATHE, RAINBOW, METEOR
-}pattern_state;
 
 typedef enum {
 	NONE=0, UP=1, DN=2, LEFT=3, RIGHT=4
@@ -240,7 +237,7 @@ int main(void)
 	  		  	  		  new_col_state = STATIC;
 	  		  	  	  }
 
-	  		  		  static_color(test_red);
+//	  		  		  static_color(cur_col);
 	  		  		  break;
 	  		  	  }
 	  		  	  case (BREATHE):{
@@ -261,7 +258,7 @@ int main(void)
 	  		  	  	  	  new_col_state = BREATHE;
 	  		  	  	  }
 
-	  			 	 breathe(test_red);
+//	  			 	 breathe(cur_col);
 	  			 	 break;
 	  		  	  }
 	  		  	  case (RAINBOW):{
@@ -282,7 +279,7 @@ int main(void)
 	  		  	  	  	  new_col_state = RAINBOW;
 	  		  	  	  }
 
-	  		  		  rainbow();
+//	  		  		  rainbow();
 	  		  		  break;
 	  		  	  }
 	  		  	  case (METEOR):{
@@ -303,7 +300,7 @@ int main(void)
 	  		  	  	  	  new_col_state = METEOR;
 	  		  	  	  }
 
-	  		  		  meteor(test_red);
+//	  		  		  meteor(cur_col);
 	  		  		  break;
 	  		  	  }
 	  	  	  }// end switch
@@ -312,19 +309,41 @@ int main(void)
 	  	  	  break;
 	  	  }
 	  	  case COLOR:{
+	  		  if (cur_dir == DN){
+		  		new_mode_state = SPEED;
+		  		move_selector(COLOR, SPEED);
+	  		  } else if (cur_dir == UP){
+		  		  	new_mode_state = PATTERN;
+		  		  	move_selector(COLOR, PATTERN);
+	  		  } else {
+		  		  	new_mode_state = COLOR;
+	  		  }
 
-		  			if (cur_dir == DN){
-		  				new_mode_state = SPEED;
-		  				move_selector(COLOR, SPEED);
+	  		  if (cur_dir == RIGHT){
+	  			  if (col_arr_idx == 8/*(sizeof(col_arr)-1)*/){
+	  				  col_arr_idx = 0;
+	  			  } else {
+	  				  col_arr_idx++;
+	  			  }
+	  			cur_col = col_arr[col_arr_idx];
+	  			clear_page(3);
+	  			write_page(3, col_name[col_arr_idx]);
+	  			insert_selector(COLOR);
+	  			ssd1306_update_display();
 
-		  			} else if (cur_dir == UP){
-		  			  	new_mode_state = PATTERN;
-		  			  	move_selector(COLOR, PATTERN);
-		  			} else {
-		  			  	new_mode_state = COLOR;
-		  			}
-
-	  		break;
+	  		  } else if (cur_dir == LEFT){
+	  			  if (col_arr_idx == 0){
+	  				  col_arr_idx = 8/*(sizeof(col_arr)-1)*/;
+	  			  } else {
+	  				  col_arr_idx--;
+	  			  }
+	  			cur_col = col_arr[col_arr_idx];
+	  			clear_page(3);
+	  			write_page(3, col_name[col_arr_idx]);
+	  			insert_selector(COLOR);
+	  			ssd1306_update_display();
+	  		  }
+	  		  break;
 	  	  }
 	  	  case SPEED:{
 
@@ -355,8 +374,8 @@ int main(void)
 	  		break;
 	  	  }
 	  }
-
 	  cur_mode_state = new_mode_state;
+	  display_pattern(cur_col_state);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

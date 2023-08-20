@@ -3,12 +3,12 @@
 
 #define METEOR_LEN 5
 
-extern int test_white;
-extern int test_green;
-extern int test_red;
-extern int test_blue;
-extern int test_black;
+extern uint32_t col_arr[9];
+extern char * col_name [9];
+extern uint32_t col_arr_idx;
+extern uint32_t cur_col;
 
+void display_pattern (pattern_state pattern_in);
 void static_color(unsigned int grb_value);
 void rainbow();
 void meteor(unsigned int grb_value);

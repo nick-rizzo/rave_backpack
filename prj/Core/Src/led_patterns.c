@@ -18,18 +18,39 @@ typedef enum {
 	BR_OUT
 } breathe_states;
 
-int test_white = 0b111111111111111111111111U; // white
-int test_green = 0b111111110000000000000000U; // green
-int test_red = 0b000000001111111100000000U; // red
-int test_blue = 0b000000000000000011111111U; // blue
-int test_black = 0b000000000000000000000000U; // blue
+//GRB
+const uint32_t red  	= 0x00FF00U;
+const uint32_t orange 	= 0x88FF00U;
+const uint32_t yellow 	= 0xFFFF00U;
+const uint32_t green 	= 0xFF0000U;
+const uint32_t blue 	= 0x0000FFU;
+const uint32_t purple 	= 0x005CBFU;
+const uint32_t pink		= 0x00BFAFU;
+const uint32_t cyan 	= 0xBF00BFU;
+const uint32_t white 	= 0xFFFFFFU;
+const uint32_t black 	= 0x000000U;
 
+const uint32_t col_arr [9] = {red, orange, yellow, green, blue, purple, pink, cyan, white};
+const char * col_name [9] = {
+		"    Red     ",
+		"   Orange   ",
+		"   Yellow   ",
+		"   Green    ",
+		"    Blue    ",
+		"   Purple   ",
+		"    Pink    ",
+		"    Cyan    ",
+		"   White    "
+};
+uint32_t col_arr_idx = 0;
 int head_pos = 0;
 
 unsigned int brightness_modifier = 230; //int to subtract brightness from
 unsigned int r_val=25;
 unsigned int g_val=0;
 unsigned int b_val=0;
+
+uint32_t cur_col = red;
 
 color_state cur_state = RED;
 breathe_states br_state = INITIAL;
@@ -103,12 +124,6 @@ void rainbow(){
 	for(int i=0;i<NUM_LEDS;i++){
 		drive_led(color);
 	}
-//	drive_led(test_black);
-//	drive_led(test_black);
-//	drive_led(test_black);
-//	drive_led(test_black);
-//	drive_led(test_black);
-//	drive_led(test_black);
 	HAL_Delay(5 * (255/(255-brightness_modifier)));
 }
 
@@ -183,6 +198,30 @@ void breathe(unsigned int grb_value){
 	}
 
 	HAL_Delay(10);
+}
+
+void display_pattern (pattern_state pattern_in){
+	switch (pattern_in){
+		case IDLE:{
+			break;
+		}
+		case STATIC:{
+			static_color(cur_col);
+			break;
+		}
+		case BREATHE:{
+			breathe(cur_col);
+			break;
+		}
+		case RAINBOW:{
+			rainbow();
+			break;
+		}
+		case METEOR:{
+			meteor(cur_col);
+			break;
+		}
+	}
 }
 
 #endif
