@@ -50,8 +50,6 @@ unsigned int r_val=25;
 unsigned int g_val=0;
 unsigned int b_val=0;
 
-uint32_t cur_col = red;
-
 color_state cur_state = RED;
 breathe_states br_state = INITIAL;
 
@@ -191,6 +189,9 @@ void breathe(unsigned int grb_value){
 		}
 	}
 
+	if (grb_value != breathe_color){
+		br_state = INITIAL;
+	}
 
 	color = (g_val<<16) + (r_val<<8) + (b_val<<0);
 	for(int i=0;i<NUM_LEDS;i++){
@@ -200,17 +201,17 @@ void breathe(unsigned int grb_value){
 	HAL_Delay(10);
 }
 
-void display_pattern (pattern_state pattern_in){
+void display_pattern (pattern_state pattern_in, uint32_t cur_color){
 	switch (pattern_in){
 		case IDLE:{
 			break;
 		}
 		case STATIC:{
-			static_color(cur_col);
+			static_color(cur_color);
 			break;
 		}
 		case BREATHE:{
-			breathe(cur_col);
+			breathe(cur_color);
 			break;
 		}
 		case RAINBOW:{
@@ -218,7 +219,7 @@ void display_pattern (pattern_state pattern_in){
 			break;
 		}
 		case METEOR:{
-			meteor(cur_col);
+			meteor(cur_color);
 			break;
 		}
 	}

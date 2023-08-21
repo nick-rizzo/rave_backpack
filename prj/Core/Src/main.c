@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "stm32f446xx.h"
+#include "../../../STM32CubeF4/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
 #include <stdio.h>
 #include <string.h>
 #include "globals.h"
@@ -84,6 +84,8 @@ GPIO_PinState left_nxt = GPIO_PIN_RESET;
 GPIO_PinState right_nxt = GPIO_PIN_RESET;
 
 dir_ctrl cur_dir;
+
+uint32_t cur_color = 0x00FF00;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -185,7 +187,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//	  rainbow();
 	  cur_dir = debounced_polling_qnd();
 
 	  switch (cur_mode_state){
@@ -325,7 +326,7 @@ int main(void)
 	  			  } else {
 	  				  col_arr_idx++;
 	  			  }
-	  			cur_col = col_arr[col_arr_idx];
+	  			cur_color = col_arr[col_arr_idx];
 	  			clear_page(3);
 	  			write_page(3, col_name[col_arr_idx]);
 	  			insert_selector(COLOR);
@@ -337,7 +338,7 @@ int main(void)
 	  			  } else {
 	  				  col_arr_idx--;
 	  			  }
-	  			cur_col = col_arr[col_arr_idx];
+	  			cur_color = col_arr[col_arr_idx];
 	  			clear_page(3);
 	  			write_page(3, col_name[col_arr_idx]);
 	  			insert_selector(COLOR);
@@ -375,7 +376,7 @@ int main(void)
 	  	  }
 	  }
 	  cur_mode_state = new_mode_state;
-	  display_pattern(cur_col_state);
+	  display_pattern(cur_col_state, cur_color);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
