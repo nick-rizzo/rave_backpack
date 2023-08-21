@@ -15,5 +15,6 @@ unsigned int gamma_correct(unsigned int grb_value);
 void dma_buffer_init();
 void dma_buffer_write(unsigned int grb_value);
 void drive_led(unsigned int grb_value);
+void change_brightness(uint8_t brightness_modifier);
 
 #endif

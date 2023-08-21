@@ -45,7 +45,6 @@ const char * col_name [9] = {
 uint32_t col_arr_idx = 0;
 int head_pos = 0;
 
-unsigned int brightness_modifier = 230; //int to subtract brightness from
 unsigned int r_val=25;
 unsigned int g_val=0;
 unsigned int b_val=0;
@@ -67,7 +66,7 @@ void rainbow(){
 
 	switch(cur_state){
 		case RED:{
-			if(g_val == 255 - brightness_modifier){
+			if(g_val == 255){
 				cur_state = RED_2_GRN;
 			}else{
 				g_val++;
@@ -84,7 +83,7 @@ void rainbow(){
 				break;
 		}
 		case GRN:{
-			if (b_val == 255 - brightness_modifier){
+			if (b_val == 255){
 				cur_state = GRN_2_BLU;
 			}else{
 				b_val++;
@@ -101,7 +100,7 @@ void rainbow(){
 				break;
 		}
 		case BLU:{
-			if(r_val == 255 - brightness_modifier){
+			if(r_val == 255){
 				cur_state = BLU_2_RED;
 			}else{
 				r_val++;
@@ -122,7 +121,7 @@ void rainbow(){
 	for(int i=0;i<NUM_LEDS;i++){
 		drive_led(color);
 	}
-	HAL_Delay(5 * (255/(255-brightness_modifier)));
+	HAL_Delay(5);
 }
 
 void meteor(unsigned int grb_value){
@@ -201,7 +200,8 @@ void breathe(unsigned int grb_value){
 	HAL_Delay(10);
 }
 
-void display_pattern (pattern_state pattern_in, uint32_t cur_color){
+void display_pattern (pattern_state pattern_in, uint32_t cur_color, uint8_t brightness){
+	change_brightness(brightness);
 	switch (pattern_in){
 		case IDLE:{
 			break;

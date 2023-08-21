@@ -12,6 +12,11 @@ SPI_HandleTypeDef hspi1;
 int led_idx = 0;
 int num_iter = 0;
 uint8_t dma_buffer [DMA_BUFFER_SIZE] = {0};
+uint8_t brightness = 100; // 10-100
+
+void change_brightness(uint8_t brightness_modifier){
+	brightness = brightness_modifier;
+}
 
 unsigned int gamma_correct(unsigned int grb_value){
 	const uint8_t gamma_lut[] = {
@@ -52,9 +57,11 @@ void dma_buffer_write(unsigned int grb_value){
 	uint32_t grn_buffer = 0;
 	uint32_t blu_buffer = 0;
 //	unsigned int corrected_color = gamma_correct(grb_value);
-	uint8_t gval = (grb_value>>16)&CMASK;
-	uint8_t rval = (grb_value>>8)&CMASK;
-	uint8_t bval = (grb_value>>0)&CMASK;
+
+	uint8_t gval = ((grb_value>>16)&CMASK) * (brightness/100.0);
+	uint8_t rval = ((grb_value>>8)&CMASK) * (brightness/100.0);
+	uint8_t bval = ((grb_value>>0)&CMASK) * (brightness/100.0);
+
 
 	//green
 	for(int g=0;g<8;g++){

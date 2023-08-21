@@ -85,7 +85,8 @@ GPIO_PinState right_nxt = GPIO_PIN_RESET;
 
 dir_ctrl cur_dir;
 
-uint32_t cur_color = 0x00FF00;
+uint32_t cur_color = 0x00FF00; // init to red
+uint8_t cur_brightness = 100;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -372,11 +373,17 @@ int main(void)
 		  			  	new_mode_state = BRIGHTNESS;
 		  			}
 
+		  			if (cur_dir == RIGHT){
+		  				cur_brightness = (cur_brightness == 100) ? 100 : (cur_brightness + 10);
+		  			} else if (cur_dir == LEFT){
+		  				cur_brightness = (cur_brightness == 10) ? 10 : (cur_brightness - 10);
+		  			}
+
 	  		break;
 	  	  }
 	  }
 	  cur_mode_state = new_mode_state;
-	  display_pattern(cur_col_state, cur_color);
+	  display_pattern(cur_col_state, cur_color, cur_brightness);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
