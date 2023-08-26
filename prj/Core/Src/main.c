@@ -83,7 +83,7 @@ GPIO_PinState down_nxt = GPIO_PIN_RESET;
 GPIO_PinState left_nxt = GPIO_PIN_RESET;
 GPIO_PinState right_nxt = GPIO_PIN_RESET;
 
-dir_ctrl cur_dir = NONE;
+volatile dir_ctrl cur_dir = NONE;
 
 uint32_t cur_color = 0x00FF00; // init to red
 uint8_t cur_brightness = 100;
@@ -102,47 +102,11 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-
-dir_ctrl debounced_polling_qnd(){
-	  up_cur = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_0);
-	  down_cur = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_1);
-	  left_cur = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0);
-	  right_cur = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4);
-	  if ( (up_cur != up_nxt) || (down_cur != down_nxt) || (left_cur != left_nxt) || (right_cur != right_nxt) ){
-		  HAL_Delay(100);
-		  up_cur = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_0);
-		  down_cur = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_1);
-		  left_cur = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0);
-		  right_cur = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4);
-
-		  up_nxt = up_cur;
-		  down_nxt = down_cur;
-		  left_nxt = left_cur;
-		  right_nxt = right_cur;
-
-		  if (up_cur){
-//		  	  HAL_UART_Transmit(&huart2, up_msg, strlen(up_msg), 10000);
-			  return UP;
-
-		  }
-		  else if (down_cur){
-//		  	  HAL_UART_Transmit(&huart2, dn_msg, strlen(dn_msg), 10000);
-			  return DN;
-		  }
-		  else if (left_cur){
-//		  	  HAL_UART_Transmit(&huart2, left_msg, strlen(left_msg), 10000);
-			  return LEFT;
-		  }
-		  else if (right_cur){
-//		  	  HAL_UART_Transmit(&huart2, right_msg, strlen(right_msg), 10000);
-			  return RIGHT;
-		  }else{
-			  return NONE;
-		  }
-	  }
-	  return NONE;
-}
+//void delay(uint32_t interval){
+//	uint32_t cur_time = HAL_GetTick();
+//	if (cur_time)
+//
+//}
 /* USER CODE END 0 */
 
 /**
@@ -214,8 +178,6 @@ int main(void)
 	  			} else {
 	  			  	new_mode_state = PATTERN;
 	  			}
-
-
 	  		  switch(cur_col_state){
 	  		  	  case IDLE:{
 	  		  		  new_col_state = STATIC;
@@ -240,8 +202,6 @@ int main(void)
 	  		  	  	  } else {
 	  		  	  		  new_col_state = STATIC;
 	  		  	  	  }
-
-//	  		  		  static_color(cur_col);
 	  		  		  break;
 	  		  	  }
 	  		  	  case (BREATHE):{
@@ -263,8 +223,6 @@ int main(void)
 	  		  	  	  } else {
 	  		  	  	  	  new_col_state = BREATHE;
 	  		  	  	  }
-
-//	  			 	 breathe(cur_col);
 	  			 	 break;
 	  		  	  }
 	  		  	  case (RAINBOW):{
@@ -286,8 +244,6 @@ int main(void)
 	  		  	  	  } else {
 	  		  	  	  	  new_col_state = RAINBOW;
 	  		  	  	  }
-
-//	  		  		  rainbow();
 	  		  		  break;
 	  		  	  }
 	  		  	  case (METEOR):{
@@ -309,8 +265,6 @@ int main(void)
 	  		  	  	  } else {
 	  		  	  	  	  new_col_state = METEOR;
 	  		  	  	  }
-
-//	  		  		  meteor(cur_col);
 	  		  		  break;
 	  		  	  }
 	  	  	  }// end switch
