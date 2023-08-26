@@ -83,7 +83,7 @@ GPIO_PinState down_nxt = GPIO_PIN_RESET;
 GPIO_PinState left_nxt = GPIO_PIN_RESET;
 GPIO_PinState right_nxt = GPIO_PIN_RESET;
 
-dir_ctrl cur_dir;
+dir_ctrl cur_dir = NONE;
 
 uint32_t cur_color = 0x00FF00; // init to red
 uint8_t cur_brightness = 100;
@@ -188,8 +188,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  cur_dir = debounced_polling_qnd();
-
 	  switch (cur_mode_state){
 	  	  case LED_OFF:{
 	  		  if (1==1){
@@ -208,9 +206,11 @@ int main(void)
 	  			if (cur_dir == DN){
 	  				new_mode_state = COLOR;
 	  				move_selector(PATTERN, COLOR);
+	  				cur_dir = NONE;
 	  			} else if (cur_dir == UP){
 	  			  	new_mode_state = BRIGHTNESS;
 	  			  	move_selector(PATTERN, BRIGHTNESS);
+	  			  	cur_dir = NONE;
 	  			} else {
 	  			  	new_mode_state = PATTERN;
 	  			}
@@ -229,12 +229,14 @@ int main(void)
 	  		  	  	  	  write_page(1, "  Breathe   ");
 	  		  	  	  	  insert_selector(PATTERN);
 	  		  	  	  	  ssd1306_update_display();
+	  		  	  	  	  cur_dir = NONE;
 	  		  	  	  } else if (cur_dir == LEFT){
 	  		  	  		  new_col_state = METEOR;
 	  		  	  		  clear_page(1);
 	  		  	  	  	  write_page(1, "   Meteor   ");
 	  		  	  	  	  insert_selector(PATTERN);
 	  		  	  	  	  ssd1306_update_display();
+	  		  	  	  	  cur_dir = NONE;
 	  		  	  	  } else {
 	  		  	  		  new_col_state = STATIC;
 	  		  	  	  }
@@ -250,12 +252,14 @@ int main(void)
 	  		  	  	  	  write_page(1, "  Rainbow   ");
 	  		  	  	  	  insert_selector(PATTERN);
 	  		  	  	  	  ssd1306_update_display();
+	  		  	  	  	  cur_dir = NONE;
 	  		  	  	  } else if (cur_dir == LEFT){
 	  		  	  	  	  new_col_state = STATIC;
 	  		  	  	  	  clear_page(1);
 	  		  	  	  	  write_page(1, "   Static   ");
 	  		  	  	  	  insert_selector(PATTERN);
 	  		  	  	  	  ssd1306_update_display();
+	  		  	  	  	  cur_dir = NONE;
 	  		  	  	  } else {
 	  		  	  	  	  new_col_state = BREATHE;
 	  		  	  	  }
@@ -271,12 +275,14 @@ int main(void)
 	  		  	  	  	  write_page(1, "   Meteor   ");
 	  		  	  	  	  insert_selector(PATTERN);
 	  		  	  	  	  ssd1306_update_display();
+	  		  	  	  	  cur_dir = NONE;
 	  		  	  	  } else if (cur_dir == LEFT){
 	  		  	  		  new_col_state = BREATHE;
 	  		  	  		  clear_page(1);
 	  		  	  		  write_page(1, "  Breathe   ");
 	  		  	  		  insert_selector(PATTERN);
 	  		  	  		  ssd1306_update_display();
+	  		  	  		  cur_dir = NONE;
 	  		  	  	  } else {
 	  		  	  	  	  new_col_state = RAINBOW;
 	  		  	  	  }
@@ -292,12 +298,14 @@ int main(void)
 	  		  	  	  	  write_page(1, "   Static   ");
 	  		  	  	  	  insert_selector(PATTERN);
 	  		  	  	  	  ssd1306_update_display();
+	  		  	  	  	  cur_dir = NONE;
 	  		  	  	  } else if (cur_dir == LEFT){
 	  		  	  	  	  new_col_state = RAINBOW;
 	  		  	  	  	  clear_page(1);
 	  		  	  	  	  write_page(1, "  Rainbow   ");
 	  		  	  	  	  insert_selector(PATTERN);
 	  		  	  	  	  ssd1306_update_display();
+	  		  	  	  	  cur_dir = NONE;
 	  		  	  	  } else {
 	  		  	  	  	  new_col_state = METEOR;
 	  		  	  	  }
@@ -314,9 +322,12 @@ int main(void)
 	  		  if (cur_dir == DN){
 		  		new_mode_state = SPEED;
 		  		move_selector(COLOR, SPEED);
-	  		  } else if (cur_dir == UP){
-		  		  	new_mode_state = PATTERN;
-		  		  	move_selector(COLOR, PATTERN);
+		  		cur_dir = NONE;
+	  		  }
+	  		  else if (cur_dir == UP){
+		  		new_mode_state = PATTERN;
+		  		move_selector(COLOR, PATTERN);
+		  		cur_dir = NONE;
 	  		  } else {
 		  		  	new_mode_state = COLOR;
 	  		  }
@@ -332,6 +343,7 @@ int main(void)
 	  			write_page(3, col_name[col_arr_idx]);
 	  			insert_selector(COLOR);
 	  			ssd1306_update_display();
+	  			cur_dir = NONE;
 
 	  		  } else if (cur_dir == LEFT){
 	  			  if (col_arr_idx == 0){
@@ -344,6 +356,7 @@ int main(void)
 	  			write_page(3, col_name[col_arr_idx]);
 	  			insert_selector(COLOR);
 	  			ssd1306_update_display();
+	  			cur_dir = NONE;
 	  		  }
 	  		  break;
 	  	  }
@@ -352,9 +365,11 @@ int main(void)
 		  			if (cur_dir == DN){
 		  				new_mode_state = BRIGHTNESS;
 		  				move_selector(SPEED, BRIGHTNESS);
+		  				cur_dir = NONE;
 		  			} else if (cur_dir == UP){
 		  			  	new_mode_state = COLOR;
 		  			  	move_selector(SPEED, COLOR);
+		  			  	cur_dir = NONE;
 		  			} else {
 		  			  	new_mode_state = SPEED;
 		  			}
@@ -366,17 +381,21 @@ int main(void)
 		  			if (cur_dir == DN){
 		  				new_mode_state = PATTERN;
 		  				move_selector(BRIGHTNESS, PATTERN);
+		  				cur_dir = NONE;
 		  			} else if (cur_dir == UP){
 		  			  	new_mode_state = SPEED;
 		  			  	move_selector(BRIGHTNESS, SPEED);
+		  			  	cur_dir = NONE;
 		  			} else {
 		  			  	new_mode_state = BRIGHTNESS;
 		  			}
 
 		  			if (cur_dir == RIGHT){
 		  				cur_brightness = (cur_brightness == 100) ? 100 : (cur_brightness + 10);
+		  				cur_dir = NONE;
 		  			} else if (cur_dir == LEFT){
 		  				cur_brightness = (cur_brightness == 10) ? 10 : (cur_brightness - 10);
+		  				cur_dir = NONE;
 		  			}
 
 	  		break;
@@ -585,23 +604,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : up_arrow_Pin dn_arrow_Pin */
-  GPIO_InitStruct.Pin = up_arrow_Pin|dn_arrow_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  /*Configure GPIO pins : up_arrow_Pin dn_arrow_Pin left_arrow_Pin right_arrow_Pin */
+  GPIO_InitStruct.Pin = up_arrow_Pin|dn_arrow_Pin|left_arrow_Pin|right_arrow_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : right_arrow_Pin */
-  GPIO_InitStruct.Pin = right_arrow_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(right_arrow_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : left_arrow_Pin */
-  GPIO_InitStruct.Pin = left_arrow_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(left_arrow_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : WS2812b_data_out_Pin */
   GPIO_InitStruct.Pin = WS2812b_data_out_Pin;
@@ -610,12 +617,41 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(WS2812b_data_out_GPIO_Port, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI2_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI2_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI3_IRQn);
+
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+	if (GPIO_Pin == up_arrow_Pin){
+		cur_dir = UP;
+	}
+	else if (GPIO_Pin == dn_arrow_Pin){
+		cur_dir = DN;
+	}
+	else if (GPIO_Pin == left_arrow_Pin){
+		cur_dir = LEFT;
+	}
+	else if (GPIO_Pin == right_arrow_Pin){
+		cur_dir = RIGHT;
+	}
+	else{
+		cur_dir = NONE;
+	}
+}
 /* USER CODE END 4 */
 
 /**
