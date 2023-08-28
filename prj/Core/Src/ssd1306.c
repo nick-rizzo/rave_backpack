@@ -7,7 +7,7 @@
 #include "ssd_1306.h"
 #include "fonts.h"
 
-I2C_HandleTypeDef hi2c1;
+//I2C_HandleTypeDef hi2c1;
 uint8_t ssd1306_buf[SSD1306_BUF_SIZE];
 
 void write_command(uint8_t data){

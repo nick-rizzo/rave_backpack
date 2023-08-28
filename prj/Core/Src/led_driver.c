@@ -8,7 +8,7 @@
 #include "main.h"
 
 
-SPI_HandleTypeDef hspi1;
+//SPI_HandleTypeDef hspi1;
 int led_idx = 0;
 int num_iter = 0;
 uint8_t dma_buffer [DMA_BUFFER_SIZE] = {0};

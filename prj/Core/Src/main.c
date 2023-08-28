@@ -47,9 +47,9 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-//I2C_HandleTypeDef hi2c1;
+I2C_HandleTypeDef hi2c1;
 
-//SPI_HandleTypeDef hspi1;
+SPI_HandleTypeDef hspi1;
 DMA_HandleTypeDef hdma_spi1_tx;
 
 UART_HandleTypeDef huart2;
@@ -81,6 +81,7 @@ volatile uint32_t start_time = 0;
 
 uint32_t cur_color = 0x00FF00; // init to red
 uint8_t cur_brightness = 100;
+uint8_t cur_speed = 100;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -368,6 +369,14 @@ int main(void)
 		  			  	new_mode_state = SPEED;
 		  			}
 
+		  			if (cur_dir == RIGHT){
+		  				cur_speed = (cur_speed == 100) ? 100 : (cur_speed + 10);
+		  				cur_dir = NONE;
+		  			} else if (cur_dir == LEFT){
+		  				cur_speed = (cur_speed == 10) ? 10 : (cur_speed - 10);
+		  				cur_dir = NONE;
+		  			}
+
 	  		break;
 	  	  }
 	  	  case BRIGHTNESS:{
@@ -397,7 +406,7 @@ int main(void)
 	  }
 	  cur_mode_state = new_mode_state;
 	  if (led_enable){
-	  display_pattern(cur_col_state, cur_color, cur_brightness);
+	  display_pattern(cur_col_state, cur_color, cur_brightness, cur_speed);
 	  }
     /* USER CODE END WHILE */
 
