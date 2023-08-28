@@ -24,6 +24,7 @@
 #include "../../../STM32CubeF4/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 #include "globals.h"
 #include "led_patterns.h"
 #include "led_driver.h"
@@ -37,7 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define DEBOUNCE_DELAY 50
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -73,17 +74,10 @@ char * dn_msg = "dn pressed\r\n";
 char * left_msg = "left pressed\r\n";
 char * right_msg = "right pressed\r\n";
 
-GPIO_PinState up_cur = GPIO_PIN_RESET;
-GPIO_PinState down_cur = GPIO_PIN_RESET;
-GPIO_PinState left_cur = GPIO_PIN_RESET;
-GPIO_PinState right_cur = GPIO_PIN_RESET;
-
-GPIO_PinState up_nxt = GPIO_PIN_RESET;
-GPIO_PinState down_nxt = GPIO_PIN_RESET;
-GPIO_PinState left_nxt = GPIO_PIN_RESET;
-GPIO_PinState right_nxt = GPIO_PIN_RESET;
-
+volatile bool read_pins = 0;
 volatile dir_ctrl cur_dir = NONE;
+volatile bool led_enable = 0;
+volatile uint32_t start_time = 0;
 
 uint32_t cur_color = 0x00FF00; // init to red
 uint8_t cur_brightness = 100;
@@ -102,11 +96,53 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//void delay(uint32_t interval){
-//	uint32_t cur_time = HAL_GetTick();
-//	if (cur_time)
-//
-//}
+void HAL_Delay(uint32_t Delay)
+{
+  uint32_t tickstart = HAL_GetTick();
+  uint32_t wait = Delay;
+
+  /* Add a freq to guarantee minimum wait */
+  if (wait < HAL_MAX_DELAY)
+  {
+    wait += (uint32_t)(uwTickFreq);
+  }
+
+  while((HAL_GetTick() - tickstart) < wait)
+  {
+	  if (!led_enable){
+		  break;
+	  }
+  }
+}
+
+bool timer_finished(){
+
+	if ((!led_enable) && ((HAL_GetTick() - start_time) >= DEBOUNCE_DELAY)){
+		led_enable = 1;
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
+void read_dir_pins(){
+	if (HAL_GPIO_ReadPin (up_arrow_GPIO_Port, up_arrow_Pin)){
+		cur_dir = UP;
+	}
+	else if (HAL_GPIO_ReadPin (dn_arrow_GPIO_Port, dn_arrow_Pin)){
+		cur_dir = DN;
+	}
+	else if (HAL_GPIO_ReadPin (left_arrow_GPIO_Port, left_arrow_Pin)){
+		cur_dir = LEFT;
+	}
+	else if (HAL_GPIO_ReadPin (right_arrow_GPIO_Port, right_arrow_Pin)){
+		cur_dir = RIGHT;
+	}
+	else{
+		cur_dir = NONE;
+	}
+}
 /* USER CODE END 0 */
 
 /**
@@ -152,6 +188,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  if (timer_finished()){
+		  read_dir_pins();
+	  }
+
 	  switch (cur_mode_state){
 	  	  case LED_OFF:{
 	  		  if (1==1){
@@ -356,7 +396,9 @@ int main(void)
 	  	  }
 	  }
 	  cur_mode_state = new_mode_state;
+	  if (led_enable){
 	  display_pattern(cur_col_state, cur_color, cur_brightness);
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -590,21 +632,23 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
-	if (GPIO_Pin == up_arrow_Pin){
-		cur_dir = UP;
-	}
-	else if (GPIO_Pin == dn_arrow_Pin){
-		cur_dir = DN;
-	}
-	else if (GPIO_Pin == left_arrow_Pin){
-		cur_dir = LEFT;
-	}
-	else if (GPIO_Pin == right_arrow_Pin){
-		cur_dir = RIGHT;
-	}
-	else{
-		cur_dir = NONE;
-	}
+//	if (GPIO_Pin == up_arrow_Pin){
+//		cur_dir = UP;
+//	}
+//	else if (GPIO_Pin == dn_arrow_Pin){
+//		cur_dir = DN;
+//	}
+//	else if (GPIO_Pin == left_arrow_Pin){
+//		cur_dir = LEFT;
+//	}
+//	else if (GPIO_Pin == right_arrow_Pin){
+//		cur_dir = RIGHT;
+//	}
+//	else{
+//		cur_dir = NONE;
+//	}
+	led_enable = 0;
+	start_time = HAL_GetTick();
 }
 /* USER CODE END 4 */
 
