@@ -81,7 +81,7 @@ volatile uint32_t start_time = 0;
 
 uint32_t cur_color = 0x00FF00; // init to red
 uint8_t cur_brightness = 100;
-uint8_t cur_speed = 100;
+uint8_t cur_speed = 50;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -372,9 +372,17 @@ int main(void)
 		  			if (cur_dir == RIGHT){
 		  				cur_speed = (cur_speed == 100) ? 100 : (cur_speed + 10);
 		  				cur_dir = NONE;
+		  				clear_page(SPEED);
+		  				draw_box((11*(cur_speed/10)),5,9,(5*8)+1);
+		  				insert_selector(SPEED);
+		  				ssd1306_update_display();
 		  			} else if (cur_dir == LEFT){
 		  				cur_speed = (cur_speed == 10) ? 10 : (cur_speed - 10);
 		  				cur_dir = NONE;
+		  				clear_page(SPEED);
+		  				draw_box((11*(cur_speed/10)),5,9,(5*8)+1);
+		  				insert_selector(SPEED);
+		  				ssd1306_update_display();
 		  			}
 
 	  		break;
@@ -396,9 +404,17 @@ int main(void)
 		  			if (cur_dir == RIGHT){
 		  				cur_brightness = (cur_brightness == 100) ? 100 : (cur_brightness + 10);
 		  				cur_dir = NONE;
+		  				clear_page(BRIGHTNESS);
+		  				draw_box((11*(cur_brightness/10)),5,9,(7*8)+1);
+		  				insert_selector(BRIGHTNESS);
+		  				ssd1306_update_display();
 		  			} else if (cur_dir == LEFT){
 		  				cur_brightness = (cur_brightness == 10) ? 10 : (cur_brightness - 10);
 		  				cur_dir = NONE;
+		  				clear_page(BRIGHTNESS);
+		  				draw_box((11*(cur_brightness/10)),5,9,(7*8)+1);
+		  				insert_selector(BRIGHTNESS);
+		  				ssd1306_update_display();
 		  			}
 
 	  		break;

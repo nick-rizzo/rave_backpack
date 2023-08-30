@@ -200,9 +200,9 @@ void display_init(){
 	  write_page(2, "COLOR:      ");
 	  write_page(3, "     Red    ");
 	  write_page(4, "SPEED:      ");
-	  draw_box(128-16, 5, 8, (5*8)+1);
+	  draw_box(72-18, 5, 9, (5*8)+1);
 	  write_page(6, "BRIGHTNESS: ");
-	  draw_box(128-16, 5, 8, (7*8)+1);
+	  draw_box(128-18, 5, 9, (7*8)+1);
 	  ssd1306_update_display();
 }
 

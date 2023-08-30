@@ -60,7 +60,7 @@ void static_color(unsigned int grb_value){
 	}
 }
 
-void rainbow(){
+void rainbow(uint8_t delay_modifier){
 	unsigned int color;
 	color = (g_val<<16) + (r_val<<8) + (b_val<<0);
 
@@ -121,10 +121,10 @@ void rainbow(){
 	for(int i=0;i<NUM_LEDS;i++){
 		drive_led(color);
 	}
-	HAL_Delay(5);
+	HAL_Delay(1 + (10-(delay_modifier/10))); //arbitrary ratio that looks good
 }
 
-void meteor(unsigned int grb_value){
+void meteor(unsigned int grb_value, uint8_t delay_modifier){
     #define METEOR_TAIL_LEN 5
 	uint32_t meteor_array [NUM_LEDS + METEOR_TAIL_LEN + NUM_LEDS] = {0};
 	meteor_array[NUM_LEDS+0] = grb_value;
@@ -139,14 +139,14 @@ void meteor(unsigned int grb_value){
 
 	if (head_pos == METEOR_TAIL_LEN + NUM_LEDS){
 		head_pos = 0;
-		HAL_Delay(2000);
+		HAL_Delay(20*(110-delay_modifier)); //arbitrary ratio that looks good
 	} else{
 		head_pos++;
 	}
-	HAL_Delay(60);
+	HAL_Delay(20+(110-delay_modifier)); //arbitrary ratio that looks good
 }
 
-void breathe(unsigned int grb_value){
+void breathe(unsigned int grb_value, uint8_t delay_modifier){
 
 	unsigned int color;
 	uint8_t target_g;
@@ -165,7 +165,7 @@ void breathe(unsigned int grb_value){
 		case BR_IN:{
 			if ((g_val==0) && (r_val==0) && (b_val==0)){
 				br_state = BR_OUT;
-				HAL_Delay(1000);
+				HAL_Delay(20*(110-delay_modifier));
 			}else{
 				if (g_val == 0){ g_val = 0; }else{ g_val--; }
 				if (r_val == 0){ r_val = 0; }else{ r_val--; }
@@ -197,10 +197,10 @@ void breathe(unsigned int grb_value){
 		drive_led(color);
 	}
 
-	HAL_Delay(10);
+	HAL_Delay((110-delay_modifier)/10);
 }
 
-void display_pattern (pattern_state pattern_in, uint32_t cur_color, uint8_t brightness){
+void display_pattern (pattern_state pattern_in, uint32_t cur_color, uint8_t brightness, uint8_t speed){
 	change_brightness(brightness);
 	switch (pattern_in){
 		case IDLE:{
@@ -211,15 +211,15 @@ void display_pattern (pattern_state pattern_in, uint32_t cur_color, uint8_t brig
 			break;
 		}
 		case BREATHE:{
-			breathe(cur_color);
+			breathe(cur_color, speed);
 			break;
 		}
 		case RAINBOW:{
-			rainbow();
+			rainbow(speed);
 			break;
 		}
 		case METEOR:{
-			meteor(cur_color);
+			meteor(cur_color, speed);
 			break;
 		}
 	}
