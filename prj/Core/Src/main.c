@@ -52,6 +52,8 @@ I2C_HandleTypeDef hi2c1;
 SPI_HandleTypeDef hspi1;
 DMA_HandleTypeDef hdma_spi1_tx;
 
+TIM_HandleTypeDef htim3;
+
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
@@ -74,10 +76,8 @@ char * dn_msg = "dn pressed\r\n";
 char * left_msg = "left pressed\r\n";
 char * right_msg = "right pressed\r\n";
 
-volatile bool read_pins = 0;
 volatile dir_ctrl cur_dir = NONE;
-volatile bool led_enable = 0;
-volatile uint32_t start_time = 0;
+volatile bool led_enable = 1;
 
 uint32_t cur_color = 0x00FF00; // init to red
 uint8_t cur_brightness = 100;
@@ -91,6 +91,7 @@ static void MX_DMA_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_USART2_UART_Init(void);
+static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -116,34 +117,6 @@ void HAL_Delay(uint32_t Delay)
   }
 }
 
-bool timer_finished(){
-
-	if ((!led_enable) && ((HAL_GetTick() - start_time) >= DEBOUNCE_DELAY)){
-		led_enable = 1;
-		return 1;
-	}
-	else {
-		return 0;
-	}
-}
-
-void read_dir_pins(){
-	if (HAL_GPIO_ReadPin (up_arrow_GPIO_Port, up_arrow_Pin)){
-		cur_dir = UP;
-	}
-	else if (HAL_GPIO_ReadPin (dn_arrow_GPIO_Port, dn_arrow_Pin)){
-		cur_dir = DN;
-	}
-	else if (HAL_GPIO_ReadPin (left_arrow_GPIO_Port, left_arrow_Pin)){
-		cur_dir = LEFT;
-	}
-	else if (HAL_GPIO_ReadPin (right_arrow_GPIO_Port, right_arrow_Pin)){
-		cur_dir = RIGHT;
-	}
-	else{
-		cur_dir = NONE;
-	}
-}
 /* USER CODE END 0 */
 
 /**
@@ -177,6 +150,7 @@ int main(void)
   MX_SPI1_Init();
   MX_I2C1_Init();
   MX_USART2_UART_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   dma_buffer_init();
   ssd1306_init();
@@ -189,10 +163,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  if (timer_finished()){
-		  read_dir_pins();
-	  }
-
 	  switch (cur_mode_state){
 	  	  case LED_OFF:{
 	  		  if (1==1){
@@ -551,6 +521,51 @@ static void MX_SPI1_Init(void)
 }
 
 /**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 1000;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 300;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
+
+}
+
+/**
   * @brief USART2 Initialization Function
   * @param None
   * @retval None
@@ -656,24 +671,29 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+	HAL_TIM_Base_Stop_IT(&htim3);
+	if (HAL_GPIO_ReadPin (up_arrow_GPIO_Port, up_arrow_Pin)){
+		cur_dir = UP;
+	}
+	else if (HAL_GPIO_ReadPin (dn_arrow_GPIO_Port, dn_arrow_Pin)){
+		cur_dir = DN;
+	}
+	else if (HAL_GPIO_ReadPin (left_arrow_GPIO_Port, left_arrow_Pin)){
+		cur_dir = LEFT;
+	}
+	else if (HAL_GPIO_ReadPin (right_arrow_GPIO_Port, right_arrow_Pin)){
+		cur_dir = RIGHT;
+	}
+	else{
+		cur_dir = NONE;
+	}
+	led_enable = 1;
+}
+
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
-//	if (GPIO_Pin == up_arrow_Pin){
-//		cur_dir = UP;
-//	}
-//	else if (GPIO_Pin == dn_arrow_Pin){
-//		cur_dir = DN;
-//	}
-//	else if (GPIO_Pin == left_arrow_Pin){
-//		cur_dir = LEFT;
-//	}
-//	else if (GPIO_Pin == right_arrow_Pin){
-//		cur_dir = RIGHT;
-//	}
-//	else{
-//		cur_dir = NONE;
-//	}
 	led_enable = 0;
-	start_time = HAL_GetTick();
+	HAL_TIM_Base_Start_IT(&htim3);
 }
 /* USER CODE END 4 */
 
