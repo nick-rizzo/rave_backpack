@@ -38,6 +38,10 @@ extern "C" {
 /* USER CODE BEGIN ET */
 extern I2C_HandleTypeDef hi2c1;
 extern SPI_HandleTypeDef hspi1;
+
+typedef enum {
+	IDLE, STATIC, BREATHE, RAINBOW, METEOR
+}pattern_state;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -58,8 +62,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define B1_Pin GPIO_PIN_13
-#define B1_GPIO_Port GPIOC
 #define up_arrow_Pin GPIO_PIN_0
 #define up_arrow_GPIO_Port GPIOC
 #define up_arrow_EXTI_IRQn EXTI0_IRQn
@@ -86,7 +88,7 @@ void Error_Handler(void);
 #define SWO_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-
+#define FREQ 45000000
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -3,8 +3,6 @@
 #define SSD1306_ADDR (0x3C<<1)
 #define SSD1306_BUF_SIZE (64/8) * 128//8 pages of 8 bits, 128 columns
 
-extern I2C_HandleTypeDef hi2c1;
-
 const typedef enum {
 	LEFT_ARROW,
 	RIGHT_ARROW

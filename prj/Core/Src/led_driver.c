@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include<string.h>
-#include "globals.h"
 #include "led_driver.h"
 #include "main.h"
 

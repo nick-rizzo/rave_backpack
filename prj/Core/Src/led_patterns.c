@@ -1,6 +1,5 @@
 #ifndef LED_PATTERNS
 #define LED_PATTERNS
-#include "globals.h"
 #include "led_driver.h"
 
 typedef enum{
