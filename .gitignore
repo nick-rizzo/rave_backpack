@@ -58,3 +58,14 @@ release
 #vscode
 *.code-workspace
 .vscode
+
+#PCB files
+pcb/*
+
+#CubeMX
+.vs/
+cmake/
+CMakeLists.txt
+CMakePresets.json
+vcpkg-configuration.json
+prj/build/
