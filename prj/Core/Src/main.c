@@ -21,11 +21,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "../../../STM32CubeF4/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-#include "globals.h"
 #include "led_patterns.h"
 #include "led_driver.h"
 #include "ssd_1306.h"
@@ -79,7 +77,7 @@ char * right_msg = "right pressed\r\n";
 volatile dir_ctrl cur_dir = NONE;
 volatile bool led_enable = 1;
 
-uint32_t cur_color = 0x00FF00; // init to red
+uint32_t cur_color = 0x00FF00U; // init to red
 uint8_t cur_brightness = 100;
 uint8_t cur_speed = 50;
 /* USER CODE END PV */
@@ -627,18 +625,11 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(WS2812b_data_out_GPIO_Port, WS2812b_data_out_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : up_arrow_Pin dn_arrow_Pin left_arrow_Pin right_arrow_Pin */
   GPIO_InitStruct.Pin = up_arrow_Pin|dn_arrow_Pin|left_arrow_Pin|right_arrow_Pin;
