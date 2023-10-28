@@ -95,15 +95,15 @@ void dma_buffer_write(unsigned int grb_value){
 		bval = bval << 1;
 	}
 
-	dma_buffer[(9*led_idx)+0] = (grn_buffer>>16)&CMASK;
-	dma_buffer[(9*led_idx)+1] = (grn_buffer>>8)&CMASK;
-	dma_buffer[(9*led_idx)+2] = (grn_buffer>>0)&CMASK;
-	dma_buffer[(9*led_idx)+3] = (red_buffer>>16)&CMASK;
-	dma_buffer[(9*led_idx)+4] = (red_buffer>>8)&CMASK;
-	dma_buffer[(9*led_idx)+5] = (red_buffer>>0)&CMASK;
-	dma_buffer[(9*led_idx)+6] = (blu_buffer>>16)&CMASK;
-	dma_buffer[(9*led_idx)+7] = (blu_buffer>>8)&CMASK;
-	dma_buffer[(9*led_idx)+8] = (blu_buffer>>0)&CMASK;
+	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+0] = (grn_buffer>>16)&CMASK;
+	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+1] = (grn_buffer>>8)&CMASK;
+	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+2] = (grn_buffer>>0)&CMASK;
+	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+3] = (red_buffer>>16)&CMASK;
+	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+4] = (red_buffer>>8)&CMASK;
+	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+5] = (red_buffer>>0)&CMASK;
+	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+6] = (blu_buffer>>16)&CMASK;
+	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+7] = (blu_buffer>>8)&CMASK;
+	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+8] = (blu_buffer>>0)&CMASK;
 
 	if (led_idx == NUM_LEDS-1){
 		led_idx = 0;
