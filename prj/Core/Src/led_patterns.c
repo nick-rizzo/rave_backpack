@@ -1,5 +1,15 @@
-#ifndef LED_PATTERNS
-#define LED_PATTERNS
+/*
+ *	===============================================================================================
+ *  File Name   :   led_patterns.c
+ *
+ *  Description :   different patterns for WS2812B
+ *
+ *  Contributors:   Nick Rizzo
+ *	===============================================================================================
+ */
+#ifndef LED_PATTERNS_C_
+#define LED_PATTERNS_C_
+
 #include "led_driver.h"
 
 typedef enum{

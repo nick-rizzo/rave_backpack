@@ -1,10 +1,19 @@
-#ifndef SSD1306_DRV
-#define SSD1306_DRV
+/*
+ *	===============================================================================================
+ *  File Name   :   ssd1306.c
+ *
+ *  Description :   SSD1306 OLED driver
+ *
+ *  Contributors:   Nick Rizzo
+ *	===============================================================================================
+ */
+#ifndef SSD1306_C_
+#define SSD1306_C_
 
 #include <string.h>
 #include <stdint.h>
 #include "main.h"
-#include "ssd_1306.h"
+#include "ssd1306.h"
 #include "fonts.h"
 
 //I2C_HandleTypeDef hi2c1;
@@ -218,7 +227,6 @@ void move_selector(int cur_select, int new_select){
 	insert_selector(new_select);
     ssd1306_update_display();
 }
-
 
 #endif
 

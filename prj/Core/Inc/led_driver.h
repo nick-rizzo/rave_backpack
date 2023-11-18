@@ -1,5 +1,14 @@
-#ifndef LED_DRIVER_H
-#define LED_DRIVER_H
+/*
+ *	===============================================================================================
+ *  File Name   :   led_driver.h
+ *
+ *  Description :   header file for WS2812B driver
+ *
+ *  Contributors:   Nick Rizzo
+ *	===============================================================================================
+ */
+#ifndef LED_DRIVER_H_
+#define LED_DRIVER_H_
 
 #include "main.h"
 

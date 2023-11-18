@@ -1,5 +1,14 @@
-#ifndef LED_DRIVER
-#define LED_DRIVER
+/*
+ *	===============================================================================================
+ *  File Name   :   led_driver.c
+ *
+ *  Description :   WS2812B driver
+ *
+ *  Contributors:   Nick Rizzo
+ *	===============================================================================================
+ */
+#ifndef LED_DRIVER_C_
+#define LED_DRIVER_C_
 
 #include <stdint.h>
 #include<string.h>
@@ -57,9 +66,9 @@ void dma_buffer_write(unsigned int grb_value){
 	uint32_t blu_buffer = 0;
 //	unsigned int corrected_color = gamma_correct(grb_value);
 
-	uint8_t gval = ((grb_value>>16)&CMASK) * (brightness/100.0);
-	uint8_t rval = ((grb_value>>8)&CMASK) * (brightness/100.0);
-	uint8_t bval = ((grb_value>>0)&CMASK) * (brightness/100.0);
+	uint8_t gval = ((grb_value>>16)&CMASK) * (brightness/300.0);
+	uint8_t rval = ((grb_value>>8)&CMASK) * (brightness/300.0);
+	uint8_t bval = ((grb_value>>0)&CMASK) * (brightness/300.0);
 
 
 	//green

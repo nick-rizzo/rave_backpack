@@ -1,5 +1,15 @@
-#ifndef SSD_1306_H
-#define SSD_1306_H
+/*
+ *	===============================================================================================
+ *  File Name   :   ssd1306.h
+ *
+ *  Description :   header file for WS2812B driver
+ *
+ *  Contributors:   Nick Rizzo
+ *	===============================================================================================
+ */
+#ifndef SSD1306_H_
+#define SSD1306_H_
+
 #define SSD1306_ADDR (0x3C<<1)
 #define SSD1306_BUF_SIZE (64/8) * 128//8 pages of 8 bits, 128 columns
 
@@ -28,4 +38,4 @@ void display_init();
 void insert_selector(int cur_select);
 void move_selector(int cur_select, int new_select);
 
-#endif /* SSD_1306_H */
+#endif

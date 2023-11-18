@@ -1,5 +1,14 @@
-#ifndef LED_PATTERNS_H
-#define LED_PATTERNS_H
+/*
+ *	===============================================================================================
+ *  File Name   :   led_patterns.h
+ *
+ *  Description :   header file for patterns to display on WS2812B
+ *
+ *  Contributors:   Nick Rizzo
+ *	===============================================================================================
+ */
+#ifndef LED_PATTERNS_H_
+#define LED_PATTERNS_H_
 
 #define METEOR_LEN 5
 

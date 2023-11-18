@@ -26,7 +26,7 @@
 #include <stdbool.h>
 #include "led_patterns.h"
 #include "led_driver.h"
-#include "ssd_1306.h"
+#include "ssd1306.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
