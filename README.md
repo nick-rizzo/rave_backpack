@@ -18,6 +18,9 @@ This repo is made to work with STM32F446RE MCU using C.
 
 ### Planned Features
 - Remove depedency on STM HAL
+    - Create I2C Driver
+    - Create WS2812b driver that does not utilize SPI STM32 peripheral OR create a SPI driver
+- Potentially convert to RTOS for ease of adding peripherals
 
 
 
