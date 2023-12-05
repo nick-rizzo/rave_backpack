@@ -1,3 +1,6 @@
 [submodule "STM32CubeF4"]
 	path = STM32CubeF4
 	url = git@github.com:STMicroelectronics/STM32CubeF4.git
+[submodule "tests/Unity"]
+	path = tests/Unity
+	url = https://github.com/ThrowTheSwitch/Unity.git
