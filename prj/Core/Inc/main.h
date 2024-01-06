@@ -37,7 +37,7 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 extern I2C_HandleTypeDef hi2c1;
-extern SPI_HandleTypeDef hspi1;
+extern SPI_HandleTypeDef hspi2;
 
 typedef enum {
 	IDLE, STATIC, BREATHE, RAINBOW, METEOR
@@ -62,28 +62,22 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define up_arrow_Pin GPIO_PIN_0
-#define up_arrow_GPIO_Port GPIOC
-#define up_arrow_EXTI_IRQn EXTI0_IRQn
-#define dn_arrow_Pin GPIO_PIN_1
-#define dn_arrow_GPIO_Port GPIOC
-#define dn_arrow_EXTI_IRQn EXTI1_IRQn
-#define left_arrow_Pin GPIO_PIN_2
-#define left_arrow_GPIO_Port GPIOC
-#define left_arrow_EXTI_IRQn EXTI2_IRQn
-#define right_arrow_Pin GPIO_PIN_3
-#define right_arrow_GPIO_Port GPIOC
-#define right_arrow_EXTI_IRQn EXTI3_IRQn
 #define USART_TX_Pin GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
 #define USART_RX_GPIO_Port GPIOA
-#define WS2812b_data_out_Pin GPIO_PIN_2
-#define WS2812b_data_out_GPIO_Port GPIOB
-#define TMS_Pin GPIO_PIN_13
-#define TMS_GPIO_Port GPIOA
-#define TCK_Pin GPIO_PIN_14
-#define TCK_GPIO_Port GPIOA
+#define up_arrow_Pin GPIO_PIN_6
+#define up_arrow_GPIO_Port GPIOA
+#define up_arrow_EXTI_IRQn EXTI9_5_IRQn
+#define left_arrow_Pin GPIO_PIN_7
+#define left_arrow_GPIO_Port GPIOA
+#define left_arrow_EXTI_IRQn EXTI9_5_IRQn
+#define dn_arrow_Pin GPIO_PIN_4
+#define dn_arrow_GPIO_Port GPIOC
+#define dn_arrow_EXTI_IRQn EXTI4_IRQn
+#define right_arrow_Pin GPIO_PIN_5
+#define right_arrow_GPIO_Port GPIOC
+#define right_arrow_EXTI_IRQn EXTI9_5_IRQn
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
 

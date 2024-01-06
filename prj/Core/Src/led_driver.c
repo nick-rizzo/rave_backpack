@@ -16,7 +16,7 @@
 #include "main.h"
 
 
-//SPI_HandleTypeDef hspi1;
+//SPI_HandleTypeDef hspi2;
 int led_idx = 0;
 int num_iter = 0;
 uint8_t dma_buffer [DMA_BUFFER_SIZE] = {0};
@@ -55,7 +55,7 @@ unsigned int gamma_correct(unsigned int grb_value){
 void dma_buffer_init(){
 	led_idx = 0;
 	memset(dma_buffer,0x00,DMA_BUFFER_SIZE);
-	HAL_SPI_Transmit_DMA(&hspi1,dma_buffer,DMA_BUFFER_SIZE);
+	HAL_SPI_Transmit_DMA(&hspi2,dma_buffer,DMA_BUFFER_SIZE);
 }
 
 void dma_buffer_write(unsigned int grb_value){
@@ -123,7 +123,7 @@ void dma_buffer_write(unsigned int grb_value){
 
 void drive_led(unsigned int grb_value){
 	dma_buffer_write(grb_value);
-	HAL_SPI_Transmit_DMA(&hspi1,dma_buffer,DMA_BUFFER_SIZE);
+	HAL_SPI_Transmit_DMA(&hspi2,dma_buffer,DMA_BUFFER_SIZE);
 }
 
 #endif
