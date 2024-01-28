@@ -1,0 +1,911 @@
+ARM GAS  /tmp/cc0SvaGH.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"led_driver.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.change_brightness,"ax",%progbits
+  18              		.align	1
+  19              		.global	change_brightness
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	change_brightness:
+  27              	.LVL0:
+  28              	.LFB130:
+  29              		.file 1 "Core/Src/led_driver.c"
+   1:Core/Src/led_driver.c **** /*
+   2:Core/Src/led_driver.c ****  *	===============================================================================================
+   3:Core/Src/led_driver.c ****  *  File Name   :   led_driver.c
+   4:Core/Src/led_driver.c ****  *
+   5:Core/Src/led_driver.c ****  *  Description :   WS2812B driver
+   6:Core/Src/led_driver.c ****  *
+   7:Core/Src/led_driver.c ****  *  Contributors:   Nick Rizzo
+   8:Core/Src/led_driver.c ****  *	===============================================================================================
+   9:Core/Src/led_driver.c ****  */
+  10:Core/Src/led_driver.c **** #ifndef LED_DRIVER_C_
+  11:Core/Src/led_driver.c **** #define LED_DRIVER_C_
+  12:Core/Src/led_driver.c **** 
+  13:Core/Src/led_driver.c **** #include <stdint.h>
+  14:Core/Src/led_driver.c **** #include<string.h>
+  15:Core/Src/led_driver.c **** #include "led_driver.h"
+  16:Core/Src/led_driver.c **** #include "main.h"
+  17:Core/Src/led_driver.c **** 
+  18:Core/Src/led_driver.c **** 
+  19:Core/Src/led_driver.c **** //SPI_HandleTypeDef hspi2;
+  20:Core/Src/led_driver.c **** int led_idx = 0;
+  21:Core/Src/led_driver.c **** int num_iter = 0;
+  22:Core/Src/led_driver.c **** uint8_t dma_buffer [DMA_BUFFER_SIZE] = {0};
+  23:Core/Src/led_driver.c **** uint8_t brightness = 100; // 10-100
+  24:Core/Src/led_driver.c **** 
+  25:Core/Src/led_driver.c **** void change_brightness(uint8_t brightness_modifier){
+  30              		.loc 1 25 52 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/cc0SvaGH.s 			page 2
+
+
+  34              		@ link register save eliminated.
+  26:Core/Src/led_driver.c **** 	brightness = brightness_modifier;
+  35              		.loc 1 26 2 view .LVU1
+  36              		.loc 1 26 13 is_stmt 0 view .LVU2
+  37 0000 014B     		ldr	r3, .L2
+  38 0002 1870     		strb	r0, [r3]
+  27:Core/Src/led_driver.c **** }
+  39              		.loc 1 27 1 view .LVU3
+  40 0004 7047     		bx	lr
+  41              	.L3:
+  42 0006 00BF     		.align	2
+  43              	.L2:
+  44 0008 00000000 		.word	.LANCHOR0
+  45              		.cfi_endproc
+  46              	.LFE130:
+  48              		.section	.text.gamma_correct,"ax",%progbits
+  49              		.align	1
+  50              		.global	gamma_correct
+  51              		.syntax unified
+  52              		.thumb
+  53              		.thumb_func
+  54              		.fpu fpv4-sp-d16
+  56              	gamma_correct:
+  57              	.LVL1:
+  58              	.LFB131:
+  28:Core/Src/led_driver.c **** 
+  29:Core/Src/led_driver.c **** unsigned int gamma_correct(unsigned int grb_value){
+  59              		.loc 1 29 51 is_stmt 1 view -0
+  60              		.cfi_startproc
+  61              		@ args = 0, pretend = 0, frame = 256
+  62              		@ frame_needed = 0, uses_anonymous_args = 0
+  63              		.loc 1 29 51 is_stmt 0 view .LVU5
+  64 0000 10B5     		push	{r4, lr}
+  65              	.LCFI0:
+  66              		.cfi_def_cfa_offset 8
+  67              		.cfi_offset 4, -8
+  68              		.cfi_offset 14, -4
+  69 0002 C0B0     		sub	sp, sp, #256
+  70              	.LCFI1:
+  71              		.cfi_def_cfa_offset 264
+  72 0004 0446     		mov	r4, r0
+  30:Core/Src/led_driver.c **** 	const uint8_t gamma_lut[] = {
+  73              		.loc 1 30 2 is_stmt 1 view .LVU6
+  74              		.loc 1 30 16 is_stmt 0 view .LVU7
+  75 0006 4FF48072 		mov	r2, #256
+  76 000a 0A49     		ldr	r1, .L6
+  77 000c 6846     		mov	r0, sp
+  78              	.LVL2:
+  79              		.loc 1 30 16 view .LVU8
+  80 000e FFF7FEFF 		bl	memcpy
+  81              	.LVL3:
+  31:Core/Src/led_driver.c **** 	    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  32:Core/Src/led_driver.c **** 	    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,
+  33:Core/Src/led_driver.c **** 	    1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2,  2,  2,
+  34:Core/Src/led_driver.c **** 	    2,  3,  3,  3,  3,  3,  3,  3,  4,  4,  4,  4,  4,  5,  5,  5,
+  35:Core/Src/led_driver.c **** 	    5,  6,  6,  6,  6,  7,  7,  7,  7,  8,  8,  8,  9,  9,  9, 10,
+  36:Core/Src/led_driver.c **** 	   10, 10, 11, 11, 11, 12, 12, 13, 13, 13, 14, 14, 15, 15, 16, 16,
+ARM GAS  /tmp/cc0SvaGH.s 			page 3
+
+
+  37:Core/Src/led_driver.c **** 	   17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 24, 24, 25,
+  38:Core/Src/led_driver.c **** 	   25, 26, 27, 27, 28, 29, 29, 30, 31, 32, 32, 33, 34, 35, 35, 36,
+  39:Core/Src/led_driver.c **** 	   37, 38, 39, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 50,
+  40:Core/Src/led_driver.c **** 	   51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 66, 67, 68,
+  41:Core/Src/led_driver.c **** 	   69, 70, 72, 73, 74, 75, 77, 78, 79, 81, 82, 83, 85, 86, 87, 89,
+  42:Core/Src/led_driver.c **** 	   90, 92, 93, 95, 96, 98, 99,101,102,104,105,107,109,110,112,114,
+  43:Core/Src/led_driver.c **** 	  115,117,119,120,122,124,126,127,129,131,133,135,137,138,140,142,
+  44:Core/Src/led_driver.c **** 	  144,146,148,150,152,154,156,158,160,162,164,167,169,171,173,175,
+  45:Core/Src/led_driver.c **** 	  177,180,182,184,186,189,191,193,196,198,200,203,205,208,210,213,
+  46:Core/Src/led_driver.c **** 	  215,218,220,223,225,228,231,233,236,239,241,244,247,249,252,255 };
+  47:Core/Src/led_driver.c **** 	unsigned int corrected_color;
+  82              		.loc 1 47 2 is_stmt 1 view .LVU9
+  48:Core/Src/led_driver.c **** 	unsigned int cor_g = gamma_lut[(grb_value>>16)&CMASK];
+  83              		.loc 1 48 2 view .LVU10
+  84              		.loc 1 48 48 is_stmt 0 view .LVU11
+  85 0012 C4F30743 		ubfx	r3, r4, #16, #8
+  86              		.loc 1 48 32 view .LVU12
+  87 0016 1DF80320 		ldrb	r2, [sp, r3]	@ zero_extendqisi2
+  88              	.LVL4:
+  49:Core/Src/led_driver.c **** 	unsigned int cor_r = gamma_lut[(grb_value>>8)&CMASK];
+  89              		.loc 1 49 2 is_stmt 1 view .LVU13
+  90              		.loc 1 49 47 is_stmt 0 view .LVU14
+  91 001a C4F30723 		ubfx	r3, r4, #8, #8
+  92              		.loc 1 49 32 view .LVU15
+  93 001e 1DF80330 		ldrb	r3, [sp, r3]	@ zero_extendqisi2
+  94              	.LVL5:
+  50:Core/Src/led_driver.c **** 	unsigned int cor_b = gamma_lut[(grb_value>>0)&CMASK];
+  95              		.loc 1 50 2 is_stmt 1 view .LVU16
+  96              		.loc 1 50 47 is_stmt 0 view .LVU17
+  97 0022 E4B2     		uxtb	r4, r4
+  98              	.LVL6:
+  99              		.loc 1 50 32 view .LVU18
+ 100 0024 1DF80400 		ldrb	r0, [sp, r4]	@ zero_extendqisi2
+ 101              	.LVL7:
+  51:Core/Src/led_driver.c **** 	corrected_color = ((cor_g<<16)&0x00FF0000) | ((cor_r<<8)&0x0000FF00) | ((cor_b<<0)&0x000000FF);
+ 102              		.loc 1 51 2 is_stmt 1 view .LVU19
+ 103              		.loc 1 51 58 is_stmt 0 view .LVU20
+ 104 0028 1B02     		lsls	r3, r3, #8
+ 105              	.LVL8:
+ 106              		.loc 1 51 45 view .LVU21
+ 107 002a 43EA0243 		orr	r3, r3, r2, lsl #16
+ 108              	.LVL9:
+  52:Core/Src/led_driver.c **** 	return corrected_color;
+ 109              		.loc 1 52 2 is_stmt 1 view .LVU22
+  53:Core/Src/led_driver.c **** }
+ 110              		.loc 1 53 1 is_stmt 0 view .LVU23
+ 111 002e 1843     		orrs	r0, r0, r3
+ 112              	.LVL10:
+ 113              		.loc 1 53 1 view .LVU24
+ 114 0030 40B0     		add	sp, sp, #256
+ 115              	.LCFI2:
+ 116              		.cfi_def_cfa_offset 8
+ 117              		@ sp needed
+ 118 0032 10BD     		pop	{r4, pc}
+ 119              	.LVL11:
+ 120              	.L7:
+ 121              		.loc 1 53 1 view .LVU25
+ARM GAS  /tmp/cc0SvaGH.s 			page 4
+
+
+ 122              		.align	2
+ 123              	.L6:
+ 124 0034 00000000 		.word	.LANCHOR1
+ 125              		.cfi_endproc
+ 126              	.LFE131:
+ 128              		.section	.text.dma_buffer_init,"ax",%progbits
+ 129              		.align	1
+ 130              		.global	dma_buffer_init
+ 131              		.syntax unified
+ 132              		.thumb
+ 133              		.thumb_func
+ 134              		.fpu fpv4-sp-d16
+ 136              	dma_buffer_init:
+ 137              	.LFB132:
+  54:Core/Src/led_driver.c **** 
+  55:Core/Src/led_driver.c **** void dma_buffer_init(){
+ 138              		.loc 1 55 23 is_stmt 1 view -0
+ 139              		.cfi_startproc
+ 140              		@ args = 0, pretend = 0, frame = 0
+ 141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142 0000 38B5     		push	{r3, r4, r5, lr}
+ 143              	.LCFI3:
+ 144              		.cfi_def_cfa_offset 16
+ 145              		.cfi_offset 3, -16
+ 146              		.cfi_offset 4, -12
+ 147              		.cfi_offset 5, -8
+ 148              		.cfi_offset 14, -4
+  56:Core/Src/led_driver.c **** 	led_idx = 0;
+ 149              		.loc 1 56 2 view .LVU27
+ 150              		.loc 1 56 10 is_stmt 0 view .LVU28
+ 151 0002 0021     		movs	r1, #0
+ 152 0004 074B     		ldr	r3, .L10
+ 153 0006 1960     		str	r1, [r3]
+  57:Core/Src/led_driver.c **** 	memset(dma_buffer,0x00,DMA_BUFFER_SIZE);
+ 154              		.loc 1 57 2 is_stmt 1 view .LVU29
+ 155 0008 074C     		ldr	r4, .L10+4
+ 156 000a 4FF4B975 		mov	r5, #370
+ 157 000e 2A46     		mov	r2, r5
+ 158 0010 2046     		mov	r0, r4
+ 159 0012 FFF7FEFF 		bl	memset
+ 160              	.LVL12:
+  58:Core/Src/led_driver.c **** 	HAL_SPI_Transmit_DMA(&hspi2,dma_buffer,DMA_BUFFER_SIZE);
+ 161              		.loc 1 58 2 view .LVU30
+ 162 0016 2A46     		mov	r2, r5
+ 163 0018 2146     		mov	r1, r4
+ 164 001a 0448     		ldr	r0, .L10+8
+ 165 001c FFF7FEFF 		bl	HAL_SPI_Transmit_DMA
+ 166              	.LVL13:
+  59:Core/Src/led_driver.c **** }
+ 167              		.loc 1 59 1 is_stmt 0 view .LVU31
+ 168 0020 38BD     		pop	{r3, r4, r5, pc}
+ 169              	.L11:
+ 170 0022 00BF     		.align	2
+ 171              	.L10:
+ 172 0024 00000000 		.word	.LANCHOR2
+ 173 0028 00000000 		.word	.LANCHOR3
+ 174 002c 00000000 		.word	hspi2
+ARM GAS  /tmp/cc0SvaGH.s 			page 5
+
+
+ 175              		.cfi_endproc
+ 176              	.LFE132:
+ 178              		.global	__aeabi_i2d
+ 179              		.global	__aeabi_ddiv
+ 180              		.global	__aeabi_ui2d
+ 181              		.global	__aeabi_dmul
+ 182              		.global	__aeabi_d2uiz
+ 183              		.section	.text.dma_buffer_write,"ax",%progbits
+ 184              		.align	1
+ 185              		.global	dma_buffer_write
+ 186              		.syntax unified
+ 187              		.thumb
+ 188              		.thumb_func
+ 189              		.fpu fpv4-sp-d16
+ 191              	dma_buffer_write:
+ 192              	.LVL14:
+ 193              	.LFB133:
+  60:Core/Src/led_driver.c **** 
+  61:Core/Src/led_driver.c **** void dma_buffer_write(unsigned int grb_value){
+ 194              		.loc 1 61 46 is_stmt 1 view -0
+ 195              		.cfi_startproc
+ 196              		@ args = 0, pretend = 0, frame = 0
+ 197              		@ frame_needed = 0, uses_anonymous_args = 0
+ 198              		.loc 1 61 46 is_stmt 0 view .LVU33
+ 199 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 200              	.LCFI4:
+ 201              		.cfi_def_cfa_offset 24
+ 202              		.cfi_offset 4, -24
+ 203              		.cfi_offset 5, -20
+ 204              		.cfi_offset 6, -16
+ 205              		.cfi_offset 7, -12
+ 206              		.cfi_offset 8, -8
+ 207              		.cfi_offset 14, -4
+ 208 0004 8046     		mov	r8, r0
+  62:Core/Src/led_driver.c **** // take 24 bit GRB color value and write to SPI compatible serial
+  63:Core/Src/led_driver.c **** // bit low - 100, bit high = 110
+  64:Core/Src/led_driver.c **** 	uint32_t red_buffer = 0;
+ 209              		.loc 1 64 2 is_stmt 1 view .LVU34
+ 210              	.LVL15:
+  65:Core/Src/led_driver.c **** 	uint32_t grn_buffer = 0;
+ 211              		.loc 1 65 2 view .LVU35
+  66:Core/Src/led_driver.c **** 	uint32_t blu_buffer = 0;
+ 212              		.loc 1 66 2 view .LVU36
+  67:Core/Src/led_driver.c **** //	unsigned int corrected_color = gamma_correct(grb_value);
+  68:Core/Src/led_driver.c **** 
+  69:Core/Src/led_driver.c **** 	uint8_t gval = ((grb_value>>16)&CMASK) * (brightness/300.0);
+ 213              		.loc 1 69 2 view .LVU37
+ 214              		.loc 1 69 33 is_stmt 0 view .LVU38
+ 215 0006 C0F30744 		ubfx	r4, r0, #16, #8
+ 216              		.loc 1 69 54 view .LVU39
+ 217 000a 4B4B     		ldr	r3, .L32+8
+ 218 000c 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 219              	.LVL16:
+ 220              		.loc 1 69 54 view .LVU40
+ 221 000e FFF7FEFF 		bl	__aeabi_i2d
+ 222              	.LVL17:
+ 223 0012 47A3     		adr	r3, .L32
+ARM GAS  /tmp/cc0SvaGH.s 			page 6
+
+
+ 224 0014 D3E90023 		ldrd	r2, [r3]
+ 225 0018 FFF7FEFF 		bl	__aeabi_ddiv
+ 226              	.LVL18:
+ 227 001c 0646     		mov	r6, r0
+ 228 001e 0F46     		mov	r7, r1
+ 229              		.loc 1 69 41 view .LVU41
+ 230 0020 2046     		mov	r0, r4
+ 231 0022 FFF7FEFF 		bl	__aeabi_ui2d
+ 232              	.LVL19:
+ 233 0026 3246     		mov	r2, r6
+ 234 0028 3B46     		mov	r3, r7
+ 235 002a FFF7FEFF 		bl	__aeabi_dmul
+ 236              	.LVL20:
+ 237              		.loc 1 69 10 view .LVU42
+ 238 002e FFF7FEFF 		bl	__aeabi_d2uiz
+ 239              	.LVL21:
+ 240 0032 C5B2     		uxtb	r5, r0
+ 241              	.LVL22:
+  70:Core/Src/led_driver.c **** 	uint8_t rval = ((grb_value>>8)&CMASK) * (brightness/300.0);
+ 242              		.loc 1 70 2 is_stmt 1 view .LVU43
+ 243              		.loc 1 70 40 is_stmt 0 view .LVU44
+ 244 0034 C8F30720 		ubfx	r0, r8, #8, #8
+ 245 0038 FFF7FEFF 		bl	__aeabi_ui2d
+ 246              	.LVL23:
+ 247 003c 3246     		mov	r2, r6
+ 248 003e 3B46     		mov	r3, r7
+ 249 0040 FFF7FEFF 		bl	__aeabi_dmul
+ 250              	.LVL24:
+ 251              		.loc 1 70 10 view .LVU45
+ 252 0044 FFF7FEFF 		bl	__aeabi_d2uiz
+ 253              	.LVL25:
+ 254 0048 C4B2     		uxtb	r4, r0
+ 255              	.LVL26:
+  71:Core/Src/led_driver.c **** 	uint8_t bval = ((grb_value>>0)&CMASK) * (brightness/300.0);
+ 256              		.loc 1 71 2 is_stmt 1 view .LVU46
+ 257              		.loc 1 71 40 is_stmt 0 view .LVU47
+ 258 004a 5FFA88F0 		uxtb	r0, r8
+ 259 004e FFF7FEFF 		bl	__aeabi_ui2d
+ 260              	.LVL27:
+ 261 0052 3246     		mov	r2, r6
+ 262 0054 3B46     		mov	r3, r7
+ 263 0056 FFF7FEFF 		bl	__aeabi_dmul
+ 264              	.LVL28:
+ 265              		.loc 1 71 10 view .LVU48
+ 266 005a FFF7FEFF 		bl	__aeabi_d2uiz
+ 267              	.LVL29:
+ 268 005e C3B2     		uxtb	r3, r0
+ 269              	.LVL30:
+  72:Core/Src/led_driver.c **** 
+  73:Core/Src/led_driver.c **** 
+  74:Core/Src/led_driver.c **** 	//green
+  75:Core/Src/led_driver.c **** 	for(int g=0;g<8;g++){
+ 270              		.loc 1 75 2 is_stmt 1 view .LVU49
+ 271              	.LBB2:
+ 272              		.loc 1 75 6 view .LVU50
+ 273              		.loc 1 75 10 is_stmt 0 view .LVU51
+ 274 0060 0022     		movs	r2, #0
+ARM GAS  /tmp/cc0SvaGH.s 			page 7
+
+
+ 275              	.LBE2:
+  65:Core/Src/led_driver.c **** 	uint32_t blu_buffer = 0;
+ 276              		.loc 1 65 11 view .LVU52
+ 277 0062 9446     		mov	ip, r2
+ 278              	.LBB3:
+ 279              		.loc 1 75 2 view .LVU53
+ 280 0064 04E0     		b	.L13
+ 281              	.LVL31:
+ 282              	.L14:
+  76:Core/Src/led_driver.c **** 		grn_buffer = grn_buffer<<3;
+  77:Core/Src/led_driver.c **** 		if (gval & 0x80){
+  78:Core/Src/led_driver.c **** 			grn_buffer |= 0b110;
+  79:Core/Src/led_driver.c **** 		} else{
+  80:Core/Src/led_driver.c **** 			grn_buffer |= 0b100;
+ 283              		.loc 1 80 4 is_stmt 1 view .LVU54
+ 284              		.loc 1 80 15 is_stmt 0 view .LVU55
+ 285 0066 4CF0040C 		orr	ip, ip, #4
+ 286              	.LVL32:
+ 287              	.L15:
+  81:Core/Src/led_driver.c **** 		}
+  82:Core/Src/led_driver.c **** 		gval = gval << 1;
+ 288              		.loc 1 82 3 is_stmt 1 discriminator 2 view .LVU56
+ 289              		.loc 1 82 8 is_stmt 0 discriminator 2 view .LVU57
+ 290 006a 6D00     		lsls	r5, r5, #1
+ 291              	.LVL33:
+ 292              		.loc 1 82 8 discriminator 2 view .LVU58
+ 293 006c EDB2     		uxtb	r5, r5
+ 294              	.LVL34:
+  75:Core/Src/led_driver.c **** 		grn_buffer = grn_buffer<<3;
+ 295              		.loc 1 75 18 is_stmt 1 discriminator 2 view .LVU59
+  75:Core/Src/led_driver.c **** 		grn_buffer = grn_buffer<<3;
+ 296              		.loc 1 75 19 is_stmt 0 discriminator 2 view .LVU60
+ 297 006e 0132     		adds	r2, r2, #1
+ 298              	.LVL35:
+ 299              	.L13:
+  75:Core/Src/led_driver.c **** 		grn_buffer = grn_buffer<<3;
+ 300              		.loc 1 75 14 is_stmt 1 discriminator 1 view .LVU61
+  75:Core/Src/led_driver.c **** 		grn_buffer = grn_buffer<<3;
+ 301              		.loc 1 75 2 is_stmt 0 discriminator 1 view .LVU62
+ 302 0070 072A     		cmp	r2, #7
+ 303 0072 07DC     		bgt	.L28
+  76:Core/Src/led_driver.c **** 		grn_buffer = grn_buffer<<3;
+ 304              		.loc 1 76 3 is_stmt 1 view .LVU63
+  76:Core/Src/led_driver.c **** 		grn_buffer = grn_buffer<<3;
+ 305              		.loc 1 76 14 is_stmt 0 view .LVU64
+ 306 0074 4FEACC0C 		lsl	ip, ip, #3
+ 307              	.LVL36:
+  77:Core/Src/led_driver.c **** 			grn_buffer |= 0b110;
+ 308              		.loc 1 77 3 is_stmt 1 view .LVU65
+  77:Core/Src/led_driver.c **** 			grn_buffer |= 0b110;
+ 309              		.loc 1 77 6 is_stmt 0 view .LVU66
+ 310 0078 15F0800F 		tst	r5, #128
+ 311 007c F3D0     		beq	.L14
+  78:Core/Src/led_driver.c **** 		} else{
+ 312              		.loc 1 78 4 is_stmt 1 view .LVU67
+  78:Core/Src/led_driver.c **** 		} else{
+ 313              		.loc 1 78 15 is_stmt 0 view .LVU68
+ARM GAS  /tmp/cc0SvaGH.s 			page 8
+
+
+ 314 007e 4CF0060C 		orr	ip, ip, #6
+ 315              	.LVL37:
+  78:Core/Src/led_driver.c **** 		} else{
+ 316              		.loc 1 78 15 view .LVU69
+ 317 0082 F2E7     		b	.L15
+ 318              	.L28:
+  78:Core/Src/led_driver.c **** 		} else{
+ 319              		.loc 1 78 15 view .LVU70
+ 320              	.LBE3:
+ 321              	.LBB4:
+  83:Core/Src/led_driver.c **** 	}
+  84:Core/Src/led_driver.c **** 
+  85:Core/Src/led_driver.c **** 	//red
+  86:Core/Src/led_driver.c **** 	for(int r=0;r<8;r++){
+ 322              		.loc 1 86 10 view .LVU71
+ 323 0084 0022     		movs	r2, #0
+ 324              	.LVL38:
+ 325              		.loc 1 86 10 view .LVU72
+ 326              	.LBE4:
+  64:Core/Src/led_driver.c **** 	uint32_t grn_buffer = 0;
+ 327              		.loc 1 64 11 view .LVU73
+ 328 0086 1146     		mov	r1, r2
+ 329 0088 04E0     		b	.L17
+ 330              	.LVL39:
+ 331              	.L18:
+ 332              	.LBB5:
+  87:Core/Src/led_driver.c **** 		red_buffer = red_buffer<<3;
+  88:Core/Src/led_driver.c **** 		if (rval & 0x80){
+  89:Core/Src/led_driver.c **** 			red_buffer |= 0b110;
+  90:Core/Src/led_driver.c **** 		} else{
+  91:Core/Src/led_driver.c **** 			red_buffer |= 0b100;
+ 333              		.loc 1 91 4 is_stmt 1 view .LVU74
+ 334              		.loc 1 91 15 is_stmt 0 view .LVU75
+ 335 008a 41F00401 		orr	r1, r1, #4
+ 336              	.LVL40:
+ 337              	.L19:
+  92:Core/Src/led_driver.c **** 		}
+  93:Core/Src/led_driver.c **** 		rval = rval << 1;
+ 338              		.loc 1 93 3 is_stmt 1 discriminator 2 view .LVU76
+ 339              		.loc 1 93 8 is_stmt 0 discriminator 2 view .LVU77
+ 340 008e 6400     		lsls	r4, r4, #1
+ 341              	.LVL41:
+ 342              		.loc 1 93 8 discriminator 2 view .LVU78
+ 343 0090 E4B2     		uxtb	r4, r4
+ 344              	.LVL42:
+  86:Core/Src/led_driver.c **** 		red_buffer = red_buffer<<3;
+ 345              		.loc 1 86 18 is_stmt 1 discriminator 2 view .LVU79
+  86:Core/Src/led_driver.c **** 		red_buffer = red_buffer<<3;
+ 346              		.loc 1 86 19 is_stmt 0 discriminator 2 view .LVU80
+ 347 0092 0132     		adds	r2, r2, #1
+ 348              	.LVL43:
+ 349              	.L17:
+  86:Core/Src/led_driver.c **** 		red_buffer = red_buffer<<3;
+ 350              		.loc 1 86 14 is_stmt 1 discriminator 1 view .LVU81
+  86:Core/Src/led_driver.c **** 		red_buffer = red_buffer<<3;
+ 351              		.loc 1 86 2 is_stmt 0 discriminator 1 view .LVU82
+ 352 0094 072A     		cmp	r2, #7
+ARM GAS  /tmp/cc0SvaGH.s 			page 9
+
+
+ 353 0096 06DC     		bgt	.L29
+  87:Core/Src/led_driver.c **** 		red_buffer = red_buffer<<3;
+ 354              		.loc 1 87 3 is_stmt 1 view .LVU83
+  87:Core/Src/led_driver.c **** 		red_buffer = red_buffer<<3;
+ 355              		.loc 1 87 14 is_stmt 0 view .LVU84
+ 356 0098 C900     		lsls	r1, r1, #3
+ 357              	.LVL44:
+  88:Core/Src/led_driver.c **** 			red_buffer |= 0b110;
+ 358              		.loc 1 88 3 is_stmt 1 view .LVU85
+  88:Core/Src/led_driver.c **** 			red_buffer |= 0b110;
+ 359              		.loc 1 88 6 is_stmt 0 view .LVU86
+ 360 009a 14F0800F 		tst	r4, #128
+ 361 009e F4D0     		beq	.L18
+  89:Core/Src/led_driver.c **** 		} else{
+ 362              		.loc 1 89 4 is_stmt 1 view .LVU87
+  89:Core/Src/led_driver.c **** 		} else{
+ 363              		.loc 1 89 15 is_stmt 0 view .LVU88
+ 364 00a0 41F00601 		orr	r1, r1, #6
+ 365              	.LVL45:
+  89:Core/Src/led_driver.c **** 		} else{
+ 366              		.loc 1 89 15 view .LVU89
+ 367 00a4 F3E7     		b	.L19
+ 368              	.L29:
+  89:Core/Src/led_driver.c **** 		} else{
+ 369              		.loc 1 89 15 view .LVU90
+ 370              	.LBE5:
+ 371              	.LBB6:
+  94:Core/Src/led_driver.c **** 	}
+  95:Core/Src/led_driver.c **** 
+  96:Core/Src/led_driver.c **** 	//blue
+  97:Core/Src/led_driver.c **** 	for(int b=0;b<8;b++){
+ 372              		.loc 1 97 10 view .LVU91
+ 373 00a6 0020     		movs	r0, #0
+ 374              	.LBE6:
+  66:Core/Src/led_driver.c **** //	unsigned int corrected_color = gamma_correct(grb_value);
+ 375              		.loc 1 66 11 view .LVU92
+ 376 00a8 0246     		mov	r2, r0
+ 377              	.LVL46:
+  66:Core/Src/led_driver.c **** //	unsigned int corrected_color = gamma_correct(grb_value);
+ 378              		.loc 1 66 11 view .LVU93
+ 379 00aa 04E0     		b	.L21
+ 380              	.LVL47:
+ 381              	.L22:
+ 382              	.LBB7:
+  98:Core/Src/led_driver.c **** 		blu_buffer = blu_buffer<<3;
+  99:Core/Src/led_driver.c **** 		if (bval & 0x80){
+ 100:Core/Src/led_driver.c **** 			blu_buffer |= 0b110;
+ 101:Core/Src/led_driver.c **** 		} else{
+ 102:Core/Src/led_driver.c **** 			blu_buffer |= 0b100;
+ 383              		.loc 1 102 4 is_stmt 1 view .LVU94
+ 384              		.loc 1 102 15 is_stmt 0 view .LVU95
+ 385 00ac 42F00402 		orr	r2, r2, #4
+ 386              	.LVL48:
+ 387              	.L23:
+ 103:Core/Src/led_driver.c **** 		}
+ 104:Core/Src/led_driver.c **** 		bval = bval << 1;
+ 388              		.loc 1 104 3 is_stmt 1 discriminator 2 view .LVU96
+ARM GAS  /tmp/cc0SvaGH.s 			page 10
+
+
+ 389              		.loc 1 104 8 is_stmt 0 discriminator 2 view .LVU97
+ 390 00b0 5B00     		lsls	r3, r3, #1
+ 391              	.LVL49:
+ 392              		.loc 1 104 8 discriminator 2 view .LVU98
+ 393 00b2 DBB2     		uxtb	r3, r3
+ 394              	.LVL50:
+  97:Core/Src/led_driver.c **** 		blu_buffer = blu_buffer<<3;
+ 395              		.loc 1 97 18 is_stmt 1 discriminator 2 view .LVU99
+  97:Core/Src/led_driver.c **** 		blu_buffer = blu_buffer<<3;
+ 396              		.loc 1 97 19 is_stmt 0 discriminator 2 view .LVU100
+ 397 00b4 0130     		adds	r0, r0, #1
+ 398              	.LVL51:
+ 399              	.L21:
+  97:Core/Src/led_driver.c **** 		blu_buffer = blu_buffer<<3;
+ 400              		.loc 1 97 14 is_stmt 1 discriminator 1 view .LVU101
+  97:Core/Src/led_driver.c **** 		blu_buffer = blu_buffer<<3;
+ 401              		.loc 1 97 2 is_stmt 0 discriminator 1 view .LVU102
+ 402 00b6 0728     		cmp	r0, #7
+ 403 00b8 06DC     		bgt	.L30
+  98:Core/Src/led_driver.c **** 		blu_buffer = blu_buffer<<3;
+ 404              		.loc 1 98 3 is_stmt 1 view .LVU103
+  98:Core/Src/led_driver.c **** 		blu_buffer = blu_buffer<<3;
+ 405              		.loc 1 98 14 is_stmt 0 view .LVU104
+ 406 00ba D200     		lsls	r2, r2, #3
+ 407              	.LVL52:
+  99:Core/Src/led_driver.c **** 			blu_buffer |= 0b110;
+ 408              		.loc 1 99 3 is_stmt 1 view .LVU105
+  99:Core/Src/led_driver.c **** 			blu_buffer |= 0b110;
+ 409              		.loc 1 99 6 is_stmt 0 view .LVU106
+ 410 00bc 13F0800F 		tst	r3, #128
+ 411 00c0 F4D0     		beq	.L22
+ 100:Core/Src/led_driver.c **** 		} else{
+ 412              		.loc 1 100 4 is_stmt 1 view .LVU107
+ 100:Core/Src/led_driver.c **** 		} else{
+ 413              		.loc 1 100 15 is_stmt 0 view .LVU108
+ 414 00c2 42F00602 		orr	r2, r2, #6
+ 415              	.LVL53:
+ 100:Core/Src/led_driver.c **** 		} else{
+ 416              		.loc 1 100 15 view .LVU109
+ 417 00c6 F3E7     		b	.L23
+ 418              	.L30:
+ 100:Core/Src/led_driver.c **** 		} else{
+ 419              		.loc 1 100 15 view .LVU110
+ 420              	.LBE7:
+ 105:Core/Src/led_driver.c **** 	}
+ 106:Core/Src/led_driver.c **** 
+ 107:Core/Src/led_driver.c **** 	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+0] = (grn_buffer>>16)&CMASK;
+ 421              		.loc 1 107 2 is_stmt 1 view .LVU111
+ 422              		.loc 1 107 58 is_stmt 0 view .LVU112
+ 423 00c8 4FEA1C46 		lsr	r6, ip, #16
+ 424              		.loc 1 107 32 view .LVU113
+ 425 00cc 1B4B     		ldr	r3, .L32+12
+ 426              	.LVL54:
+ 427              		.loc 1 107 32 view .LVU114
+ 428 00ce 1C68     		ldr	r4, [r3]
+ 429              	.LVL55:
+ 430              		.loc 1 107 32 view .LVU115
+ARM GAS  /tmp/cc0SvaGH.s 			page 11
+
+
+ 431 00d0 04EBC403 		add	r3, r4, r4, lsl #3
+ 432              		.loc 1 107 41 view .LVU116
+ 433 00d4 03F1C805 		add	r5, r3, #200
+ 434              	.LVL56:
+ 435              		.loc 1 107 45 view .LVU117
+ 436 00d8 1948     		ldr	r0, .L32+16
+ 437              	.LVL57:
+ 438              		.loc 1 107 45 view .LVU118
+ 439 00da 4655     		strb	r6, [r0, r5]
+ 108:Core/Src/led_driver.c **** 	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+1] = (grn_buffer>>8)&CMASK;
+ 440              		.loc 1 108 2 is_stmt 1 view .LVU119
+ 441              		.loc 1 108 58 is_stmt 0 view .LVU120
+ 442 00dc 4FEA1C26 		lsr	r6, ip, #8
+ 443              		.loc 1 108 41 view .LVU121
+ 444 00e0 03F1C905 		add	r5, r3, #201
+ 445              		.loc 1 108 45 view .LVU122
+ 446 00e4 4655     		strb	r6, [r0, r5]
+ 109:Core/Src/led_driver.c **** 	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+2] = (grn_buffer>>0)&CMASK;
+ 447              		.loc 1 109 2 is_stmt 1 view .LVU123
+ 448              		.loc 1 109 41 is_stmt 0 view .LVU124
+ 449 00e6 03F1CA05 		add	r5, r3, #202
+ 450              		.loc 1 109 45 view .LVU125
+ 451 00ea 00F805C0 		strb	ip, [r0, r5]
+ 110:Core/Src/led_driver.c **** 	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+3] = (red_buffer>>16)&CMASK;
+ 452              		.loc 1 110 2 is_stmt 1 view .LVU126
+ 453              		.loc 1 110 58 is_stmt 0 view .LVU127
+ 454 00ee 0E0C     		lsrs	r6, r1, #16
+ 455              		.loc 1 110 41 view .LVU128
+ 456 00f0 03F1CB05 		add	r5, r3, #203
+ 457              		.loc 1 110 45 view .LVU129
+ 458 00f4 4655     		strb	r6, [r0, r5]
+ 111:Core/Src/led_driver.c **** 	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+4] = (red_buffer>>8)&CMASK;
+ 459              		.loc 1 111 2 is_stmt 1 view .LVU130
+ 460              		.loc 1 111 58 is_stmt 0 view .LVU131
+ 461 00f6 0E0A     		lsrs	r6, r1, #8
+ 462              		.loc 1 111 41 view .LVU132
+ 463 00f8 03F1CC05 		add	r5, r3, #204
+ 464              		.loc 1 111 45 view .LVU133
+ 465 00fc 4655     		strb	r6, [r0, r5]
+ 112:Core/Src/led_driver.c **** 	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+5] = (red_buffer>>0)&CMASK;
+ 466              		.loc 1 112 2 is_stmt 1 view .LVU134
+ 467              		.loc 1 112 41 is_stmt 0 view .LVU135
+ 468 00fe 03F1CD05 		add	r5, r3, #205
+ 469              		.loc 1 112 45 view .LVU136
+ 470 0102 4155     		strb	r1, [r0, r5]
+ 113:Core/Src/led_driver.c **** 	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+6] = (blu_buffer>>16)&CMASK;
+ 471              		.loc 1 113 2 is_stmt 1 view .LVU137
+ 472              		.loc 1 113 58 is_stmt 0 view .LVU138
+ 473 0104 150C     		lsrs	r5, r2, #16
+ 474              		.loc 1 113 41 view .LVU139
+ 475 0106 03F1CE01 		add	r1, r3, #206
+ 476              	.LVL58:
+ 477              		.loc 1 113 45 view .LVU140
+ 478 010a 4554     		strb	r5, [r0, r1]
+ 114:Core/Src/led_driver.c **** 	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+7] = (blu_buffer>>8)&CMASK;
+ 479              		.loc 1 114 2 is_stmt 1 view .LVU141
+ 480              		.loc 1 114 58 is_stmt 0 view .LVU142
+ARM GAS  /tmp/cc0SvaGH.s 			page 12
+
+
+ 481 010c 150A     		lsrs	r5, r2, #8
+ 482              		.loc 1 114 41 view .LVU143
+ 483 010e 03F1CF01 		add	r1, r3, #207
+ 484              		.loc 1 114 45 view .LVU144
+ 485 0112 4554     		strb	r5, [r0, r1]
+ 115:Core/Src/led_driver.c **** 	dma_buffer[(END_TX_DELAY+1)+(9*led_idx)+8] = (blu_buffer>>0)&CMASK;
+ 486              		.loc 1 115 2 is_stmt 1 view .LVU145
+ 487              		.loc 1 115 41 is_stmt 0 view .LVU146
+ 488 0114 D033     		adds	r3, r3, #208
+ 489              		.loc 1 115 45 view .LVU147
+ 490 0116 C254     		strb	r2, [r0, r3]
+ 116:Core/Src/led_driver.c **** 
+ 117:Core/Src/led_driver.c **** 	if (led_idx == NUM_LEDS-1){
+ 491              		.loc 1 117 2 is_stmt 1 view .LVU148
+ 492              		.loc 1 117 5 is_stmt 0 view .LVU149
+ 493 0118 122C     		cmp	r4, #18
+ 494 011a 04D0     		beq	.L31
+ 118:Core/Src/led_driver.c **** 		led_idx = 0;
+ 119:Core/Src/led_driver.c **** 	}else{
+ 120:Core/Src/led_driver.c **** 		led_idx++;
+ 495              		.loc 1 120 3 is_stmt 1 view .LVU150
+ 496              		.loc 1 120 10 is_stmt 0 view .LVU151
+ 497 011c 0134     		adds	r4, r4, #1
+ 498 011e 074B     		ldr	r3, .L32+12
+ 499 0120 1C60     		str	r4, [r3]
+ 500              	.LVL59:
+ 501              	.L12:
+ 121:Core/Src/led_driver.c **** 	}
+ 122:Core/Src/led_driver.c **** };
+ 502              		.loc 1 122 1 view .LVU152
+ 503 0122 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 504              	.LVL60:
+ 505              	.L31:
+ 118:Core/Src/led_driver.c **** 		led_idx = 0;
+ 506              		.loc 1 118 3 is_stmt 1 view .LVU153
+ 118:Core/Src/led_driver.c **** 		led_idx = 0;
+ 507              		.loc 1 118 11 is_stmt 0 view .LVU154
+ 508 0126 054B     		ldr	r3, .L32+12
+ 509 0128 0022     		movs	r2, #0
+ 510              	.LVL61:
+ 118:Core/Src/led_driver.c **** 		led_idx = 0;
+ 511              		.loc 1 118 11 view .LVU155
+ 512 012a 1A60     		str	r2, [r3]
+ 513 012c F9E7     		b	.L12
+ 514              	.L33:
+ 515 012e 00BF     		.align	3
+ 516              	.L32:
+ 517 0130 00000000 		.word	0
+ 518 0134 00C07240 		.word	1081262080
+ 519 0138 00000000 		.word	.LANCHOR0
+ 520 013c 00000000 		.word	.LANCHOR2
+ 521 0140 00000000 		.word	.LANCHOR3
+ 522              		.cfi_endproc
+ 523              	.LFE133:
+ 525              		.section	.text.drive_led,"ax",%progbits
+ 526              		.align	1
+ 527              		.global	drive_led
+ARM GAS  /tmp/cc0SvaGH.s 			page 13
+
+
+ 528              		.syntax unified
+ 529              		.thumb
+ 530              		.thumb_func
+ 531              		.fpu fpv4-sp-d16
+ 533              	drive_led:
+ 534              	.LVL62:
+ 535              	.LFB134:
+ 123:Core/Src/led_driver.c **** 
+ 124:Core/Src/led_driver.c **** void drive_led(unsigned int grb_value){
+ 536              		.loc 1 124 39 is_stmt 1 view -0
+ 537              		.cfi_startproc
+ 538              		@ args = 0, pretend = 0, frame = 0
+ 539              		@ frame_needed = 0, uses_anonymous_args = 0
+ 540              		.loc 1 124 39 is_stmt 0 view .LVU157
+ 541 0000 08B5     		push	{r3, lr}
+ 542              	.LCFI5:
+ 543              		.cfi_def_cfa_offset 8
+ 544              		.cfi_offset 3, -8
+ 545              		.cfi_offset 14, -4
+ 125:Core/Src/led_driver.c **** 	dma_buffer_write(grb_value);
+ 546              		.loc 1 125 2 is_stmt 1 view .LVU158
+ 547 0002 FFF7FEFF 		bl	dma_buffer_write
+ 548              	.LVL63:
+ 126:Core/Src/led_driver.c **** 	HAL_SPI_Transmit_DMA(&hspi2,dma_buffer,DMA_BUFFER_SIZE);
+ 549              		.loc 1 126 2 view .LVU159
+ 550 0006 4FF4B972 		mov	r2, #370
+ 551 000a 0249     		ldr	r1, .L36
+ 552 000c 0248     		ldr	r0, .L36+4
+ 553 000e FFF7FEFF 		bl	HAL_SPI_Transmit_DMA
+ 554              	.LVL64:
+ 127:Core/Src/led_driver.c **** }
+ 555              		.loc 1 127 1 is_stmt 0 view .LVU160
+ 556 0012 08BD     		pop	{r3, pc}
+ 557              	.L37:
+ 558              		.align	2
+ 559              	.L36:
+ 560 0014 00000000 		.word	.LANCHOR3
+ 561 0018 00000000 		.word	hspi2
+ 562              		.cfi_endproc
+ 563              	.LFE134:
+ 565              		.global	brightness
+ 566              		.global	dma_buffer
+ 567              		.global	num_iter
+ 568              		.global	led_idx
+ 569              		.section	.rodata
+ 570              		.align	2
+ 571              		.set	.LANCHOR1,. + 0
+ 572              	.LC0:
+ 573 0000 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
+ 573      00000000 
+ 573      00000000 
+ 573      00
+ 574 000d 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
+ 574      00000000 
+ 574      00000000 
+ 574      00
+ 575 001a 00000101 		.ascii	"\000\000\001\001\001\001\001\001\001\001\001\001\001"
+ARM GAS  /tmp/cc0SvaGH.s 			page 14
+
+
+ 575      01010101 
+ 575      01010101 
+ 575      01
+ 576 0027 01010202 		.ascii	"\001\001\002\002\002\002\002\002\002\002\003\003\003"
+ 576      02020202 
+ 576      02020303 
+ 576      03
+ 577 0034 03030303 		.ascii	"\003\003\003\003\004\004\004\004\004\005\005\005\005"
+ 577      04040404 
+ 577      04050505 
+ 577      05
+ 578 0041 06060606 		.ascii	"\006\006\006\006\007\007\007\007\010\010\010\011\011"
+ 578      07070707 
+ 578      08080809 
+ 578      09
+ 579 004e 090A0A0A 		.ascii	"\011\012\012\012\013\013\013\014\014\015\015\015\016"
+ 579      0B0B0B0C 
+ 579      0C0D0D0D 
+ 579      0E
+ 580 005b 0E0F0F10 		.ascii	"\016\017\017\020\020\021\021\022\022\023\023\024\024"
+ 580      10111112 
+ 580      12131314 
+ 580      14
+ 581 0068 15151616 		.ascii	"\025\025\026\026\027\030\030\031\031\032\033\033\034"
+ 581      17181819 
+ 581      191A1B1B 
+ 581      1C
+ 582 0075 1D1D1E1F 		.ascii	"\035\035\036\037  !\"##$%&''()*+,-./0122346789:;<=>"
+ 582      20202122 
+ 582      23232425 
+ 582      26272728 
+ 582      292A2B2C 
+ 583 009b 3F404243 		.ascii	"?@BCDEFHIJKMNOQRSUVWYZ\\]_`bcefhikmnprsuwxz|~\177\201"
+ 583      44454648 
+ 583      494A4B4D 
+ 583      4E4F5152 
+ 583      53555657 
+ 584 00c9 83858789 		.ascii	"\203\205\207\211\212\214\216\220\222\224\226\230\232"
+ 584      8A8C8E90 
+ 584      92949698 
+ 584      9A
+ 585 00d6 9C9EA0A2 		.ascii	"\234\236\240\242\244\247\251\253\255\257\261\264\266"
+ 585      A4A7A9AB 
+ 585      ADAFB1B4 
+ 585      B6
+ 586 00e3 B8BABDBF 		.ascii	"\270\272\275\277\301\304\306\310\313\315\320\322\325"
+ 586      C1C4C6C8 
+ 586      CBCDD0D2 
+ 586      D5
+ 587 00f0 D7DADCDF 		.ascii	"\327\332\334\337\341\344\347\351\354\357\361\364\367"
+ 587      E1E4E7E9 
+ 587      ECEFF1F4 
+ 587      F7
+ 588 00fd F9FCFF   		.ascii	"\371\374\377"
+ 589              		.section	.bss.dma_buffer,"aw",%nobits
+ 590              		.align	2
+ 591              		.set	.LANCHOR3,. + 0
+ARM GAS  /tmp/cc0SvaGH.s 			page 15
+
+
+ 594              	dma_buffer:
+ 595 0000 00000000 		.space	370
+ 595      00000000 
+ 595      00000000 
+ 595      00000000 
+ 595      00000000 
+ 596              		.section	.bss.led_idx,"aw",%nobits
+ 597              		.align	2
+ 598              		.set	.LANCHOR2,. + 0
+ 601              	led_idx:
+ 602 0000 00000000 		.space	4
+ 603              		.section	.bss.num_iter,"aw",%nobits
+ 604              		.align	2
+ 607              	num_iter:
+ 608 0000 00000000 		.space	4
+ 609              		.section	.data.brightness,"aw"
+ 610              		.set	.LANCHOR0,. + 0
+ 613              	brightness:
+ 614 0000 64       		.byte	100
+ 615              		.text
+ 616              	.Letext0:
+ 617              		.file 2 "/usr/lib/gcc/arm-none-eabi/10.3.1/include/stdint.h"
+ 618              		.file 3 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/CMSIS/Device/ST/STM32F4xx/Incl
+ 619              		.file 4 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32
+ 620              		.file 5 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32
+ 621              		.file 6 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32
+ 622              		.file 7 "Core/Inc/main.h"
+ 623              		.file 8 "Core/Inc/led_driver.h"
+ 624              		.file 9 "<built-in>"
+ARM GAS  /tmp/cc0SvaGH.s 			page 16
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 led_driver.c
+     /tmp/cc0SvaGH.s:18     .text.change_brightness:0000000000000000 $t
+     /tmp/cc0SvaGH.s:26     .text.change_brightness:0000000000000000 change_brightness
+     /tmp/cc0SvaGH.s:44     .text.change_brightness:0000000000000008 $d
+     /tmp/cc0SvaGH.s:49     .text.gamma_correct:0000000000000000 $t
+     /tmp/cc0SvaGH.s:56     .text.gamma_correct:0000000000000000 gamma_correct
+     /tmp/cc0SvaGH.s:124    .text.gamma_correct:0000000000000034 $d
+     /tmp/cc0SvaGH.s:129    .text.dma_buffer_init:0000000000000000 $t
+     /tmp/cc0SvaGH.s:136    .text.dma_buffer_init:0000000000000000 dma_buffer_init
+     /tmp/cc0SvaGH.s:172    .text.dma_buffer_init:0000000000000024 $d
+     /tmp/cc0SvaGH.s:184    .text.dma_buffer_write:0000000000000000 $t
+     /tmp/cc0SvaGH.s:191    .text.dma_buffer_write:0000000000000000 dma_buffer_write
+     /tmp/cc0SvaGH.s:517    .text.dma_buffer_write:0000000000000130 $d
+     /tmp/cc0SvaGH.s:526    .text.drive_led:0000000000000000 $t
+     /tmp/cc0SvaGH.s:533    .text.drive_led:0000000000000000 drive_led
+     /tmp/cc0SvaGH.s:560    .text.drive_led:0000000000000014 $d
+     /tmp/cc0SvaGH.s:613    .data.brightness:0000000000000000 brightness
+     /tmp/cc0SvaGH.s:594    .bss.dma_buffer:0000000000000000 dma_buffer
+     /tmp/cc0SvaGH.s:607    .bss.num_iter:0000000000000000 num_iter
+     /tmp/cc0SvaGH.s:601    .bss.led_idx:0000000000000000 led_idx
+     /tmp/cc0SvaGH.s:570    .rodata:0000000000000000 $d
+     /tmp/cc0SvaGH.s:590    .bss.dma_buffer:0000000000000000 $d
+     /tmp/cc0SvaGH.s:597    .bss.led_idx:0000000000000000 $d
+     /tmp/cc0SvaGH.s:604    .bss.num_iter:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+memcpy
+memset
+HAL_SPI_Transmit_DMA
+hspi2
+__aeabi_i2d
+__aeabi_ddiv
+__aeabi_ui2d
+__aeabi_dmul
+__aeabi_d2uiz

@@ -1,0 +1,2628 @@
+ARM GAS  /tmp/cchQtoVq.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"ssd1306.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.write_command,"ax",%progbits
+  18              		.align	1
+  19              		.global	write_command
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	write_command:
+  27              	.LVL0:
+  28              	.LFB130:
+  29              		.file 1 "Core/Src/ssd1306.c"
+   1:Core/Src/ssd1306.c **** /*
+   2:Core/Src/ssd1306.c ****  *	===============================================================================================
+   3:Core/Src/ssd1306.c ****  *  File Name   :   ssd1306.c
+   4:Core/Src/ssd1306.c ****  *
+   5:Core/Src/ssd1306.c ****  *  Description :   SSD1306 OLED driver
+   6:Core/Src/ssd1306.c ****  *
+   7:Core/Src/ssd1306.c ****  *  Contributors:   Nick Rizzo
+   8:Core/Src/ssd1306.c ****  *	===============================================================================================
+   9:Core/Src/ssd1306.c ****  */
+  10:Core/Src/ssd1306.c **** #ifndef SSD1306_C_
+  11:Core/Src/ssd1306.c **** #define SSD1306_C_
+  12:Core/Src/ssd1306.c **** 
+  13:Core/Src/ssd1306.c **** #include <string.h>
+  14:Core/Src/ssd1306.c **** #include <stdint.h>
+  15:Core/Src/ssd1306.c **** #include "main.h"
+  16:Core/Src/ssd1306.c **** #include "ssd1306.h"
+  17:Core/Src/ssd1306.c **** #include "fonts.h"
+  18:Core/Src/ssd1306.c **** 
+  19:Core/Src/ssd1306.c **** //I2C_HandleTypeDef hi2c1;
+  20:Core/Src/ssd1306.c **** uint8_t ssd1306_buf[SSD1306_BUF_SIZE];
+  21:Core/Src/ssd1306.c **** 
+  22:Core/Src/ssd1306.c **** void write_command(uint8_t data){
+  30              		.loc 1 22 33 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 8
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 22 33 is_stmt 0 view .LVU1
+  35 0000 00B5     		push	{lr}
+  36              	.LCFI0:
+ARM GAS  /tmp/cchQtoVq.s 			page 2
+
+
+  37              		.cfi_def_cfa_offset 4
+  38              		.cfi_offset 14, -4
+  39 0002 85B0     		sub	sp, sp, #20
+  40              	.LCFI1:
+  41              		.cfi_def_cfa_offset 24
+  23:Core/Src/ssd1306.c **** 	uint8_t cmd_data[2];
+  42              		.loc 1 23 2 is_stmt 1 view .LVU2
+  24:Core/Src/ssd1306.c **** 	cmd_data[0] = 0x00;
+  43              		.loc 1 24 2 view .LVU3
+  44              		.loc 1 24 14 is_stmt 0 view .LVU4
+  45 0004 0023     		movs	r3, #0
+  46 0006 8DF80C30 		strb	r3, [sp, #12]
+  25:Core/Src/ssd1306.c **** 	cmd_data[1] = data;
+  47              		.loc 1 25 2 is_stmt 1 view .LVU5
+  48              		.loc 1 25 14 is_stmt 0 view .LVU6
+  49 000a 8DF80D00 		strb	r0, [sp, #13]
+  26:Core/Src/ssd1306.c **** 	HAL_I2C_Master_Transmit(&hi2c1, SSD1306_ADDR, cmd_data, 2, HAL_MAX_DELAY);
+  50              		.loc 1 26 2 is_stmt 1 view .LVU7
+  51 000e 4FF0FF33 		mov	r3, #-1
+  52 0012 0093     		str	r3, [sp]
+  53 0014 0223     		movs	r3, #2
+  54 0016 03AA     		add	r2, sp, #12
+  55 0018 7821     		movs	r1, #120
+  56 001a 0348     		ldr	r0, .L3
+  57              	.LVL1:
+  58              		.loc 1 26 2 is_stmt 0 view .LVU8
+  59 001c FFF7FEFF 		bl	HAL_I2C_Master_Transmit
+  60              	.LVL2:
+  27:Core/Src/ssd1306.c **** }
+  61              		.loc 1 27 1 view .LVU9
+  62 0020 05B0     		add	sp, sp, #20
+  63              	.LCFI2:
+  64              		.cfi_def_cfa_offset 4
+  65              		@ sp needed
+  66 0022 5DF804FB 		ldr	pc, [sp], #4
+  67              	.L4:
+  68 0026 00BF     		.align	2
+  69              	.L3:
+  70 0028 00000000 		.word	hi2c1
+  71              		.cfi_endproc
+  72              	.LFE130:
+  74              		.section	.text.write_data,"ax",%progbits
+  75              		.align	1
+  76              		.global	write_data
+  77              		.syntax unified
+  78              		.thumb
+  79              		.thumb_func
+  80              		.fpu fpv4-sp-d16
+  82              	write_data:
+  83              	.LVL3:
+  84              	.LFB131:
+  28:Core/Src/ssd1306.c **** 
+  29:Core/Src/ssd1306.c **** void write_data(uint8_t *data){
+  85              		.loc 1 29 31 is_stmt 1 view -0
+  86              		.cfi_startproc
+  87              		@ args = 0, pretend = 0, frame = 1032
+  88              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/cchQtoVq.s 			page 3
+
+
+  89              		.loc 1 29 31 is_stmt 0 view .LVU11
+  90 0000 00B5     		push	{lr}
+  91              	.LCFI3:
+  92              		.cfi_def_cfa_offset 4
+  93              		.cfi_offset 14, -4
+  94 0002 ADF2144D 		subw	sp, sp, #1044
+  95              	.LCFI4:
+  96              		.cfi_def_cfa_offset 1048
+  30:Core/Src/ssd1306.c **** 	uint8_t data_buf[SSD1306_BUF_SIZE+1];
+  97              		.loc 1 30 2 is_stmt 1 view .LVU12
+  31:Core/Src/ssd1306.c **** 	data_buf[0] = 0x40;
+  98              		.loc 1 31 2 view .LVU13
+  99              		.loc 1 31 14 is_stmt 0 view .LVU14
+ 100 0006 4023     		movs	r3, #64
+ 101 0008 8DF80C30 		strb	r3, [sp, #12]
+  32:Core/Src/ssd1306.c **** 	for(int i=0;i<SSD1306_BUF_SIZE;i++){
+ 102              		.loc 1 32 2 is_stmt 1 view .LVU15
+ 103              	.LBB2:
+ 104              		.loc 1 32 6 view .LVU16
+ 105              	.LVL4:
+ 106              		.loc 1 32 10 is_stmt 0 view .LVU17
+ 107 000c 0023     		movs	r3, #0
+ 108              		.loc 1 32 2 view .LVU18
+ 109 000e 04E0     		b	.L6
+ 110              	.LVL5:
+ 111              	.L7:
+  33:Core/Src/ssd1306.c **** 		data_buf[i+1] = data[i];
+ 112              		.loc 1 33 3 is_stmt 1 discriminator 3 view .LVU19
+ 113              		.loc 1 33 23 is_stmt 0 discriminator 3 view .LVU20
+ 114 0010 C218     		adds	r2, r0, r3
+ 115              		.loc 1 33 13 discriminator 3 view .LVU21
+ 116 0012 0133     		adds	r3, r3, #1
+ 117              	.LVL6:
+ 118              		.loc 1 33 23 discriminator 3 view .LVU22
+ 119 0014 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 120              		.loc 1 33 17 discriminator 3 view .LVU23
+ 121 0016 03AA     		add	r2, sp, #12
+ 122 0018 D154     		strb	r1, [r2, r3]
+  32:Core/Src/ssd1306.c **** 	for(int i=0;i<SSD1306_BUF_SIZE;i++){
+ 123              		.loc 1 32 33 is_stmt 1 discriminator 3 view .LVU24
+ 124              	.LVL7:
+ 125              	.L6:
+  32:Core/Src/ssd1306.c **** 	for(int i=0;i<SSD1306_BUF_SIZE;i++){
+ 126              		.loc 1 32 14 discriminator 1 view .LVU25
+  32:Core/Src/ssd1306.c **** 	for(int i=0;i<SSD1306_BUF_SIZE;i++){
+ 127              		.loc 1 32 2 is_stmt 0 discriminator 1 view .LVU26
+ 128 001a B3F5806F 		cmp	r3, #1024
+ 129 001e F7DB     		blt	.L7
+ 130              	.LBE2:
+  34:Core/Src/ssd1306.c **** 	}
+  35:Core/Src/ssd1306.c **** 	HAL_I2C_Master_Transmit(&hi2c1, SSD1306_ADDR, data_buf, SSD1306_BUF_SIZE+1, HAL_MAX_DELAY);
+ 131              		.loc 1 35 2 is_stmt 1 view .LVU27
+ 132 0020 4FF0FF33 		mov	r3, #-1
+ 133              	.LVL8:
+ 134              		.loc 1 35 2 is_stmt 0 view .LVU28
+ 135 0024 0093     		str	r3, [sp]
+ 136 0026 40F20143 		movw	r3, #1025
+ARM GAS  /tmp/cchQtoVq.s 			page 4
+
+
+ 137 002a 03AA     		add	r2, sp, #12
+ 138 002c 7821     		movs	r1, #120
+ 139 002e 0348     		ldr	r0, .L9
+ 140              	.LVL9:
+ 141              		.loc 1 35 2 view .LVU29
+ 142 0030 FFF7FEFF 		bl	HAL_I2C_Master_Transmit
+ 143              	.LVL10:
+  36:Core/Src/ssd1306.c **** }
+ 144              		.loc 1 36 1 view .LVU30
+ 145 0034 0DF2144D 		addw	sp, sp, #1044
+ 146              	.LCFI5:
+ 147              		.cfi_def_cfa_offset 4
+ 148              		@ sp needed
+ 149 0038 5DF804FB 		ldr	pc, [sp], #4
+ 150              	.L10:
+ 151              		.align	2
+ 152              	.L9:
+ 153 003c 00000000 		.word	hi2c1
+ 154              		.cfi_endproc
+ 155              	.LFE131:
+ 157              		.section	.text.ssd1306_update_display,"ax",%progbits
+ 158              		.align	1
+ 159              		.global	ssd1306_update_display
+ 160              		.syntax unified
+ 161              		.thumb
+ 162              		.thumb_func
+ 163              		.fpu fpv4-sp-d16
+ 165              	ssd1306_update_display:
+ 166              	.LFB132:
+  37:Core/Src/ssd1306.c **** 
+  38:Core/Src/ssd1306.c **** void ssd1306_update_display(){
+ 167              		.loc 1 38 30 is_stmt 1 view -0
+ 168              		.cfi_startproc
+ 169              		@ args = 0, pretend = 0, frame = 0
+ 170              		@ frame_needed = 0, uses_anonymous_args = 0
+ 171 0000 08B5     		push	{r3, lr}
+ 172              	.LCFI6:
+ 173              		.cfi_def_cfa_offset 8
+ 174              		.cfi_offset 3, -8
+ 175              		.cfi_offset 14, -4
+  39:Core/Src/ssd1306.c **** 	write_command(0x21); // column start/end
+ 176              		.loc 1 39 2 view .LVU32
+ 177 0002 2120     		movs	r0, #33
+ 178 0004 FFF7FEFF 		bl	write_command
+ 179              	.LVL11:
+  40:Core/Src/ssd1306.c **** 	write_command(0x00);
+ 180              		.loc 1 40 2 view .LVU33
+ 181 0008 0020     		movs	r0, #0
+ 182 000a FFF7FEFF 		bl	write_command
+ 183              	.LVL12:
+  41:Core/Src/ssd1306.c **** 	write_command(0x7F);
+ 184              		.loc 1 41 2 view .LVU34
+ 185 000e 7F20     		movs	r0, #127
+ 186 0010 FFF7FEFF 		bl	write_command
+ 187              	.LVL13:
+  42:Core/Src/ssd1306.c **** 	write_command(0x22); // PAGE start/end
+ 188              		.loc 1 42 2 view .LVU35
+ARM GAS  /tmp/cchQtoVq.s 			page 5
+
+
+ 189 0014 2220     		movs	r0, #34
+ 190 0016 FFF7FEFF 		bl	write_command
+ 191              	.LVL14:
+  43:Core/Src/ssd1306.c **** 	write_command(0x00);
+ 192              		.loc 1 43 2 view .LVU36
+ 193 001a 0020     		movs	r0, #0
+ 194 001c FFF7FEFF 		bl	write_command
+ 195              	.LVL15:
+  44:Core/Src/ssd1306.c **** 	write_command(0x07);
+ 196              		.loc 1 44 2 view .LVU37
+ 197 0020 0720     		movs	r0, #7
+ 198 0022 FFF7FEFF 		bl	write_command
+ 199              	.LVL16:
+  45:Core/Src/ssd1306.c **** 
+  46:Core/Src/ssd1306.c **** 	write_data(ssd1306_buf);
+ 200              		.loc 1 46 2 view .LVU38
+ 201 0026 0248     		ldr	r0, .L13
+ 202 0028 FFF7FEFF 		bl	write_data
+ 203              	.LVL17:
+  47:Core/Src/ssd1306.c **** }
+ 204              		.loc 1 47 1 is_stmt 0 view .LVU39
+ 205 002c 08BD     		pop	{r3, pc}
+ 206              	.L14:
+ 207 002e 00BF     		.align	2
+ 208              	.L13:
+ 209 0030 00000000 		.word	.LANCHOR0
+ 210              		.cfi_endproc
+ 211              	.LFE132:
+ 213              		.section	.text.ssd1306_fill_buffer,"ax",%progbits
+ 214              		.align	1
+ 215              		.global	ssd1306_fill_buffer
+ 216              		.syntax unified
+ 217              		.thumb
+ 218              		.thumb_func
+ 219              		.fpu fpv4-sp-d16
+ 221              	ssd1306_fill_buffer:
+ 222              	.LVL18:
+ 223              	.LFB133:
+  48:Core/Src/ssd1306.c **** 
+  49:Core/Src/ssd1306.c **** void ssd1306_fill_buffer(uint8_t val){
+ 224              		.loc 1 49 38 is_stmt 1 view -0
+ 225              		.cfi_startproc
+ 226              		@ args = 0, pretend = 0, frame = 0
+ 227              		@ frame_needed = 0, uses_anonymous_args = 0
+ 228              		.loc 1 49 38 is_stmt 0 view .LVU41
+ 229 0000 08B5     		push	{r3, lr}
+ 230              	.LCFI7:
+ 231              		.cfi_def_cfa_offset 8
+ 232              		.cfi_offset 3, -8
+ 233              		.cfi_offset 14, -4
+ 234 0002 0146     		mov	r1, r0
+  50:Core/Src/ssd1306.c **** 	memset(ssd1306_buf, val, SSD1306_BUF_SIZE);
+ 235              		.loc 1 50 2 is_stmt 1 view .LVU42
+ 236 0004 4FF48062 		mov	r2, #1024
+ 237 0008 0148     		ldr	r0, .L17
+ 238              	.LVL19:
+ 239              		.loc 1 50 2 is_stmt 0 view .LVU43
+ARM GAS  /tmp/cchQtoVq.s 			page 6
+
+
+ 240 000a FFF7FEFF 		bl	memset
+ 241              	.LVL20:
+  51:Core/Src/ssd1306.c **** }
+ 242              		.loc 1 51 1 view .LVU44
+ 243 000e 08BD     		pop	{r3, pc}
+ 244              	.L18:
+ 245              		.align	2
+ 246              	.L17:
+ 247 0010 00000000 		.word	.LANCHOR0
+ 248              		.cfi_endproc
+ 249              	.LFE133:
+ 251              		.section	.text.clear_display,"ax",%progbits
+ 252              		.align	1
+ 253              		.global	clear_display
+ 254              		.syntax unified
+ 255              		.thumb
+ 256              		.thumb_func
+ 257              		.fpu fpv4-sp-d16
+ 259              	clear_display:
+ 260              	.LFB134:
+  52:Core/Src/ssd1306.c **** 
+  53:Core/Src/ssd1306.c **** void clear_display(){
+ 261              		.loc 1 53 21 is_stmt 1 view -0
+ 262              		.cfi_startproc
+ 263              		@ args = 0, pretend = 0, frame = 0
+ 264              		@ frame_needed = 0, uses_anonymous_args = 0
+ 265 0000 08B5     		push	{r3, lr}
+ 266              	.LCFI8:
+ 267              		.cfi_def_cfa_offset 8
+ 268              		.cfi_offset 3, -8
+ 269              		.cfi_offset 14, -4
+  54:Core/Src/ssd1306.c **** 	ssd1306_fill_buffer(0x00);
+ 270              		.loc 1 54 2 view .LVU46
+ 271 0002 0020     		movs	r0, #0
+ 272 0004 FFF7FEFF 		bl	ssd1306_fill_buffer
+ 273              	.LVL21:
+  55:Core/Src/ssd1306.c **** 	ssd1306_update_display();
+ 274              		.loc 1 55 2 view .LVU47
+ 275 0008 FFF7FEFF 		bl	ssd1306_update_display
+ 276              	.LVL22:
+  56:Core/Src/ssd1306.c **** }
+ 277              		.loc 1 56 1 is_stmt 0 view .LVU48
+ 278 000c 08BD     		pop	{r3, pc}
+ 279              		.cfi_endproc
+ 280              	.LFE134:
+ 282              		.section	.text.ssd1306_init,"ax",%progbits
+ 283              		.align	1
+ 284              		.global	ssd1306_init
+ 285              		.syntax unified
+ 286              		.thumb
+ 287              		.thumb_func
+ 288              		.fpu fpv4-sp-d16
+ 290              	ssd1306_init:
+ 291              	.LFB135:
+  57:Core/Src/ssd1306.c **** 
+  58:Core/Src/ssd1306.c **** void ssd1306_init(){
+ 292              		.loc 1 58 20 is_stmt 1 view -0
+ARM GAS  /tmp/cchQtoVq.s 			page 7
+
+
+ 293              		.cfi_startproc
+ 294              		@ args = 0, pretend = 0, frame = 0
+ 295              		@ frame_needed = 0, uses_anonymous_args = 0
+ 296 0000 08B5     		push	{r3, lr}
+ 297              	.LCFI9:
+ 298              		.cfi_def_cfa_offset 8
+ 299              		.cfi_offset 3, -8
+ 300              		.cfi_offset 14, -4
+  59:Core/Src/ssd1306.c **** 	/*
+  60:Core/Src/ssd1306.c **** 	* Common modifications:
+  61:Core/Src/ssd1306.c **** 	*	Invert across X Axis : Change C0 -> C8; Change A0 -> A1
+  62:Core/Src/ssd1306.c **** 	*/
+  63:Core/Src/ssd1306.c **** 	write_command(0xAE); //display off
+ 301              		.loc 1 63 2 view .LVU50
+ 302 0002 AE20     		movs	r0, #174
+ 303 0004 FFF7FEFF 		bl	write_command
+ 304              	.LVL23:
+  64:Core/Src/ssd1306.c **** 
+  65:Core/Src/ssd1306.c **** 	write_command(0x20); //Set Memory Addressing Mode
+ 305              		.loc 1 65 2 view .LVU51
+ 306 0008 2020     		movs	r0, #32
+ 307 000a FFF7FEFF 		bl	write_command
+ 308              	.LVL24:
+  66:Core/Src/ssd1306.c **** 	write_command(0x00); //00,Horizontal Addressing Mode;01,Vertical Addressing Mode;10,Page Addressin
+ 309              		.loc 1 66 2 view .LVU52
+ 310 000e 0020     		movs	r0, #0
+ 311 0010 FFF7FEFF 		bl	write_command
+ 312              	.LVL25:
+  67:Core/Src/ssd1306.c **** 
+  68:Core/Src/ssd1306.c **** 	write_command(0x81); //--set contrast control register
+ 313              		.loc 1 68 2 view .LVU53
+ 314 0014 8120     		movs	r0, #129
+ 315 0016 FFF7FEFF 		bl	write_command
+ 316              	.LVL26:
+  69:Core/Src/ssd1306.c **** 	write_command(0xFF); //     contrast 255
+ 317              		.loc 1 69 2 view .LVU54
+ 318 001a FF20     		movs	r0, #255
+ 319 001c FFF7FEFF 		bl	write_command
+ 320              	.LVL27:
+  70:Core/Src/ssd1306.c **** 
+  71:Core/Src/ssd1306.c **** 	write_command(0x21); //set start column
+ 321              		.loc 1 71 2 view .LVU55
+ 322 0020 2120     		movs	r0, #33
+ 323 0022 FFF7FEFF 		bl	write_command
+ 324              	.LVL28:
+  72:Core/Src/ssd1306.c **** 	write_command(0x00); //    start col 0
+ 325              		.loc 1 72 2 view .LVU56
+ 326 0026 0020     		movs	r0, #0
+ 327 0028 FFF7FEFF 		bl	write_command
+ 328              	.LVL29:
+  73:Core/Src/ssd1306.c **** 	write_command(0x7F); //    end col 127
+ 329              		.loc 1 73 2 view .LVU57
+ 330 002c 7F20     		movs	r0, #127
+ 331 002e FFF7FEFF 		bl	write_command
+ 332              	.LVL30:
+  74:Core/Src/ssd1306.c **** 
+  75:Core/Src/ssd1306.c **** 	write_command(0x22); // PAGE start/end
+ARM GAS  /tmp/cchQtoVq.s 			page 8
+
+
+ 333              		.loc 1 75 2 view .LVU58
+ 334 0032 2220     		movs	r0, #34
+ 335 0034 FFF7FEFF 		bl	write_command
+ 336              	.LVL31:
+  76:Core/Src/ssd1306.c **** 	write_command(0x00); //    start page 0
+ 337              		.loc 1 76 2 view .LVU59
+ 338 0038 0020     		movs	r0, #0
+ 339 003a FFF7FEFF 		bl	write_command
+ 340              	.LVL32:
+  77:Core/Src/ssd1306.c **** 	write_command(0x07); //    end page 7
+ 341              		.loc 1 77 2 view .LVU60
+ 342 003e 0720     		movs	r0, #7
+ 343 0040 FFF7FEFF 		bl	write_command
+ 344              	.LVL33:
+  78:Core/Src/ssd1306.c **** 
+  79:Core/Src/ssd1306.c **** 	write_command(0x40); //--set start line address
+ 345              		.loc 1 79 2 view .LVU61
+ 346 0044 4020     		movs	r0, #64
+ 347 0046 FFF7FEFF 		bl	write_command
+ 348              	.LVL34:
+  80:Core/Src/ssd1306.c **** 
+  81:Core/Src/ssd1306.c **** 	write_command(0xA0); //--set segment re-map 0 to 127 A1 is 0-127 For mirror across X access. (A1/C
+ 349              		.loc 1 81 2 view .LVU62
+ 350 004a A020     		movs	r0, #160
+ 351 004c FFF7FEFF 		bl	write_command
+ 352              	.LVL35:
+  82:Core/Src/ssd1306.c **** 
+  83:Core/Src/ssd1306.c **** 	write_command(0xA8); //--set multiplex ratio(1 to 64)
+ 353              		.loc 1 83 2 view .LVU63
+ 354 0050 A820     		movs	r0, #168
+ 355 0052 FFF7FEFF 		bl	write_command
+ 356              	.LVL36:
+  84:Core/Src/ssd1306.c **** 	write_command(0x3F); //
+ 357              		.loc 1 84 2 view .LVU64
+ 358 0056 3F20     		movs	r0, #63
+ 359 0058 FFF7FEFF 		bl	write_command
+ 360              	.LVL37:
+  85:Core/Src/ssd1306.c **** 
+  86:Core/Src/ssd1306.c **** 	write_command(0xC0); //Set COM Output Scan Direction -- C8 = 127-0 C0 = 0-127
+ 361              		.loc 1 86 2 view .LVU65
+ 362 005c C020     		movs	r0, #192
+ 363 005e FFF7FEFF 		bl	write_command
+ 364              	.LVL38:
+  87:Core/Src/ssd1306.c **** 
+  88:Core/Src/ssd1306.c **** 	write_command(0xD3); //-set display offset
+ 365              		.loc 1 88 2 view .LVU66
+ 366 0062 D320     		movs	r0, #211
+ 367 0064 FFF7FEFF 		bl	write_command
+ 368              	.LVL39:
+  89:Core/Src/ssd1306.c **** 	write_command(0x00); //-not offset
+ 369              		.loc 1 89 2 view .LVU67
+ 370 0068 0020     		movs	r0, #0
+ 371 006a FFF7FEFF 		bl	write_command
+ 372              	.LVL40:
+  90:Core/Src/ssd1306.c **** 
+  91:Core/Src/ssd1306.c **** 	write_command(0xDA); //--set com pins hardware configuration
+ 373              		.loc 1 91 2 view .LVU68
+ARM GAS  /tmp/cchQtoVq.s 			page 9
+
+
+ 374 006e DA20     		movs	r0, #218
+ 375 0070 FFF7FEFF 		bl	write_command
+ 376              	.LVL41:
+  92:Core/Src/ssd1306.c **** 	write_command(0x12);
+ 377              		.loc 1 92 2 view .LVU69
+ 378 0074 1220     		movs	r0, #18
+ 379 0076 FFF7FEFF 		bl	write_command
+ 380              	.LVL42:
+  93:Core/Src/ssd1306.c **** 
+  94:Core/Src/ssd1306.c **** 	write_command(0xA6); //--set normal display
+ 381              		.loc 1 94 2 view .LVU70
+ 382 007a A620     		movs	r0, #166
+ 383 007c FFF7FEFF 		bl	write_command
+ 384              	.LVL43:
+  95:Core/Src/ssd1306.c **** 
+  96:Core/Src/ssd1306.c **** 	write_command(0xA4); //0xa4,Output follows RAM content;0xa5,Output ignores RAM content
+ 385              		.loc 1 96 2 view .LVU71
+ 386 0080 A420     		movs	r0, #164
+ 387 0082 FFF7FEFF 		bl	write_command
+ 388              	.LVL44:
+  97:Core/Src/ssd1306.c **** 
+  98:Core/Src/ssd1306.c **** 
+  99:Core/Src/ssd1306.c **** 	write_command(0xD5); //--set display clock divide ratio/oscillator frequency
+ 389              		.loc 1 99 2 view .LVU72
+ 390 0086 D520     		movs	r0, #213
+ 391 0088 FFF7FEFF 		bl	write_command
+ 392              	.LVL45:
+ 100:Core/Src/ssd1306.c **** 	write_command(0xF0); //--set divide ratio
+ 393              		.loc 1 100 2 view .LVU73
+ 394 008c F020     		movs	r0, #240
+ 395 008e FFF7FEFF 		bl	write_command
+ 396              	.LVL46:
+ 101:Core/Src/ssd1306.c **** 
+ 102:Core/Src/ssd1306.c **** 	write_command(0xD9); //--set pre-charge period
+ 397              		.loc 1 102 2 view .LVU74
+ 398 0092 D920     		movs	r0, #217
+ 399 0094 FFF7FEFF 		bl	write_command
+ 400              	.LVL47:
+ 103:Core/Src/ssd1306.c **** 	write_command(0x22); //
+ 401              		.loc 1 103 2 view .LVU75
+ 402 0098 2220     		movs	r0, #34
+ 403 009a FFF7FEFF 		bl	write_command
+ 404              	.LVL48:
+ 104:Core/Src/ssd1306.c **** 
+ 105:Core/Src/ssd1306.c **** 	write_command(0xDB); //--set vcomh
+ 405              		.loc 1 105 2 view .LVU76
+ 406 009e DB20     		movs	r0, #219
+ 407 00a0 FFF7FEFF 		bl	write_command
+ 408              	.LVL49:
+ 106:Core/Src/ssd1306.c **** 	write_command(0x20); //0x20,0.77xVcc
+ 409              		.loc 1 106 2 view .LVU77
+ 410 00a4 2020     		movs	r0, #32
+ 411 00a6 FFF7FEFF 		bl	write_command
+ 412              	.LVL50:
+ 107:Core/Src/ssd1306.c **** 
+ 108:Core/Src/ssd1306.c **** 	write_command(0x8D); //--set DC-DC enable
+ 413              		.loc 1 108 2 view .LVU78
+ARM GAS  /tmp/cchQtoVq.s 			page 10
+
+
+ 414 00aa 8D20     		movs	r0, #141
+ 415 00ac FFF7FEFF 		bl	write_command
+ 416              	.LVL51:
+ 109:Core/Src/ssd1306.c **** 	write_command(0x14); //
+ 417              		.loc 1 109 2 view .LVU79
+ 418 00b0 1420     		movs	r0, #20
+ 419 00b2 FFF7FEFF 		bl	write_command
+ 420              	.LVL52:
+ 110:Core/Src/ssd1306.c **** 
+ 111:Core/Src/ssd1306.c **** 	write_command(0xAF); //--turn on SSD1306 panel
+ 421              		.loc 1 111 2 view .LVU80
+ 422 00b6 AF20     		movs	r0, #175
+ 423 00b8 FFF7FEFF 		bl	write_command
+ 424              	.LVL53:
+ 112:Core/Src/ssd1306.c **** 
+ 113:Core/Src/ssd1306.c **** 	clear_display();
+ 425              		.loc 1 113 2 view .LVU81
+ 426 00bc FFF7FEFF 		bl	clear_display
+ 427              	.LVL54:
+ 114:Core/Src/ssd1306.c **** }
+ 428              		.loc 1 114 1 is_stmt 0 view .LVU82
+ 429 00c0 08BD     		pop	{r3, pc}
+ 430              		.cfi_endproc
+ 431              	.LFE135:
+ 433              		.section	.text.place_pixel,"ax",%progbits
+ 434              		.align	1
+ 435              		.global	place_pixel
+ 436              		.syntax unified
+ 437              		.thumb
+ 438              		.thumb_func
+ 439              		.fpu fpv4-sp-d16
+ 441              	place_pixel:
+ 442              	.LVL55:
+ 443              	.LFB136:
+ 115:Core/Src/ssd1306.c **** 
+ 116:Core/Src/ssd1306.c **** void place_pixel(int x, int y){
+ 444              		.loc 1 116 31 is_stmt 1 view -0
+ 445              		.cfi_startproc
+ 446              		@ args = 0, pretend = 0, frame = 0
+ 447              		@ frame_needed = 0, uses_anonymous_args = 0
+ 448              		@ link register save eliminated.
+ 117:Core/Src/ssd1306.c **** 	//0,0 is top left
+ 118:Core/Src/ssd1306.c **** 	// x is col num -- run
+ 119:Core/Src/ssd1306.c **** 	// y is row num -- rise
+ 120:Core/Src/ssd1306.c **** 	ssd1306_buf[((y/8)*128) + x] |= (1<<(y%8));
+ 449              		.loc 1 120 2 view .LVU84
+ 450              		.loc 1 120 17 is_stmt 0 view .LVU85
+ 451 0000 0B46     		mov	r3, r1
+ 452 0002 0029     		cmp	r1, #0
+ 453 0004 10DB     		blt	.L25
+ 454              	.L24:
+ 455              		.loc 1 120 17 view .LVU86
+ 456 0006 DB10     		asrs	r3, r3, #3
+ 457              		.loc 1 120 31 view .LVU87
+ 458 0008 00EBC310 		add	r0, r0, r3, lsl #7
+ 459              	.LVL56:
+ 460              		.loc 1 120 40 view .LVU88
+ARM GAS  /tmp/cchQtoVq.s 			page 11
+
+
+ 461 000c 4B42     		rsbs	r3, r1, #0
+ 462 000e 01F00701 		and	r1, r1, #7
+ 463              	.LVL57:
+ 464              		.loc 1 120 40 view .LVU89
+ 465 0012 03F00703 		and	r3, r3, #7
+ 466 0016 58BF     		it	pl
+ 467 0018 5942     		rsbpl	r1, r3, #0
+ 468              		.loc 1 120 36 view .LVU90
+ 469 001a 0123     		movs	r3, #1
+ 470 001c 8B40     		lsls	r3, r3, r1
+ 471              		.loc 1 120 31 view .LVU91
+ 472 001e 034A     		ldr	r2, .L26
+ 473 0020 115C     		ldrb	r1, [r2, r0]	@ zero_extendqisi2
+ 474 0022 1943     		orrs	r1, r1, r3
+ 475 0024 1154     		strb	r1, [r2, r0]
+ 121:Core/Src/ssd1306.c **** }
+ 476              		.loc 1 121 1 view .LVU92
+ 477 0026 7047     		bx	lr
+ 478              	.LVL58:
+ 479              	.L25:
+ 120:Core/Src/ssd1306.c **** }
+ 480              		.loc 1 120 17 view .LVU93
+ 481 0028 CB1D     		adds	r3, r1, #7
+ 482 002a ECE7     		b	.L24
+ 483              	.L27:
+ 484              		.align	2
+ 485              	.L26:
+ 486 002c 00000000 		.word	.LANCHOR0
+ 487              		.cfi_endproc
+ 488              	.LFE136:
+ 490              		.section	.text.clear_pixel,"ax",%progbits
+ 491              		.align	1
+ 492              		.global	clear_pixel
+ 493              		.syntax unified
+ 494              		.thumb
+ 495              		.thumb_func
+ 496              		.fpu fpv4-sp-d16
+ 498              	clear_pixel:
+ 499              	.LVL59:
+ 500              	.LFB137:
+ 122:Core/Src/ssd1306.c **** 
+ 123:Core/Src/ssd1306.c **** void clear_pixel(int x, int y){
+ 501              		.loc 1 123 31 is_stmt 1 view -0
+ 502              		.cfi_startproc
+ 503              		@ args = 0, pretend = 0, frame = 0
+ 504              		@ frame_needed = 0, uses_anonymous_args = 0
+ 505              		@ link register save eliminated.
+ 124:Core/Src/ssd1306.c **** 	ssd1306_buf[((y/8)*128) + x] &= (0<<(y%8));
+ 506              		.loc 1 124 2 view .LVU95
+ 507              		.loc 1 124 17 is_stmt 0 view .LVU96
+ 508 0000 0029     		cmp	r1, #0
+ 509              		.loc 1 124 17 view .LVU97
+ 510 0002 06DB     		blt	.L30
+ 511              	.LVL60:
+ 512              	.L29:
+ 513              		.loc 1 124 17 view .LVU98
+ 514 0004 C910     		asrs	r1, r1, #3
+ARM GAS  /tmp/cchQtoVq.s 			page 12
+
+
+ 515              		.loc 1 124 31 view .LVU99
+ 516 0006 044B     		ldr	r3, .L31
+ 517 0008 03EBC111 		add	r1, r3, r1, lsl #7
+ 518 000c 0023     		movs	r3, #0
+ 519 000e 0B54     		strb	r3, [r1, r0]
+ 125:Core/Src/ssd1306.c **** }
+ 520              		.loc 1 125 1 view .LVU100
+ 521 0010 7047     		bx	lr
+ 522              	.LVL61:
+ 523              	.L30:
+ 124:Core/Src/ssd1306.c **** 	ssd1306_buf[((y/8)*128) + x] &= (0<<(y%8));
+ 524              		.loc 1 124 17 view .LVU101
+ 525 0012 0731     		adds	r1, r1, #7
+ 526              	.LVL62:
+ 124:Core/Src/ssd1306.c **** 	ssd1306_buf[((y/8)*128) + x] &= (0<<(y%8));
+ 527              		.loc 1 124 17 view .LVU102
+ 528 0014 F6E7     		b	.L29
+ 529              	.L32:
+ 530 0016 00BF     		.align	2
+ 531              	.L31:
+ 532 0018 00000000 		.word	.LANCHOR0
+ 533              		.cfi_endproc
+ 534              	.LFE137:
+ 536              		.section	.text.invert_pixel,"ax",%progbits
+ 537              		.align	1
+ 538              		.global	invert_pixel
+ 539              		.syntax unified
+ 540              		.thumb
+ 541              		.thumb_func
+ 542              		.fpu fpv4-sp-d16
+ 544              	invert_pixel:
+ 545              	.LVL63:
+ 546              	.LFB138:
+ 126:Core/Src/ssd1306.c **** 
+ 127:Core/Src/ssd1306.c **** void invert_pixel(int x, int y){
+ 547              		.loc 1 127 32 is_stmt 1 view -0
+ 548              		.cfi_startproc
+ 549              		@ args = 0, pretend = 0, frame = 0
+ 550              		@ frame_needed = 0, uses_anonymous_args = 0
+ 551              		@ link register save eliminated.
+ 128:Core/Src/ssd1306.c **** 	//0,0 is top left
+ 129:Core/Src/ssd1306.c **** 	// x is col num -- run
+ 130:Core/Src/ssd1306.c **** 	// y is row num -- rise
+ 131:Core/Src/ssd1306.c **** 	ssd1306_buf[((y/8)*128) + x] ^= (1<<(y%8));
+ 552              		.loc 1 131 2 view .LVU104
+ 553              		.loc 1 131 17 is_stmt 0 view .LVU105
+ 554 0000 0B46     		mov	r3, r1
+ 555 0002 0029     		cmp	r1, #0
+ 556 0004 10DB     		blt	.L35
+ 557              	.L34:
+ 558              		.loc 1 131 17 view .LVU106
+ 559 0006 DB10     		asrs	r3, r3, #3
+ 560              		.loc 1 131 31 view .LVU107
+ 561 0008 00EBC310 		add	r0, r0, r3, lsl #7
+ 562              	.LVL64:
+ 563              		.loc 1 131 40 view .LVU108
+ 564 000c 4B42     		rsbs	r3, r1, #0
+ARM GAS  /tmp/cchQtoVq.s 			page 13
+
+
+ 565 000e 01F00701 		and	r1, r1, #7
+ 566              	.LVL65:
+ 567              		.loc 1 131 40 view .LVU109
+ 568 0012 03F00703 		and	r3, r3, #7
+ 569 0016 58BF     		it	pl
+ 570 0018 5942     		rsbpl	r1, r3, #0
+ 571              		.loc 1 131 36 view .LVU110
+ 572 001a 0123     		movs	r3, #1
+ 573 001c 8B40     		lsls	r3, r3, r1
+ 574              		.loc 1 131 31 view .LVU111
+ 575 001e 034A     		ldr	r2, .L36
+ 576 0020 115C     		ldrb	r1, [r2, r0]	@ zero_extendqisi2
+ 577 0022 5940     		eors	r1, r1, r3
+ 578 0024 1154     		strb	r1, [r2, r0]
+ 132:Core/Src/ssd1306.c **** }
+ 579              		.loc 1 132 1 view .LVU112
+ 580 0026 7047     		bx	lr
+ 581              	.LVL66:
+ 582              	.L35:
+ 131:Core/Src/ssd1306.c **** }
+ 583              		.loc 1 131 17 view .LVU113
+ 584 0028 CB1D     		adds	r3, r1, #7
+ 585 002a ECE7     		b	.L34
+ 586              	.L37:
+ 587              		.align	2
+ 588              	.L36:
+ 589 002c 00000000 		.word	.LANCHOR0
+ 590              		.cfi_endproc
+ 591              	.LFE138:
+ 593              		.section	.text.place_char,"ax",%progbits
+ 594              		.align	1
+ 595              		.global	place_char
+ 596              		.syntax unified
+ 597              		.thumb
+ 598              		.thumb_func
+ 599              		.fpu fpv4-sp-d16
+ 601              	place_char:
+ 602              	.LVL67:
+ 603              	.LFB139:
+ 133:Core/Src/ssd1306.c **** 
+ 134:Core/Src/ssd1306.c **** void place_char(char c, int x, int y){
+ 604              		.loc 1 134 38 is_stmt 1 view -0
+ 605              		.cfi_startproc
+ 606              		@ args = 0, pretend = 0, frame = 0
+ 607              		@ frame_needed = 0, uses_anonymous_args = 0
+ 608              		.loc 1 134 38 is_stmt 0 view .LVU115
+ 609 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 610              	.LCFI10:
+ 611              		.cfi_def_cfa_offset 24
+ 612              		.cfi_offset 4, -24
+ 613              		.cfi_offset 5, -20
+ 614              		.cfi_offset 6, -16
+ 615              		.cfi_offset 7, -12
+ 616              		.cfi_offset 8, -8
+ 617              		.cfi_offset 14, -4
+ 618 0004 0F46     		mov	r7, r1
+ 619 0006 9046     		mov	r8, r2
+ARM GAS  /tmp/cchQtoVq.s 			page 14
+
+
+ 135:Core/Src/ssd1306.c **** 	//places a character with top left being x,y
+ 136:Core/Src/ssd1306.c **** 	int pixel = 0;
+ 620              		.loc 1 136 2 is_stmt 1 view .LVU116
+ 621              	.LVL68:
+ 137:Core/Src/ssd1306.c **** 	int font_idx=0;
+ 622              		.loc 1 137 2 view .LVU117
+ 138:Core/Src/ssd1306.c **** 	while (c!=charmap[font_idx]){
+ 623              		.loc 1 138 2 view .LVU118
+ 137:Core/Src/ssd1306.c **** 	int font_idx=0;
+ 624              		.loc 1 137 6 is_stmt 0 view .LVU119
+ 625 0008 0026     		movs	r6, #0
+ 626              		.loc 1 138 8 view .LVU120
+ 627 000a 00E0     		b	.L39
+ 628              	.LVL69:
+ 629              	.L40:
+ 139:Core/Src/ssd1306.c **** 		font_idx++;
+ 630              		.loc 1 139 3 is_stmt 1 view .LVU121
+ 631              		.loc 1 139 11 is_stmt 0 view .LVU122
+ 632 000c 0136     		adds	r6, r6, #1
+ 633              	.LVL70:
+ 634              	.L39:
+ 138:Core/Src/ssd1306.c **** 	while (c!=charmap[font_idx]){
+ 635              		.loc 1 138 8 is_stmt 1 view .LVU123
+ 138:Core/Src/ssd1306.c **** 	while (c!=charmap[font_idx]){
+ 636              		.loc 1 138 19 is_stmt 0 view .LVU124
+ 637 000e 104B     		ldr	r3, .L49
+ 638 0010 9B5D     		ldrb	r3, [r3, r6]	@ zero_extendqisi2
+ 138:Core/Src/ssd1306.c **** 	while (c!=charmap[font_idx]){
+ 639              		.loc 1 138 8 view .LVU125
+ 640 0012 8342     		cmp	r3, r0
+ 641 0014 FAD1     		bne	.L40
+ 642              	.LBB3:
+ 140:Core/Src/ssd1306.c **** 	}
+ 141:Core/Src/ssd1306.c **** 	for(int h=0;h<8;h++){
+ 643              		.loc 1 141 10 view .LVU126
+ 644 0016 0025     		movs	r5, #0
+ 645 0018 14E0     		b	.L41
+ 646              	.LVL71:
+ 647              	.L42:
+ 648              	.LBB4:
+ 142:Core/Src/ssd1306.c **** 		for (int w=0;w<10;w++){
+ 649              		.loc 1 142 21 is_stmt 1 discriminator 2 view .LVU127
+ 650              		.loc 1 142 22 is_stmt 0 discriminator 2 view .LVU128
+ 651 001a 0134     		adds	r4, r4, #1
+ 652              	.LVL72:
+ 653              	.L44:
+ 654              		.loc 1 142 16 is_stmt 1 discriminator 1 view .LVU129
+ 655              		.loc 1 142 3 is_stmt 0 discriminator 1 view .LVU130
+ 656 001c 092C     		cmp	r4, #9
+ 657 001e 10DC     		bgt	.L47
+ 143:Core/Src/ssd1306.c **** 			pixel = (Font8x10[(8*font_idx)+h]>>(9-w)&0x001);
+ 658              		.loc 1 143 4 is_stmt 1 view .LVU131
+ 659              		.loc 1 143 34 is_stmt 0 view .LVU132
+ 660 0020 05EBC603 		add	r3, r5, r6, lsl #3
+ 661              		.loc 1 143 21 view .LVU133
+ 662 0024 0B4A     		ldr	r2, .L49+4
+ 663 0026 32F81330 		ldrh	r3, [r2, r3, lsl #1]
+ARM GAS  /tmp/cchQtoVq.s 			page 15
+
+
+ 664              		.loc 1 143 41 view .LVU134
+ 665 002a C4F10902 		rsb	r2, r4, #9
+ 666              		.loc 1 143 37 view .LVU135
+ 667 002e 1341     		asrs	r3, r3, r2
+ 668              	.LVL73:
+ 144:Core/Src/ssd1306.c **** 			if (pixel == 1){
+ 669              		.loc 1 144 4 is_stmt 1 view .LVU136
+ 670              		.loc 1 144 7 is_stmt 0 view .LVU137
+ 671 0030 13F0010F 		tst	r3, #1
+ 672 0034 F1D0     		beq	.L42
+ 145:Core/Src/ssd1306.c **** 				place_pixel((x+w),(y+h));
+ 673              		.loc 1 145 5 is_stmt 1 view .LVU138
+ 674 0036 05EB0801 		add	r1, r5, r8
+ 675 003a E019     		adds	r0, r4, r7
+ 676 003c FFF7FEFF 		bl	place_pixel
+ 677              	.LVL74:
+ 678              		.loc 1 145 5 is_stmt 0 view .LVU139
+ 679 0040 EBE7     		b	.L42
+ 680              	.LVL75:
+ 681              	.L47:
+ 682              		.loc 1 145 5 view .LVU140
+ 683              	.LBE4:
+ 141:Core/Src/ssd1306.c **** 		for (int w=0;w<10;w++){
+ 684              		.loc 1 141 18 is_stmt 1 discriminator 2 view .LVU141
+ 141:Core/Src/ssd1306.c **** 		for (int w=0;w<10;w++){
+ 685              		.loc 1 141 19 is_stmt 0 discriminator 2 view .LVU142
+ 686 0042 0135     		adds	r5, r5, #1
+ 687              	.LVL76:
+ 688              	.L41:
+ 141:Core/Src/ssd1306.c **** 		for (int w=0;w<10;w++){
+ 689              		.loc 1 141 14 is_stmt 1 discriminator 1 view .LVU143
+ 141:Core/Src/ssd1306.c **** 		for (int w=0;w<10;w++){
+ 690              		.loc 1 141 2 is_stmt 0 discriminator 1 view .LVU144
+ 691 0044 072D     		cmp	r5, #7
+ 692 0046 01DC     		bgt	.L48
+ 693              	.LBB5:
+ 142:Core/Src/ssd1306.c **** 			pixel = (Font8x10[(8*font_idx)+h]>>(9-w)&0x001);
+ 694              		.loc 1 142 12 view .LVU145
+ 695 0048 0024     		movs	r4, #0
+ 696 004a E7E7     		b	.L44
+ 697              	.L48:
+ 698              	.LBE5:
+ 699              	.LBE3:
+ 146:Core/Src/ssd1306.c **** 			}
+ 147:Core/Src/ssd1306.c **** 		}
+ 148:Core/Src/ssd1306.c **** 	}
+ 149:Core/Src/ssd1306.c **** }
+ 700              		.loc 1 149 1 view .LVU146
+ 701 004c BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 702              	.LVL77:
+ 703              	.L50:
+ 704              		.loc 1 149 1 view .LVU147
+ 705              		.align	2
+ 706              	.L49:
+ 707 0050 00000000 		.word	.LANCHOR1
+ 708 0054 00000000 		.word	.LANCHOR2
+ 709              		.cfi_endproc
+ARM GAS  /tmp/cchQtoVq.s 			page 16
+
+
+ 710              	.LFE139:
+ 712              		.section	.text.write_page,"ax",%progbits
+ 713              		.align	1
+ 714              		.global	write_page
+ 715              		.syntax unified
+ 716              		.thumb
+ 717              		.thumb_func
+ 718              		.fpu fpv4-sp-d16
+ 720              	write_page:
+ 721              	.LVL78:
+ 722              	.LFB140:
+ 150:Core/Src/ssd1306.c **** 
+ 151:Core/Src/ssd1306.c **** void write_page(int page_num, char* line){
+ 723              		.loc 1 151 42 is_stmt 1 view -0
+ 724              		.cfi_startproc
+ 725              		@ args = 0, pretend = 0, frame = 0
+ 726              		@ frame_needed = 0, uses_anonymous_args = 0
+ 727              		.loc 1 151 42 is_stmt 0 view .LVU149
+ 728 0000 70B5     		push	{r4, r5, r6, lr}
+ 729              	.LCFI11:
+ 730              		.cfi_def_cfa_offset 16
+ 731              		.cfi_offset 4, -16
+ 732              		.cfi_offset 5, -12
+ 733              		.cfi_offset 6, -8
+ 734              		.cfi_offset 14, -4
+ 735 0002 0E46     		mov	r6, r1
+ 152:Core/Src/ssd1306.c **** 	// writes a page of display with 12 character string
+ 153:Core/Src/ssd1306.c **** 	int x = 0;
+ 736              		.loc 1 153 2 is_stmt 1 view .LVU150
+ 737              	.LVL79:
+ 154:Core/Src/ssd1306.c **** 	int y = page_num*8;
+ 738              		.loc 1 154 2 view .LVU151
+ 739              		.loc 1 154 6 is_stmt 0 view .LVU152
+ 740 0004 C500     		lsls	r5, r0, #3
+ 741              	.LVL80:
+ 155:Core/Src/ssd1306.c **** 	for(int l=0;l<12;l++){
+ 742              		.loc 1 155 2 is_stmt 1 view .LVU153
+ 743              	.LBB6:
+ 744              		.loc 1 155 6 view .LVU154
+ 745              		.loc 1 155 10 is_stmt 0 view .LVU155
+ 746 0006 0024     		movs	r4, #0
+ 747              		.loc 1 155 2 view .LVU156
+ 748 0008 07E0     		b	.L52
+ 749              	.LVL81:
+ 750              	.L53:
+ 156:Core/Src/ssd1306.c **** 		x = 10*l;
+ 751              		.loc 1 156 3 is_stmt 1 discriminator 3 view .LVU157
+ 752              		.loc 1 156 5 is_stmt 0 discriminator 3 view .LVU158
+ 753 000a 04EB8401 		add	r1, r4, r4, lsl #2
+ 754              	.LVL82:
+ 157:Core/Src/ssd1306.c **** 		place_char(line[l], x, y);
+ 755              		.loc 1 157 3 is_stmt 1 discriminator 3 view .LVU159
+ 756 000e 2A46     		mov	r2, r5
+ 757 0010 4900     		lsls	r1, r1, #1
+ 758              	.LVL83:
+ 759              		.loc 1 157 3 is_stmt 0 discriminator 3 view .LVU160
+ 760 0012 305D     		ldrb	r0, [r6, r4]	@ zero_extendqisi2
+ARM GAS  /tmp/cchQtoVq.s 			page 17
+
+
+ 761 0014 FFF7FEFF 		bl	place_char
+ 762              	.LVL84:
+ 155:Core/Src/ssd1306.c **** 	for(int l=0;l<12;l++){
+ 763              		.loc 1 155 19 is_stmt 1 discriminator 3 view .LVU161
+ 155:Core/Src/ssd1306.c **** 	for(int l=0;l<12;l++){
+ 764              		.loc 1 155 20 is_stmt 0 discriminator 3 view .LVU162
+ 765 0018 0134     		adds	r4, r4, #1
+ 766              	.LVL85:
+ 767              	.L52:
+ 155:Core/Src/ssd1306.c **** 	for(int l=0;l<12;l++){
+ 768              		.loc 1 155 14 is_stmt 1 discriminator 1 view .LVU163
+ 155:Core/Src/ssd1306.c **** 	for(int l=0;l<12;l++){
+ 769              		.loc 1 155 2 is_stmt 0 discriminator 1 view .LVU164
+ 770 001a 0B2C     		cmp	r4, #11
+ 771 001c F5DD     		ble	.L53
+ 772              	.LBE6:
+ 158:Core/Src/ssd1306.c **** 	}
+ 159:Core/Src/ssd1306.c **** }
+ 773              		.loc 1 159 1 view .LVU165
+ 774 001e 70BD     		pop	{r4, r5, r6, pc}
+ 775              		.loc 1 159 1 view .LVU166
+ 776              		.cfi_endproc
+ 777              	.LFE140:
+ 779              		.section	.text.draw_box,"ax",%progbits
+ 780              		.align	1
+ 781              		.global	draw_box
+ 782              		.syntax unified
+ 783              		.thumb
+ 784              		.thumb_func
+ 785              		.fpu fpv4-sp-d16
+ 787              	draw_box:
+ 788              	.LVL86:
+ 789              	.LFB141:
+ 160:Core/Src/ssd1306.c **** 
+ 161:Core/Src/ssd1306.c **** void draw_box(int width, int height, int x, int y){
+ 790              		.loc 1 161 51 is_stmt 1 view -0
+ 791              		.cfi_startproc
+ 792              		@ args = 0, pretend = 0, frame = 0
+ 793              		@ frame_needed = 0, uses_anonymous_args = 0
+ 794              		.loc 1 161 51 is_stmt 0 view .LVU168
+ 795 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 796              	.LCFI12:
+ 797              		.cfi_def_cfa_offset 32
+ 798              		.cfi_offset 3, -32
+ 799              		.cfi_offset 4, -28
+ 800              		.cfi_offset 5, -24
+ 801              		.cfi_offset 6, -20
+ 802              		.cfi_offset 7, -16
+ 803              		.cfi_offset 8, -12
+ 804              		.cfi_offset 9, -8
+ 805              		.cfi_offset 14, -4
+ 806 0004 8146     		mov	r9, r0
+ 807 0006 0E46     		mov	r6, r1
+ 808 0008 9046     		mov	r8, r2
+ 809 000a 1F46     		mov	r7, r3
+ 162:Core/Src/ssd1306.c **** 	//draws a box of width, height with top left corner being x,y
+ 163:Core/Src/ssd1306.c **** 	for(int w=0;w<width;w++){
+ARM GAS  /tmp/cchQtoVq.s 			page 18
+
+
+ 810              		.loc 1 163 2 is_stmt 1 view .LVU169
+ 811              	.LBB7:
+ 812              		.loc 1 163 6 view .LVU170
+ 813              	.LVL87:
+ 814              		.loc 1 163 10 is_stmt 0 view .LVU171
+ 815 000c 0025     		movs	r5, #0
+ 816              		.loc 1 163 2 view .LVU172
+ 817 000e 08E0     		b	.L56
+ 818              	.LVL88:
+ 819              	.L57:
+ 820              	.LBB8:
+ 164:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 165:Core/Src/ssd1306.c **** 			place_pixel((x+w),(y+h));
+ 821              		.loc 1 165 4 is_stmt 1 discriminator 3 view .LVU173
+ 822 0010 E119     		adds	r1, r4, r7
+ 823 0012 05EB0800 		add	r0, r5, r8
+ 824 0016 FFF7FEFF 		bl	place_pixel
+ 825              	.LVL89:
+ 164:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 826              		.loc 1 164 24 discriminator 3 view .LVU174
+ 164:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 827              		.loc 1 164 25 is_stmt 0 discriminator 3 view .LVU175
+ 828 001a 0134     		adds	r4, r4, #1
+ 829              	.LVL90:
+ 830              	.L58:
+ 164:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 831              		.loc 1 164 15 is_stmt 1 discriminator 1 view .LVU176
+ 164:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 832              		.loc 1 164 3 is_stmt 0 discriminator 1 view .LVU177
+ 833 001c B442     		cmp	r4, r6
+ 834 001e F7DB     		blt	.L57
+ 835              	.LBE8:
+ 163:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 836              		.loc 1 163 22 is_stmt 1 discriminator 2 view .LVU178
+ 163:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 837              		.loc 1 163 23 is_stmt 0 discriminator 2 view .LVU179
+ 838 0020 0135     		adds	r5, r5, #1
+ 839              	.LVL91:
+ 840              	.L56:
+ 163:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 841              		.loc 1 163 14 is_stmt 1 discriminator 1 view .LVU180
+ 163:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 842              		.loc 1 163 2 is_stmt 0 discriminator 1 view .LVU181
+ 843 0022 4D45     		cmp	r5, r9
+ 844 0024 01DA     		bge	.L61
+ 845              	.LBB9:
+ 164:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 846              		.loc 1 164 11 view .LVU182
+ 847 0026 0024     		movs	r4, #0
+ 848 0028 F8E7     		b	.L58
+ 849              	.L61:
+ 850              	.LBE9:
+ 851              	.LBE7:
+ 166:Core/Src/ssd1306.c **** 		}
+ 167:Core/Src/ssd1306.c **** 	}
+ 168:Core/Src/ssd1306.c **** }
+ 852              		.loc 1 168 1 view .LVU183
+ARM GAS  /tmp/cchQtoVq.s 			page 19
+
+
+ 853 002a BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 854              		.loc 1 168 1 view .LVU184
+ 855              		.cfi_endproc
+ 856              	.LFE141:
+ 858              		.section	.text.clear_box,"ax",%progbits
+ 859              		.align	1
+ 860              		.global	clear_box
+ 861              		.syntax unified
+ 862              		.thumb
+ 863              		.thumb_func
+ 864              		.fpu fpv4-sp-d16
+ 866              	clear_box:
+ 867              	.LVL92:
+ 868              	.LFB142:
+ 169:Core/Src/ssd1306.c **** 
+ 170:Core/Src/ssd1306.c **** void clear_box(int width, int height, int x, int y){
+ 869              		.loc 1 170 52 is_stmt 1 view -0
+ 870              		.cfi_startproc
+ 871              		@ args = 0, pretend = 0, frame = 0
+ 872              		@ frame_needed = 0, uses_anonymous_args = 0
+ 873              		.loc 1 170 52 is_stmt 0 view .LVU186
+ 874 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 875              	.LCFI13:
+ 876              		.cfi_def_cfa_offset 32
+ 877              		.cfi_offset 3, -32
+ 878              		.cfi_offset 4, -28
+ 879              		.cfi_offset 5, -24
+ 880              		.cfi_offset 6, -20
+ 881              		.cfi_offset 7, -16
+ 882              		.cfi_offset 8, -12
+ 883              		.cfi_offset 9, -8
+ 884              		.cfi_offset 14, -4
+ 885 0004 8146     		mov	r9, r0
+ 886 0006 0E46     		mov	r6, r1
+ 887 0008 9046     		mov	r8, r2
+ 888 000a 1F46     		mov	r7, r3
+ 171:Core/Src/ssd1306.c **** 	//draws a box of width, height with top left corner being x,y
+ 172:Core/Src/ssd1306.c **** 	for(int w=0;w<width;w++){
+ 889              		.loc 1 172 2 is_stmt 1 view .LVU187
+ 890              	.LBB10:
+ 891              		.loc 1 172 6 view .LVU188
+ 892              	.LVL93:
+ 893              		.loc 1 172 10 is_stmt 0 view .LVU189
+ 894 000c 0025     		movs	r5, #0
+ 895              		.loc 1 172 2 view .LVU190
+ 896 000e 08E0     		b	.L63
+ 897              	.LVL94:
+ 898              	.L64:
+ 899              	.LBB11:
+ 173:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 174:Core/Src/ssd1306.c **** 			clear_pixel((x+w),(y+h));
+ 900              		.loc 1 174 4 is_stmt 1 discriminator 3 view .LVU191
+ 901 0010 E119     		adds	r1, r4, r7
+ 902 0012 05EB0800 		add	r0, r5, r8
+ 903 0016 FFF7FEFF 		bl	clear_pixel
+ 904              	.LVL95:
+ 173:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ARM GAS  /tmp/cchQtoVq.s 			page 20
+
+
+ 905              		.loc 1 173 24 discriminator 3 view .LVU192
+ 173:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 906              		.loc 1 173 25 is_stmt 0 discriminator 3 view .LVU193
+ 907 001a 0134     		adds	r4, r4, #1
+ 908              	.LVL96:
+ 909              	.L65:
+ 173:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 910              		.loc 1 173 15 is_stmt 1 discriminator 1 view .LVU194
+ 173:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 911              		.loc 1 173 3 is_stmt 0 discriminator 1 view .LVU195
+ 912 001c B442     		cmp	r4, r6
+ 913 001e F7DB     		blt	.L64
+ 914              	.LBE11:
+ 172:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 915              		.loc 1 172 22 is_stmt 1 discriminator 2 view .LVU196
+ 172:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 916              		.loc 1 172 23 is_stmt 0 discriminator 2 view .LVU197
+ 917 0020 0135     		adds	r5, r5, #1
+ 918              	.LVL97:
+ 919              	.L63:
+ 172:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 920              		.loc 1 172 14 is_stmt 1 discriminator 1 view .LVU198
+ 172:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 921              		.loc 1 172 2 is_stmt 0 discriminator 1 view .LVU199
+ 922 0022 4D45     		cmp	r5, r9
+ 923 0024 01DA     		bge	.L68
+ 924              	.LBB12:
+ 173:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 925              		.loc 1 173 11 view .LVU200
+ 926 0026 0024     		movs	r4, #0
+ 927 0028 F8E7     		b	.L65
+ 928              	.L68:
+ 929              	.LBE12:
+ 930              	.LBE10:
+ 175:Core/Src/ssd1306.c **** 		}
+ 176:Core/Src/ssd1306.c **** 	}
+ 177:Core/Src/ssd1306.c **** }
+ 931              		.loc 1 177 1 view .LVU201
+ 932 002a BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 933              		.loc 1 177 1 view .LVU202
+ 934              		.cfi_endproc
+ 935              	.LFE142:
+ 937              		.section	.text.clear_page,"ax",%progbits
+ 938              		.align	1
+ 939              		.global	clear_page
+ 940              		.syntax unified
+ 941              		.thumb
+ 942              		.thumb_func
+ 943              		.fpu fpv4-sp-d16
+ 945              	clear_page:
+ 946              	.LVL98:
+ 947              	.LFB143:
+ 178:Core/Src/ssd1306.c **** 
+ 179:Core/Src/ssd1306.c **** void clear_page(int page_num){
+ 948              		.loc 1 179 30 is_stmt 1 view -0
+ 949              		.cfi_startproc
+ 950              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /tmp/cchQtoVq.s 			page 21
+
+
+ 951              		@ frame_needed = 0, uses_anonymous_args = 0
+ 952              		.loc 1 179 30 is_stmt 0 view .LVU204
+ 953 0000 08B5     		push	{r3, lr}
+ 954              	.LCFI14:
+ 955              		.cfi_def_cfa_offset 8
+ 956              		.cfi_offset 3, -8
+ 957              		.cfi_offset 14, -4
+ 180:Core/Src/ssd1306.c **** 	int x = 0;
+ 958              		.loc 1 180 2 is_stmt 1 view .LVU205
+ 959              	.LVL99:
+ 181:Core/Src/ssd1306.c **** 	int y = page_num*8;
+ 960              		.loc 1 181 2 view .LVU206
+ 182:Core/Src/ssd1306.c **** 	clear_box(128, 8, x, y);
+ 961              		.loc 1 182 2 view .LVU207
+ 962 0002 C300     		lsls	r3, r0, #3
+ 963              	.LVL100:
+ 964              		.loc 1 182 2 is_stmt 0 view .LVU208
+ 965 0004 0022     		movs	r2, #0
+ 966 0006 0821     		movs	r1, #8
+ 967 0008 8020     		movs	r0, #128
+ 968              	.LVL101:
+ 969              		.loc 1 182 2 view .LVU209
+ 970 000a FFF7FEFF 		bl	clear_box
+ 971              	.LVL102:
+ 183:Core/Src/ssd1306.c **** }
+ 972              		.loc 1 183 1 view .LVU210
+ 973 000e 08BD     		pop	{r3, pc}
+ 974              		.cfi_endproc
+ 975              	.LFE143:
+ 977              		.section	.text.invert_box,"ax",%progbits
+ 978              		.align	1
+ 979              		.global	invert_box
+ 980              		.syntax unified
+ 981              		.thumb
+ 982              		.thumb_func
+ 983              		.fpu fpv4-sp-d16
+ 985              	invert_box:
+ 986              	.LVL103:
+ 987              	.LFB144:
+ 184:Core/Src/ssd1306.c **** 
+ 185:Core/Src/ssd1306.c **** void invert_box(int width, int height, int x, int y){
+ 988              		.loc 1 185 53 is_stmt 1 view -0
+ 989              		.cfi_startproc
+ 990              		@ args = 0, pretend = 0, frame = 0
+ 991              		@ frame_needed = 0, uses_anonymous_args = 0
+ 992              		.loc 1 185 53 is_stmt 0 view .LVU212
+ 993 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 994              	.LCFI15:
+ 995              		.cfi_def_cfa_offset 32
+ 996              		.cfi_offset 3, -32
+ 997              		.cfi_offset 4, -28
+ 998              		.cfi_offset 5, -24
+ 999              		.cfi_offset 6, -20
+ 1000              		.cfi_offset 7, -16
+ 1001              		.cfi_offset 8, -12
+ 1002              		.cfi_offset 9, -8
+ 1003              		.cfi_offset 14, -4
+ARM GAS  /tmp/cchQtoVq.s 			page 22
+
+
+ 1004 0004 8146     		mov	r9, r0
+ 1005 0006 0E46     		mov	r6, r1
+ 1006 0008 9046     		mov	r8, r2
+ 1007 000a 1F46     		mov	r7, r3
+ 186:Core/Src/ssd1306.c **** 	//inverts pixels of box selection width, height, with top left corner
+ 187:Core/Src/ssd1306.c **** 	//being coords x,y
+ 188:Core/Src/ssd1306.c **** 	for(int w=0;w<width;w++){
+ 1008              		.loc 1 188 2 is_stmt 1 view .LVU213
+ 1009              	.LBB13:
+ 1010              		.loc 1 188 6 view .LVU214
+ 1011              	.LVL104:
+ 1012              		.loc 1 188 10 is_stmt 0 view .LVU215
+ 1013 000c 0025     		movs	r5, #0
+ 1014              		.loc 1 188 2 view .LVU216
+ 1015 000e 08E0     		b	.L72
+ 1016              	.LVL105:
+ 1017              	.L73:
+ 1018              	.LBB14:
+ 189:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 190:Core/Src/ssd1306.c **** 			invert_pixel((x+w),(y+h));
+ 1019              		.loc 1 190 4 is_stmt 1 discriminator 3 view .LVU217
+ 1020 0010 E119     		adds	r1, r4, r7
+ 1021 0012 05EB0800 		add	r0, r5, r8
+ 1022 0016 FFF7FEFF 		bl	invert_pixel
+ 1023              	.LVL106:
+ 189:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 1024              		.loc 1 189 24 discriminator 3 view .LVU218
+ 189:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 1025              		.loc 1 189 25 is_stmt 0 discriminator 3 view .LVU219
+ 1026 001a 0134     		adds	r4, r4, #1
+ 1027              	.LVL107:
+ 1028              	.L74:
+ 189:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 1029              		.loc 1 189 15 is_stmt 1 discriminator 1 view .LVU220
+ 189:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 1030              		.loc 1 189 3 is_stmt 0 discriminator 1 view .LVU221
+ 1031 001c B442     		cmp	r4, r6
+ 1032 001e F7DB     		blt	.L73
+ 1033              	.LBE14:
+ 188:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 1034              		.loc 1 188 22 is_stmt 1 discriminator 2 view .LVU222
+ 188:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 1035              		.loc 1 188 23 is_stmt 0 discriminator 2 view .LVU223
+ 1036 0020 0135     		adds	r5, r5, #1
+ 1037              	.LVL108:
+ 1038              	.L72:
+ 188:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 1039              		.loc 1 188 14 is_stmt 1 discriminator 1 view .LVU224
+ 188:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 1040              		.loc 1 188 2 is_stmt 0 discriminator 1 view .LVU225
+ 1041 0022 4D45     		cmp	r5, r9
+ 1042 0024 01DA     		bge	.L77
+ 1043              	.LBB15:
+ 189:Core/Src/ssd1306.c **** 		for(int h=0;h<height;h++){
+ 1044              		.loc 1 189 11 view .LVU226
+ 1045 0026 0024     		movs	r4, #0
+ 1046 0028 F8E7     		b	.L74
+ARM GAS  /tmp/cchQtoVq.s 			page 23
+
+
+ 1047              	.L77:
+ 1048              	.LBE15:
+ 1049              	.LBE13:
+ 191:Core/Src/ssd1306.c **** 		}
+ 192:Core/Src/ssd1306.c **** 	}
+ 193:Core/Src/ssd1306.c **** }
+ 1050              		.loc 1 193 1 view .LVU227
+ 1051 002a BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 1052              		.loc 1 193 1 view .LVU228
+ 1053              		.cfi_endproc
+ 1054              	.LFE144:
+ 1056              		.section	.text.insert_shape,"ax",%progbits
+ 1057              		.align	1
+ 1058              		.global	insert_shape
+ 1059              		.syntax unified
+ 1060              		.thumb
+ 1061              		.thumb_func
+ 1062              		.fpu fpv4-sp-d16
+ 1064              	insert_shape:
+ 1065              	.LVL109:
+ 1066              	.LFB145:
+ 194:Core/Src/ssd1306.c **** 
+ 195:Core/Src/ssd1306.c **** 
+ 196:Core/Src/ssd1306.c **** void insert_shape (int x, int y, shapes shape){
+ 1067              		.loc 1 196 47 is_stmt 1 view -0
+ 1068              		.cfi_startproc
+ 1069              		@ args = 0, pretend = 0, frame = 0
+ 1070              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1071              		.loc 1 196 47 is_stmt 0 view .LVU230
+ 1072 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 1073              	.LCFI16:
+ 1074              		.cfi_def_cfa_offset 24
+ 1075              		.cfi_offset 4, -24
+ 1076              		.cfi_offset 5, -20
+ 1077              		.cfi_offset 6, -16
+ 1078              		.cfi_offset 7, -12
+ 1079              		.cfi_offset 8, -8
+ 1080              		.cfi_offset 14, -4
+ 1081 0004 8046     		mov	r8, r0
+ 1082 0006 0F46     		mov	r7, r1
+ 1083 0008 1646     		mov	r6, r2
+ 197:Core/Src/ssd1306.c **** 	//inserts custom 8x10 shape defined in fonts.h
+ 198:Core/Src/ssd1306.c **** 	int pixel = 0;
+ 1084              		.loc 1 198 2 is_stmt 1 view .LVU231
+ 1085              	.LVL110:
+ 199:Core/Src/ssd1306.c **** 	for(int h=0;h<8;h++){
+ 1086              		.loc 1 199 2 view .LVU232
+ 1087              	.LBB16:
+ 1088              		.loc 1 199 6 view .LVU233
+ 1089              		.loc 1 199 10 is_stmt 0 view .LVU234
+ 1090 000a 0025     		movs	r5, #0
+ 1091              		.loc 1 199 2 view .LVU235
+ 1092 000c 14E0     		b	.L79
+ 1093              	.LVL111:
+ 1094              	.L80:
+ 1095              	.LBB17:
+ 200:Core/Src/ssd1306.c **** 		for (int w=0;w<10;w++){
+ARM GAS  /tmp/cchQtoVq.s 			page 24
+
+
+ 1096              		.loc 1 200 21 is_stmt 1 discriminator 2 view .LVU236
+ 1097              		.loc 1 200 22 is_stmt 0 discriminator 2 view .LVU237
+ 1098 000e 0134     		adds	r4, r4, #1
+ 1099              	.LVL112:
+ 1100              	.L82:
+ 1101              		.loc 1 200 16 is_stmt 1 discriminator 1 view .LVU238
+ 1102              		.loc 1 200 3 is_stmt 0 discriminator 1 view .LVU239
+ 1103 0010 092C     		cmp	r4, #9
+ 1104 0012 10DC     		bgt	.L85
+ 201:Core/Src/ssd1306.c **** 			pixel = (shape_arr[(8*shape)+h]>>(9-w)&0x001);
+ 1105              		.loc 1 201 4 is_stmt 1 view .LVU240
+ 1106              		.loc 1 201 32 is_stmt 0 view .LVU241
+ 1107 0014 05EBC603 		add	r3, r5, r6, lsl #3
+ 1108              		.loc 1 201 22 view .LVU242
+ 1109 0018 0A4A     		ldr	r2, .L87
+ 1110 001a 32F81330 		ldrh	r3, [r2, r3, lsl #1]
+ 1111              		.loc 1 201 39 view .LVU243
+ 1112 001e C4F10902 		rsb	r2, r4, #9
+ 1113              		.loc 1 201 35 view .LVU244
+ 1114 0022 1341     		asrs	r3, r3, r2
+ 1115              	.LVL113:
+ 202:Core/Src/ssd1306.c **** 			if (pixel == 1){
+ 1116              		.loc 1 202 4 is_stmt 1 view .LVU245
+ 1117              		.loc 1 202 7 is_stmt 0 view .LVU246
+ 1118 0024 13F0010F 		tst	r3, #1
+ 1119 0028 F1D0     		beq	.L80
+ 203:Core/Src/ssd1306.c **** 				place_pixel((x+w),(y+h));
+ 1120              		.loc 1 203 5 is_stmt 1 view .LVU247
+ 1121 002a E919     		adds	r1, r5, r7
+ 1122 002c 04EB0800 		add	r0, r4, r8
+ 1123 0030 FFF7FEFF 		bl	place_pixel
+ 1124              	.LVL114:
+ 1125              		.loc 1 203 5 is_stmt 0 view .LVU248
+ 1126 0034 EBE7     		b	.L80
+ 1127              	.LVL115:
+ 1128              	.L85:
+ 1129              		.loc 1 203 5 view .LVU249
+ 1130              	.LBE17:
+ 199:Core/Src/ssd1306.c **** 		for (int w=0;w<10;w++){
+ 1131              		.loc 1 199 18 is_stmt 1 discriminator 2 view .LVU250
+ 199:Core/Src/ssd1306.c **** 		for (int w=0;w<10;w++){
+ 1132              		.loc 1 199 19 is_stmt 0 discriminator 2 view .LVU251
+ 1133 0036 0135     		adds	r5, r5, #1
+ 1134              	.LVL116:
+ 1135              	.L79:
+ 199:Core/Src/ssd1306.c **** 		for (int w=0;w<10;w++){
+ 1136              		.loc 1 199 14 is_stmt 1 discriminator 1 view .LVU252
+ 199:Core/Src/ssd1306.c **** 		for (int w=0;w<10;w++){
+ 1137              		.loc 1 199 2 is_stmt 0 discriminator 1 view .LVU253
+ 1138 0038 072D     		cmp	r5, #7
+ 1139 003a 01DC     		bgt	.L86
+ 1140              	.LBB18:
+ 200:Core/Src/ssd1306.c **** 			pixel = (shape_arr[(8*shape)+h]>>(9-w)&0x001);
+ 1141              		.loc 1 200 12 view .LVU254
+ 1142 003c 0024     		movs	r4, #0
+ 1143 003e E7E7     		b	.L82
+ 1144              	.L86:
+ARM GAS  /tmp/cchQtoVq.s 			page 25
+
+
+ 1145              	.LBE18:
+ 1146              	.LBE16:
+ 204:Core/Src/ssd1306.c **** 			}
+ 205:Core/Src/ssd1306.c **** 		}
+ 206:Core/Src/ssd1306.c **** 	}
+ 207:Core/Src/ssd1306.c **** }
+ 1147              		.loc 1 207 1 view .LVU255
+ 1148 0040 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1149              	.LVL117:
+ 1150              	.L88:
+ 1151              		.loc 1 207 1 view .LVU256
+ 1152              		.align	2
+ 1153              	.L87:
+ 1154 0044 00000000 		.word	.LANCHOR3
+ 1155              		.cfi_endproc
+ 1156              	.LFE145:
+ 1158              		.section	.rodata.display_init.str1.4,"aMS",%progbits,1
+ 1159              		.align	2
+ 1160              	.LC0:
+ 1161 0000 4D4F4445 		.ascii	"MODE:       \000"
+ 1161      3A202020 
+ 1161      20202020 
+ 1161      00
+ 1162 000d 000000   		.align	2
+ 1163              	.LC1:
+ 1164 0010 20202053 		.ascii	"   Static   \000"
+ 1164      74617469 
+ 1164      63202020 
+ 1164      00
+ 1165 001d 000000   		.align	2
+ 1166              	.LC2:
+ 1167 0020 434F4C4F 		.ascii	"COLOR:      \000"
+ 1167      523A2020 
+ 1167      20202020 
+ 1167      00
+ 1168 002d 000000   		.align	2
+ 1169              	.LC3:
+ 1170 0030 20202020 		.ascii	"     Red    \000"
+ 1170      20526564 
+ 1170      20202020 
+ 1170      00
+ 1171 003d 000000   		.align	2
+ 1172              	.LC4:
+ 1173 0040 53504545 		.ascii	"SPEED:      \000"
+ 1173      443A2020 
+ 1173      20202020 
+ 1173      00
+ 1174 004d 000000   		.align	2
+ 1175              	.LC5:
+ 1176 0050 42524947 		.ascii	"BRIGHTNESS: \000"
+ 1176      48544E45 
+ 1176      53533A20 
+ 1176      00
+ 1177              		.section	.text.display_init,"ax",%progbits
+ 1178              		.align	1
+ 1179              		.global	display_init
+ 1180              		.syntax unified
+ARM GAS  /tmp/cchQtoVq.s 			page 26
+
+
+ 1181              		.thumb
+ 1182              		.thumb_func
+ 1183              		.fpu fpv4-sp-d16
+ 1185              	display_init:
+ 1186              	.LFB146:
+ 208:Core/Src/ssd1306.c **** 
+ 209:Core/Src/ssd1306.c **** void display_init(){
+ 1187              		.loc 1 209 20 is_stmt 1 view -0
+ 1188              		.cfi_startproc
+ 1189              		@ args = 0, pretend = 0, frame = 0
+ 1190              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1191 0000 08B5     		push	{r3, lr}
+ 1192              	.LCFI17:
+ 1193              		.cfi_def_cfa_offset 8
+ 1194              		.cfi_offset 3, -8
+ 1195              		.cfi_offset 14, -4
+ 210:Core/Src/ssd1306.c **** 	// initial display screen
+ 211:Core/Src/ssd1306.c **** 	  write_page(0, "MODE:       ");
+ 1196              		.loc 1 211 4 view .LVU258
+ 1197 0002 1349     		ldr	r1, .L91
+ 1198 0004 0020     		movs	r0, #0
+ 1199 0006 FFF7FEFF 		bl	write_page
+ 1200              	.LVL118:
+ 212:Core/Src/ssd1306.c **** 	  write_page(1, "   Static   ");
+ 1201              		.loc 1 212 4 view .LVU259
+ 1202 000a 1249     		ldr	r1, .L91+4
+ 1203 000c 0120     		movs	r0, #1
+ 1204 000e FFF7FEFF 		bl	write_page
+ 1205              	.LVL119:
+ 213:Core/Src/ssd1306.c **** 	  write_page(2, "COLOR:      ");
+ 1206              		.loc 1 213 4 view .LVU260
+ 1207 0012 1149     		ldr	r1, .L91+8
+ 1208 0014 0220     		movs	r0, #2
+ 1209 0016 FFF7FEFF 		bl	write_page
+ 1210              	.LVL120:
+ 214:Core/Src/ssd1306.c **** 	  write_page(3, "     Red    ");
+ 1211              		.loc 1 214 4 view .LVU261
+ 1212 001a 1049     		ldr	r1, .L91+12
+ 1213 001c 0320     		movs	r0, #3
+ 1214 001e FFF7FEFF 		bl	write_page
+ 1215              	.LVL121:
+ 215:Core/Src/ssd1306.c **** 	  write_page(4, "SPEED:      ");
+ 1216              		.loc 1 215 4 view .LVU262
+ 1217 0022 0F49     		ldr	r1, .L91+16
+ 1218 0024 0420     		movs	r0, #4
+ 1219 0026 FFF7FEFF 		bl	write_page
+ 1220              	.LVL122:
+ 216:Core/Src/ssd1306.c **** 	  draw_box(72-18, 5, 9, (5*8)+1);
+ 1221              		.loc 1 216 4 view .LVU263
+ 1222 002a 2923     		movs	r3, #41
+ 1223 002c 0922     		movs	r2, #9
+ 1224 002e 0521     		movs	r1, #5
+ 1225 0030 3620     		movs	r0, #54
+ 1226 0032 FFF7FEFF 		bl	draw_box
+ 1227              	.LVL123:
+ 217:Core/Src/ssd1306.c **** 	  write_page(6, "BRIGHTNESS: ");
+ 1228              		.loc 1 217 4 view .LVU264
+ARM GAS  /tmp/cchQtoVq.s 			page 27
+
+
+ 1229 0036 0B49     		ldr	r1, .L91+20
+ 1230 0038 0620     		movs	r0, #6
+ 1231 003a FFF7FEFF 		bl	write_page
+ 1232              	.LVL124:
+ 218:Core/Src/ssd1306.c **** 	  draw_box(128-18, 5, 9, (7*8)+1);
+ 1233              		.loc 1 218 4 view .LVU265
+ 1234 003e 3923     		movs	r3, #57
+ 1235 0040 0922     		movs	r2, #9
+ 1236 0042 0521     		movs	r1, #5
+ 1237 0044 6E20     		movs	r0, #110
+ 1238 0046 FFF7FEFF 		bl	draw_box
+ 1239              	.LVL125:
+ 219:Core/Src/ssd1306.c **** 	  ssd1306_update_display();
+ 1240              		.loc 1 219 4 view .LVU266
+ 1241 004a FFF7FEFF 		bl	ssd1306_update_display
+ 1242              	.LVL126:
+ 220:Core/Src/ssd1306.c **** }
+ 1243              		.loc 1 220 1 is_stmt 0 view .LVU267
+ 1244 004e 08BD     		pop	{r3, pc}
+ 1245              	.L92:
+ 1246              		.align	2
+ 1247              	.L91:
+ 1248 0050 00000000 		.word	.LC0
+ 1249 0054 10000000 		.word	.LC1
+ 1250 0058 20000000 		.word	.LC2
+ 1251 005c 30000000 		.word	.LC3
+ 1252 0060 40000000 		.word	.LC4
+ 1253 0064 50000000 		.word	.LC5
+ 1254              		.cfi_endproc
+ 1255              	.LFE146:
+ 1257              		.section	.text.insert_selector,"ax",%progbits
+ 1258              		.align	1
+ 1259              		.global	insert_selector
+ 1260              		.syntax unified
+ 1261              		.thumb
+ 1262              		.thumb_func
+ 1263              		.fpu fpv4-sp-d16
+ 1265              	insert_selector:
+ 1266              	.LVL127:
+ 1267              	.LFB147:
+ 221:Core/Src/ssd1306.c **** 
+ 222:Core/Src/ssd1306.c **** void insert_selector(int cur_select){
+ 1268              		.loc 1 222 37 is_stmt 1 view -0
+ 1269              		.cfi_startproc
+ 1270              		@ args = 0, pretend = 0, frame = 0
+ 1271              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1272              		.loc 1 222 37 is_stmt 0 view .LVU269
+ 1273 0000 10B5     		push	{r4, lr}
+ 1274              	.LCFI18:
+ 1275              		.cfi_def_cfa_offset 8
+ 1276              		.cfi_offset 4, -8
+ 1277              		.cfi_offset 14, -4
+ 223:Core/Src/ssd1306.c **** 	insert_shape(0,(8*cur_select), LEFT_ARROW);
+ 1278              		.loc 1 223 2 is_stmt 1 view .LVU270
+ 1279 0002 C400     		lsls	r4, r0, #3
+ 1280 0004 0022     		movs	r2, #0
+ 1281 0006 2146     		mov	r1, r4
+ARM GAS  /tmp/cchQtoVq.s 			page 28
+
+
+ 1282 0008 1046     		mov	r0, r2
+ 1283              	.LVL128:
+ 1284              		.loc 1 223 2 is_stmt 0 view .LVU271
+ 1285 000a FFF7FEFF 		bl	insert_shape
+ 1286              	.LVL129:
+ 224:Core/Src/ssd1306.c **** 	insert_shape((127-10),(8*cur_select), RIGHT_ARROW);
+ 1287              		.loc 1 224 2 is_stmt 1 view .LVU272
+ 1288 000e 0122     		movs	r2, #1
+ 1289 0010 2146     		mov	r1, r4
+ 1290 0012 7520     		movs	r0, #117
+ 1291 0014 FFF7FEFF 		bl	insert_shape
+ 1292              	.LVL130:
+ 225:Core/Src/ssd1306.c **** 	invert_box(128, 7, 0, (cur_select*8));
+ 1293              		.loc 1 225 2 view .LVU273
+ 1294 0018 2346     		mov	r3, r4
+ 1295 001a 0022     		movs	r2, #0
+ 1296 001c 0721     		movs	r1, #7
+ 1297 001e 8020     		movs	r0, #128
+ 1298 0020 FFF7FEFF 		bl	invert_box
+ 1299              	.LVL131:
+ 226:Core/Src/ssd1306.c **** }
+ 1300              		.loc 1 226 1 is_stmt 0 view .LVU274
+ 1301 0024 10BD     		pop	{r4, pc}
+ 1302              		.cfi_endproc
+ 1303              	.LFE147:
+ 1305              		.section	.text.move_selector,"ax",%progbits
+ 1306              		.align	1
+ 1307              		.global	move_selector
+ 1308              		.syntax unified
+ 1309              		.thumb
+ 1310              		.thumb_func
+ 1311              		.fpu fpv4-sp-d16
+ 1313              	move_selector:
+ 1314              	.LVL132:
+ 1315              	.LFB148:
+ 227:Core/Src/ssd1306.c **** 
+ 228:Core/Src/ssd1306.c **** 
+ 229:Core/Src/ssd1306.c **** void move_selector(int cur_select, int new_select){
+ 1316              		.loc 1 229 51 is_stmt 1 view -0
+ 1317              		.cfi_startproc
+ 1318              		@ args = 0, pretend = 0, frame = 0
+ 1319              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1320              		.loc 1 229 51 is_stmt 0 view .LVU276
+ 1321 0000 10B5     		push	{r4, lr}
+ 1322              	.LCFI19:
+ 1323              		.cfi_def_cfa_offset 8
+ 1324              		.cfi_offset 4, -8
+ 1325              		.cfi_offset 14, -4
+ 1326 0002 0C46     		mov	r4, r1
+ 230:Core/Src/ssd1306.c **** 	insert_selector(cur_select);
+ 1327              		.loc 1 230 2 is_stmt 1 view .LVU277
+ 1328 0004 FFF7FEFF 		bl	insert_selector
+ 1329              	.LVL133:
+ 231:Core/Src/ssd1306.c **** 	insert_selector(new_select);
+ 1330              		.loc 1 231 2 view .LVU278
+ 1331 0008 2046     		mov	r0, r4
+ 1332 000a FFF7FEFF 		bl	insert_selector
+ARM GAS  /tmp/cchQtoVq.s 			page 29
+
+
+ 1333              	.LVL134:
+ 232:Core/Src/ssd1306.c ****     ssd1306_update_display();
+ 1334              		.loc 1 232 5 view .LVU279
+ 1335 000e FFF7FEFF 		bl	ssd1306_update_display
+ 1336              	.LVL135:
+ 233:Core/Src/ssd1306.c **** }
+ 1337              		.loc 1 233 1 is_stmt 0 view .LVU280
+ 1338 0012 10BD     		pop	{r4, pc}
+ 1339              		.loc 1 233 1 view .LVU281
+ 1340              		.cfi_endproc
+ 1341              	.LFE148:
+ 1343              		.global	ssd1306_buf
+ 1344              		.global	Font8x10
+ 1345              		.global	shape_arr
+ 1346              		.global	charmap
+ 1347              		.section	.bss.ssd1306_buf,"aw",%nobits
+ 1348              		.align	2
+ 1349              		.set	.LANCHOR0,. + 0
+ 1352              	ssd1306_buf:
+ 1353 0000 00000000 		.space	1024
+ 1353      00000000 
+ 1353      00000000 
+ 1353      00000000 
+ 1353      00000000 
+ 1354              		.section	.rodata.Font8x10,"a"
+ 1355              		.align	2
+ 1356              		.set	.LANCHOR2,. + 0
+ 1359              	Font8x10:
+ 1360 0000 2000     		.short	32
+ 1361 0002 2000     		.short	32
+ 1362 0004 2000     		.short	32
+ 1363 0006 2000     		.short	32
+ 1364 0008 2000     		.short	32
+ 1365 000a 0000     		.short	0
+ 1366 000c 2000     		.short	32
+ 1367 000e 0000     		.short	0
+ 1368 0010 5000     		.short	80
+ 1369 0012 5000     		.short	80
+ 1370 0014 5000     		.short	80
+ 1371 0016 0000     		.short	0
+ 1372 0018 0000     		.short	0
+ 1373 001a 0000     		.short	0
+ 1374 001c 0000     		.short	0
+ 1375 001e 0000     		.short	0
+ 1376 0020 9000     		.short	144
+ 1377 0022 9000     		.short	144
+ 1378 0024 FC03     		.short	1020
+ 1379 0026 9000     		.short	144
+ 1380 0028 FC03     		.short	1020
+ 1381 002a 9000     		.short	144
+ 1382 002c 9000     		.short	144
+ 1383 002e 0000     		.short	0
+ 1384 0030 5000     		.short	80
+ 1385 0032 FC01     		.short	508
+ 1386 0034 5001     		.short	336
+ 1387 0036 FC01     		.short	508
+ 1388 0038 5400     		.short	84
+ARM GAS  /tmp/cchQtoVq.s 			page 30
+
+
+ 1389 003a FC01     		.short	508
+ 1390 003c 5000     		.short	80
+ 1391 003e 0000     		.short	0
+ 1392 0040 2000     		.short	32
+ 1393 0042 7000     		.short	112
+ 1394 0044 8800     		.short	136
+ 1395 0046 4000     		.short	64
+ 1396 0048 4000     		.short	64
+ 1397 004a 8800     		.short	136
+ 1398 004c 7000     		.short	112
+ 1399 004e 0000     		.short	0
+ 1400 0050 0600     		.short	6
+ 1401 0052 8C01     		.short	396
+ 1402 0054 9801     		.short	408
+ 1403 0056 3000     		.short	48
+ 1404 0058 6600     		.short	102
+ 1405 005a C600     		.short	198
+ 1406 005c 8001     		.short	384
+ 1407 005e 0000     		.short	0
+ 1408 0060 2000     		.short	32
+ 1409 0062 2000     		.short	32
+ 1410 0064 2000     		.short	32
+ 1411 0066 0000     		.short	0
+ 1412 0068 0000     		.short	0
+ 1413 006a 0000     		.short	0
+ 1414 006c 0000     		.short	0
+ 1415 006e 0000     		.short	0
+ 1416 0070 8000     		.short	128
+ 1417 0072 0001     		.short	256
+ 1418 0074 0002     		.short	512
+ 1419 0076 0002     		.short	512
+ 1420 0078 0002     		.short	512
+ 1421 007a 0001     		.short	256
+ 1422 007c 8000     		.short	128
+ 1423 007e 0000     		.short	0
+ 1424 0080 0002     		.short	512
+ 1425 0082 0001     		.short	256
+ 1426 0084 8000     		.short	128
+ 1427 0086 8000     		.short	128
+ 1428 0088 8000     		.short	128
+ 1429 008a 0001     		.short	256
+ 1430 008c 0002     		.short	512
+ 1431 008e 0000     		.short	0
+ 1432 0090 0000     		.short	0
+ 1433 0092 4002     		.short	576
+ 1434 0094 8001     		.short	384
+ 1435 0096 C003     		.short	960
+ 1436 0098 8001     		.short	384
+ 1437 009a 4002     		.short	576
+ 1438 009c 0000     		.short	0
+ 1439 009e 0000     		.short	0
+ 1440 00a0 0000     		.short	0
+ 1441 00a2 0000     		.short	0
+ 1442 00a4 0000     		.short	0
+ 1443 00a6 0000     		.short	0
+ 1444 00a8 0001     		.short	256
+ 1445 00aa 0001     		.short	256
+ARM GAS  /tmp/cchQtoVq.s 			page 31
+
+
+ 1446 00ac 0002     		.short	512
+ 1447 00ae 0000     		.short	0
+ 1448 00b0 0000     		.short	0
+ 1449 00b2 0000     		.short	0
+ 1450 00b4 0000     		.short	0
+ 1451 00b6 8003     		.short	896
+ 1452 00b8 0000     		.short	0
+ 1453 00ba 0000     		.short	0
+ 1454 00bc 0000     		.short	0
+ 1455 00be 0000     		.short	0
+ 1456 00c0 0000     		.short	0
+ 1457 00c2 0000     		.short	0
+ 1458 00c4 0000     		.short	0
+ 1459 00c6 0000     		.short	0
+ 1460 00c8 0000     		.short	0
+ 1461 00ca 0000     		.short	0
+ 1462 00cc 0002     		.short	512
+ 1463 00ce 0000     		.short	0
+ 1464 00d0 0800     		.short	8
+ 1465 00d2 1000     		.short	16
+ 1466 00d4 2000     		.short	32
+ 1467 00d6 4000     		.short	64
+ 1468 00d8 8000     		.short	128
+ 1469 00da 0001     		.short	256
+ 1470 00dc 0002     		.short	512
+ 1471 00de 0000     		.short	0
+ 1472 00e0 FC01     		.short	508
+ 1473 00e2 0E02     		.short	526
+ 1474 00e4 1A02     		.short	538
+ 1475 00e6 7202     		.short	626
+ 1476 00e8 C202     		.short	706
+ 1477 00ea 8203     		.short	898
+ 1478 00ec FC01     		.short	508
+ 1479 00ee 0000     		.short	0
+ 1480 00f0 F000     		.short	240
+ 1481 00f2 3001     		.short	304
+ 1482 00f4 3002     		.short	560
+ 1483 00f6 3000     		.short	48
+ 1484 00f8 3000     		.short	48
+ 1485 00fa 3000     		.short	48
+ 1486 00fc FE03     		.short	1022
+ 1487 00fe 0000     		.short	0
+ 1488 0100 FC01     		.short	508
+ 1489 0102 0202     		.short	514
+ 1490 0104 0200     		.short	2
+ 1491 0106 FC03     		.short	1020
+ 1492 0108 0002     		.short	512
+ 1493 010a 0002     		.short	512
+ 1494 010c FE03     		.short	1022
+ 1495 010e 0000     		.short	0
+ 1496 0110 FC01     		.short	508
+ 1497 0112 0202     		.short	514
+ 1498 0114 0200     		.short	2
+ 1499 0116 7C00     		.short	124
+ 1500 0118 0200     		.short	2
+ 1501 011a 0202     		.short	514
+ 1502 011c FC01     		.short	508
+ARM GAS  /tmp/cchQtoVq.s 			page 32
+
+
+ 1503 011e 0000     		.short	0
+ 1504 0120 0202     		.short	514
+ 1505 0122 0202     		.short	514
+ 1506 0124 0202     		.short	514
+ 1507 0126 0202     		.short	514
+ 1508 0128 FE01     		.short	510
+ 1509 012a 0200     		.short	2
+ 1510 012c 0200     		.short	2
+ 1511 012e 0000     		.short	0
+ 1512 0130 FE03     		.short	1022
+ 1513 0132 0002     		.short	512
+ 1514 0134 0002     		.short	512
+ 1515 0136 FC03     		.short	1020
+ 1516 0138 0200     		.short	2
+ 1517 013a 0200     		.short	2
+ 1518 013c FC03     		.short	1020
+ 1519 013e 0000     		.short	0
+ 1520 0140 FE01     		.short	510
+ 1521 0142 0002     		.short	512
+ 1522 0144 0002     		.short	512
+ 1523 0146 FC03     		.short	1020
+ 1524 0148 0202     		.short	514
+ 1525 014a 0202     		.short	514
+ 1526 014c FC03     		.short	1020
+ 1527 014e 0000     		.short	0
+ 1528 0150 FE03     		.short	1022
+ 1529 0152 0600     		.short	6
+ 1530 0154 0E00     		.short	14
+ 1531 0156 1C00     		.short	28
+ 1532 0158 3800     		.short	56
+ 1533 015a 7000     		.short	112
+ 1534 015c E000     		.short	224
+ 1535 015e 0000     		.short	0
+ 1536 0160 FC01     		.short	508
+ 1537 0162 0202     		.short	514
+ 1538 0164 0202     		.short	514
+ 1539 0166 FC01     		.short	508
+ 1540 0168 0202     		.short	514
+ 1541 016a 0202     		.short	514
+ 1542 016c FC01     		.short	508
+ 1543 016e 0000     		.short	0
+ 1544 0170 FE01     		.short	510
+ 1545 0172 0202     		.short	514
+ 1546 0174 0202     		.short	514
+ 1547 0176 FE01     		.short	510
+ 1548 0178 0200     		.short	2
+ 1549 017a 0200     		.short	2
+ 1550 017c FC01     		.short	508
+ 1551 017e 0000     		.short	0
+ 1552 0180 0000     		.short	0
+ 1553 0182 0000     		.short	0
+ 1554 0184 0003     		.short	768
+ 1555 0186 0003     		.short	768
+ 1556 0188 0000     		.short	0
+ 1557 018a 0003     		.short	768
+ 1558 018c 0003     		.short	768
+ 1559 018e 0000     		.short	0
+ARM GAS  /tmp/cchQtoVq.s 			page 33
+
+
+ 1560 0190 0000     		.short	0
+ 1561 0192 0000     		.short	0
+ 1562 0194 0003     		.short	768
+ 1563 0196 0003     		.short	768
+ 1564 0198 0000     		.short	0
+ 1565 019a 0003     		.short	768
+ 1566 019c 0001     		.short	256
+ 1567 019e 0000     		.short	0
+ 1568 01a0 6000     		.short	96
+ 1569 01a2 C000     		.short	192
+ 1570 01a4 8001     		.short	384
+ 1571 01a6 0003     		.short	768
+ 1572 01a8 8001     		.short	384
+ 1573 01aa C000     		.short	192
+ 1574 01ac 6000     		.short	96
+ 1575 01ae 0000     		.short	0
+ 1576 01b0 0003     		.short	768
+ 1577 01b2 8001     		.short	384
+ 1578 01b4 C000     		.short	192
+ 1579 01b6 6000     		.short	96
+ 1580 01b8 C000     		.short	192
+ 1581 01ba 8001     		.short	384
+ 1582 01bc 0003     		.short	768
+ 1583 01be 0000     		.short	0
+ 1584 01c0 0000     		.short	0
+ 1585 01c2 0000     		.short	0
+ 1586 01c4 C003     		.short	960
+ 1587 01c6 0000     		.short	0
+ 1588 01c8 C003     		.short	960
+ 1589 01ca 0000     		.short	0
+ 1590 01cc 0000     		.short	0
+ 1591 01ce 0000     		.short	0
+ 1592 01d0 FC01     		.short	508
+ 1593 01d2 0202     		.short	514
+ 1594 01d4 0200     		.short	2
+ 1595 01d6 1C00     		.short	28
+ 1596 01d8 6000     		.short	96
+ 1597 01da 0000     		.short	0
+ 1598 01dc 6000     		.short	96
+ 1599 01de 0000     		.short	0
+ 1600 01e0 FE03     		.short	1022
+ 1601 01e2 0202     		.short	514
+ 1602 01e4 FA02     		.short	762
+ 1603 01e6 8A02     		.short	650
+ 1604 01e8 FC02     		.short	764
+ 1605 01ea 0002     		.short	512
+ 1606 01ec FE03     		.short	1022
+ 1607 01ee 0000     		.short	0
+ 1608 01f0 FC03     		.short	1020
+ 1609 01f2 0202     		.short	514
+ 1610 01f4 0202     		.short	514
+ 1611 01f6 0202     		.short	514
+ 1612 01f8 FA03     		.short	1018
+ 1613 01fa 0202     		.short	514
+ 1614 01fc 0202     		.short	514
+ 1615 01fe 0000     		.short	0
+ 1616 0200 FC01     		.short	508
+ARM GAS  /tmp/cchQtoVq.s 			page 34
+
+
+ 1617 0202 0202     		.short	514
+ 1618 0204 0202     		.short	514
+ 1619 0206 FC02     		.short	764
+ 1620 0208 0202     		.short	514
+ 1621 020a 0202     		.short	514
+ 1622 020c FC01     		.short	508
+ 1623 020e 0000     		.short	0
+ 1624 0210 FE01     		.short	510
+ 1625 0212 0002     		.short	512
+ 1626 0214 0002     		.short	512
+ 1627 0216 0002     		.short	512
+ 1628 0218 0002     		.short	512
+ 1629 021a 0002     		.short	512
+ 1630 021c FE01     		.short	510
+ 1631 021e 0000     		.short	0
+ 1632 0220 FC03     		.short	1020
+ 1633 0222 0202     		.short	514
+ 1634 0224 0202     		.short	514
+ 1635 0226 0202     		.short	514
+ 1636 0228 0202     		.short	514
+ 1637 022a 0402     		.short	516
+ 1638 022c F803     		.short	1016
+ 1639 022e 0000     		.short	0
+ 1640 0230 FE03     		.short	1022
+ 1641 0232 0002     		.short	512
+ 1642 0234 0002     		.short	512
+ 1643 0236 F003     		.short	1008
+ 1644 0238 0002     		.short	512
+ 1645 023a 0002     		.short	512
+ 1646 023c FE03     		.short	1022
+ 1647 023e 0000     		.short	0
+ 1648 0240 FE03     		.short	1022
+ 1649 0242 0002     		.short	512
+ 1650 0244 0002     		.short	512
+ 1651 0246 E003     		.short	992
+ 1652 0248 0002     		.short	512
+ 1653 024a 0002     		.short	512
+ 1654 024c 0002     		.short	512
+ 1655 024e 0000     		.short	0
+ 1656 0250 FE01     		.short	510
+ 1657 0252 0002     		.short	512
+ 1658 0254 0002     		.short	512
+ 1659 0256 3E02     		.short	574
+ 1660 0258 0202     		.short	514
+ 1661 025a 0202     		.short	514
+ 1662 025c FE01     		.short	510
+ 1663 025e 0000     		.short	0
+ 1664 0260 0202     		.short	514
+ 1665 0262 0202     		.short	514
+ 1666 0264 0202     		.short	514
+ 1667 0266 FE03     		.short	1022
+ 1668 0268 0202     		.short	514
+ 1669 026a 0202     		.short	514
+ 1670 026c 0202     		.short	514
+ 1671 026e 0000     		.short	0
+ 1672 0270 FE03     		.short	1022
+ 1673 0272 2000     		.short	32
+ARM GAS  /tmp/cchQtoVq.s 			page 35
+
+
+ 1674 0274 2000     		.short	32
+ 1675 0276 2000     		.short	32
+ 1676 0278 2000     		.short	32
+ 1677 027a 2000     		.short	32
+ 1678 027c FE03     		.short	1022
+ 1679 027e 0000     		.short	0
+ 1680 0280 FE03     		.short	1022
+ 1681 0282 2000     		.short	32
+ 1682 0284 2000     		.short	32
+ 1683 0286 2000     		.short	32
+ 1684 0288 2000     		.short	32
+ 1685 028a 2002     		.short	544
+ 1686 028c E001     		.short	480
+ 1687 028e 0000     		.short	0
+ 1688 0290 0E02     		.short	526
+ 1689 0292 1C02     		.short	540
+ 1690 0294 F803     		.short	1016
+ 1691 0296 F003     		.short	1008
+ 1692 0298 1802     		.short	536
+ 1693 029a 0C02     		.short	524
+ 1694 029c 0602     		.short	518
+ 1695 029e 0000     		.short	0
+ 1696 02a0 0002     		.short	512
+ 1697 02a2 0002     		.short	512
+ 1698 02a4 0002     		.short	512
+ 1699 02a6 0002     		.short	512
+ 1700 02a8 0002     		.short	512
+ 1701 02aa 0002     		.short	512
+ 1702 02ac FE03     		.short	1022
+ 1703 02ae 0000     		.short	0
+ 1704 02b0 0603     		.short	774
+ 1705 02b2 8A02     		.short	650
+ 1706 02b4 5202     		.short	594
+ 1707 02b6 2202     		.short	546
+ 1708 02b8 0202     		.short	514
+ 1709 02ba 0202     		.short	514
+ 1710 02bc 0202     		.short	514
+ 1711 02be 0000     		.short	0
+ 1712 02c0 0203     		.short	770
+ 1713 02c2 8202     		.short	642
+ 1714 02c4 4202     		.short	578
+ 1715 02c6 2202     		.short	546
+ 1716 02c8 1202     		.short	530
+ 1717 02ca 0A02     		.short	522
+ 1718 02cc 0602     		.short	518
+ 1719 02ce 0000     		.short	0
+ 1720 02d0 FC01     		.short	508
+ 1721 02d2 0202     		.short	514
+ 1722 02d4 0202     		.short	514
+ 1723 02d6 0202     		.short	514
+ 1724 02d8 0202     		.short	514
+ 1725 02da 0202     		.short	514
+ 1726 02dc FC01     		.short	508
+ 1727 02de 0000     		.short	0
+ 1728 02e0 FC03     		.short	1020
+ 1729 02e2 0202     		.short	514
+ 1730 02e4 0202     		.short	514
+ARM GAS  /tmp/cchQtoVq.s 			page 36
+
+
+ 1731 02e6 0202     		.short	514
+ 1732 02e8 FC03     		.short	1020
+ 1733 02ea 0002     		.short	512
+ 1734 02ec 0002     		.short	512
+ 1735 02ee 0000     		.short	0
+ 1736 02f0 FC01     		.short	508
+ 1737 02f2 0202     		.short	514
+ 1738 02f4 0202     		.short	514
+ 1739 02f6 0202     		.short	514
+ 1740 02f8 0A02     		.short	522
+ 1741 02fa 0402     		.short	516
+ 1742 02fc FA01     		.short	506
+ 1743 02fe 0000     		.short	0
+ 1744 0300 FC03     		.short	1020
+ 1745 0302 0202     		.short	514
+ 1746 0304 0202     		.short	514
+ 1747 0306 FC03     		.short	1020
+ 1748 0308 1002     		.short	528
+ 1749 030a 0802     		.short	520
+ 1750 030c 0402     		.short	516
+ 1751 030e 0000     		.short	0
+ 1752 0310 FE01     		.short	510
+ 1753 0312 0002     		.short	512
+ 1754 0314 0002     		.short	512
+ 1755 0316 FC01     		.short	508
+ 1756 0318 0200     		.short	2
+ 1757 031a 0200     		.short	2
+ 1758 031c FC03     		.short	1020
+ 1759 031e 0000     		.short	0
+ 1760 0320 FE03     		.short	1022
+ 1761 0322 2000     		.short	32
+ 1762 0324 2000     		.short	32
+ 1763 0326 2000     		.short	32
+ 1764 0328 2000     		.short	32
+ 1765 032a 2000     		.short	32
+ 1766 032c 2000     		.short	32
+ 1767 032e 0000     		.short	0
+ 1768 0330 0202     		.short	514
+ 1769 0332 0202     		.short	514
+ 1770 0334 0202     		.short	514
+ 1771 0336 0202     		.short	514
+ 1772 0338 0202     		.short	514
+ 1773 033a 0202     		.short	514
+ 1774 033c FC01     		.short	508
+ 1775 033e 0000     		.short	0
+ 1776 0340 0603     		.short	774
+ 1777 0342 0603     		.short	774
+ 1778 0344 8E03     		.short	910
+ 1779 0346 DC01     		.short	476
+ 1780 0348 F800     		.short	248
+ 1781 034a 7000     		.short	112
+ 1782 034c 2000     		.short	32
+ 1783 034e 0000     		.short	0
+ 1784 0350 0202     		.short	514
+ 1785 0352 0202     		.short	514
+ 1786 0354 0202     		.short	514
+ 1787 0356 2202     		.short	546
+ARM GAS  /tmp/cchQtoVq.s 			page 37
+
+
+ 1788 0358 2202     		.short	546
+ 1789 035a 2202     		.short	546
+ 1790 035c DC01     		.short	476
+ 1791 035e 0000     		.short	0
+ 1792 0360 0603     		.short	774
+ 1793 0362 8C01     		.short	396
+ 1794 0364 D800     		.short	216
+ 1795 0366 7000     		.short	112
+ 1796 0368 D800     		.short	216
+ 1797 036a 8C01     		.short	396
+ 1798 036c 0603     		.short	774
+ 1799 036e 0000     		.short	0
+ 1800 0370 0202     		.short	514
+ 1801 0372 0202     		.short	514
+ 1802 0374 0202     		.short	514
+ 1803 0376 0202     		.short	514
+ 1804 0378 FC01     		.short	508
+ 1805 037a 0200     		.short	2
+ 1806 037c FC01     		.short	508
+ 1807 037e 0000     		.short	0
+ 1808 0380 FE03     		.short	1022
+ 1809 0382 0200     		.short	2
+ 1810 0384 0C00     		.short	12
+ 1811 0386 7000     		.short	112
+ 1812 0388 8001     		.short	384
+ 1813 038a 0002     		.short	512
+ 1814 038c FE03     		.short	1022
+ 1815 038e 0000     		.short	0
+ 1816 0390 8003     		.short	896
+ 1817 0392 0002     		.short	512
+ 1818 0394 0002     		.short	512
+ 1819 0396 0002     		.short	512
+ 1820 0398 0002     		.short	512
+ 1821 039a 0002     		.short	512
+ 1822 039c 8003     		.short	896
+ 1823 039e 0000     		.short	0
+ 1824 03a0 8003     		.short	896
+ 1825 03a2 8000     		.short	128
+ 1826 03a4 8000     		.short	128
+ 1827 03a6 8000     		.short	128
+ 1828 03a8 8000     		.short	128
+ 1829 03aa 8000     		.short	128
+ 1830 03ac 8003     		.short	896
+ 1831 03ae 0000     		.short	0
+ 1832 03b0 0002     		.short	512
+ 1833 03b2 0001     		.short	256
+ 1834 03b4 8000     		.short	128
+ 1835 03b6 4000     		.short	64
+ 1836 03b8 2000     		.short	32
+ 1837 03ba 1000     		.short	16
+ 1838 03bc 0800     		.short	8
+ 1839 03be 0000     		.short	0
+ 1840 03c0 8000     		.short	128
+ 1841 03c2 4001     		.short	320
+ 1842 03c4 2002     		.short	544
+ 1843 03c6 0000     		.short	0
+ 1844 03c8 0000     		.short	0
+ARM GAS  /tmp/cchQtoVq.s 			page 38
+
+
+ 1845 03ca 0000     		.short	0
+ 1846 03cc 0000     		.short	0
+ 1847 03ce 0000     		.short	0
+ 1848 03d0 0000     		.short	0
+ 1849 03d2 0000     		.short	0
+ 1850 03d4 0000     		.short	0
+ 1851 03d6 0000     		.short	0
+ 1852 03d8 0000     		.short	0
+ 1853 03da 0000     		.short	0
+ 1854 03dc FC03     		.short	1020
+ 1855 03de 0000     		.short	0
+ 1856 03e0 0002     		.short	512
+ 1857 03e2 0001     		.short	256
+ 1858 03e4 8000     		.short	128
+ 1859 03e6 0000     		.short	0
+ 1860 03e8 0000     		.short	0
+ 1861 03ea 0000     		.short	0
+ 1862 03ec 0000     		.short	0
+ 1863 03ee 0000     		.short	0
+ 1864 03f0 0000     		.short	0
+ 1865 03f2 0000     		.short	0
+ 1866 03f4 FE01     		.short	510
+ 1867 03f6 0200     		.short	2
+ 1868 03f8 FE03     		.short	1022
+ 1869 03fa 0202     		.short	514
+ 1870 03fc FC01     		.short	508
+ 1871 03fe 0000     		.short	0
+ 1872 0400 0002     		.short	512
+ 1873 0402 0002     		.short	512
+ 1874 0404 FC03     		.short	1020
+ 1875 0406 0202     		.short	514
+ 1876 0408 0202     		.short	514
+ 1877 040a 0202     		.short	514
+ 1878 040c FC03     		.short	1020
+ 1879 040e 0000     		.short	0
+ 1880 0410 0000     		.short	0
+ 1881 0412 0000     		.short	0
+ 1882 0414 FE01     		.short	510
+ 1883 0416 0002     		.short	512
+ 1884 0418 0002     		.short	512
+ 1885 041a 0002     		.short	512
+ 1886 041c FE01     		.short	510
+ 1887 041e 0000     		.short	0
+ 1888 0420 0200     		.short	2
+ 1889 0422 0200     		.short	2
+ 1890 0424 FE01     		.short	510
+ 1891 0426 0202     		.short	514
+ 1892 0428 0202     		.short	514
+ 1893 042a 0202     		.short	514
+ 1894 042c FC01     		.short	508
+ 1895 042e 0000     		.short	0
+ 1896 0430 0000     		.short	0
+ 1897 0432 0000     		.short	0
+ 1898 0434 FC01     		.short	508
+ 1899 0436 0202     		.short	514
+ 1900 0438 FC03     		.short	1020
+ 1901 043a 0002     		.short	512
+ARM GAS  /tmp/cchQtoVq.s 			page 39
+
+
+ 1902 043c FE01     		.short	510
+ 1903 043e 0000     		.short	0
+ 1904 0440 FC00     		.short	252
+ 1905 0442 0201     		.short	258
+ 1906 0444 0001     		.short	256
+ 1907 0446 0001     		.short	256
+ 1908 0448 F803     		.short	1016
+ 1909 044a 0001     		.short	256
+ 1910 044c 0001     		.short	256
+ 1911 044e 0000     		.short	0
+ 1912 0450 0000     		.short	0
+ 1913 0452 0000     		.short	0
+ 1914 0454 FC01     		.short	508
+ 1915 0456 0202     		.short	514
+ 1916 0458 FE01     		.short	510
+ 1917 045a 0200     		.short	2
+ 1918 045c FC01     		.short	508
+ 1919 045e 0000     		.short	0
+ 1920 0460 0002     		.short	512
+ 1921 0462 0002     		.short	512
+ 1922 0464 0002     		.short	512
+ 1923 0466 FC03     		.short	1020
+ 1924 0468 0202     		.short	514
+ 1925 046a 0202     		.short	514
+ 1926 046c 0202     		.short	514
+ 1927 046e 0000     		.short	0
+ 1928 0470 0000     		.short	0
+ 1929 0472 2000     		.short	32
+ 1930 0474 0000     		.short	0
+ 1931 0476 2000     		.short	32
+ 1932 0478 2000     		.short	32
+ 1933 047a 2000     		.short	32
+ 1934 047c 2000     		.short	32
+ 1935 047e 0000     		.short	0
+ 1936 0480 0400     		.short	4
+ 1937 0482 0000     		.short	0
+ 1938 0484 0600     		.short	6
+ 1939 0486 0200     		.short	2
+ 1940 0488 0200     		.short	2
+ 1941 048a 0202     		.short	514
+ 1942 048c FC01     		.short	508
+ 1943 048e 0000     		.short	0
+ 1944 0490 0202     		.short	514
+ 1945 0492 0402     		.short	516
+ 1946 0494 0802     		.short	520
+ 1947 0496 1002     		.short	528
+ 1948 0498 F803     		.short	1016
+ 1949 049a 0402     		.short	516
+ 1950 049c 0202     		.short	514
+ 1951 049e 0000     		.short	0
+ 1952 04a0 2000     		.short	32
+ 1953 04a2 2000     		.short	32
+ 1954 04a4 2000     		.short	32
+ 1955 04a6 2000     		.short	32
+ 1956 04a8 2000     		.short	32
+ 1957 04aa 2000     		.short	32
+ 1958 04ac 2000     		.short	32
+ARM GAS  /tmp/cchQtoVq.s 			page 40
+
+
+ 1959 04ae 0000     		.short	0
+ 1960 04b0 0000     		.short	0
+ 1961 04b2 0002     		.short	512
+ 1962 04b4 DC03     		.short	988
+ 1963 04b6 2202     		.short	546
+ 1964 04b8 2202     		.short	546
+ 1965 04ba 2202     		.short	546
+ 1966 04bc 2202     		.short	546
+ 1967 04be 0000     		.short	0
+ 1968 04c0 0000     		.short	0
+ 1969 04c2 0002     		.short	512
+ 1970 04c4 FC03     		.short	1020
+ 1971 04c6 0202     		.short	514
+ 1972 04c8 0202     		.short	514
+ 1973 04ca 0202     		.short	514
+ 1974 04cc 0202     		.short	514
+ 1975 04ce 0000     		.short	0
+ 1976 04d0 0000     		.short	0
+ 1977 04d2 0000     		.short	0
+ 1978 04d4 FC01     		.short	508
+ 1979 04d6 0202     		.short	514
+ 1980 04d8 0202     		.short	514
+ 1981 04da 0202     		.short	514
+ 1982 04dc FC01     		.short	508
+ 1983 04de 0000     		.short	0
+ 1984 04e0 0000     		.short	0
+ 1985 04e2 0000     		.short	0
+ 1986 04e4 FC03     		.short	1020
+ 1987 04e6 0202     		.short	514
+ 1988 04e8 0202     		.short	514
+ 1989 04ea FC03     		.short	1020
+ 1990 04ec 0002     		.short	512
+ 1991 04ee 0000     		.short	0
+ 1992 04f0 0000     		.short	0
+ 1993 04f2 0000     		.short	0
+ 1994 04f4 F803     		.short	1016
+ 1995 04f6 0802     		.short	520
+ 1996 04f8 FA03     		.short	1018
+ 1997 04fa 0A00     		.short	10
+ 1998 04fc 0400     		.short	4
+ 1999 04fe 0000     		.short	0
+ 2000 0500 0000     		.short	0
+ 2001 0502 0000     		.short	0
+ 2002 0504 FC02     		.short	764
+ 2003 0506 0203     		.short	770
+ 2004 0508 0202     		.short	514
+ 2005 050a 0002     		.short	512
+ 2006 050c 0002     		.short	512
+ 2007 050e 0000     		.short	0
+ 2008 0510 0000     		.short	0
+ 2009 0512 0000     		.short	0
+ 2010 0514 FC01     		.short	508
+ 2011 0516 0002     		.short	512
+ 2012 0518 F801     		.short	504
+ 2013 051a 0400     		.short	4
+ 2014 051c F803     		.short	1016
+ 2015 051e 0000     		.short	0
+ARM GAS  /tmp/cchQtoVq.s 			page 41
+
+
+ 2016 0520 0000     		.short	0
+ 2017 0522 8000     		.short	128
+ 2018 0524 8000     		.short	128
+ 2019 0526 FE03     		.short	1022
+ 2020 0528 8000     		.short	128
+ 2021 052a 8400     		.short	132
+ 2022 052c 7800     		.short	120
+ 2023 052e 0000     		.short	0
+ 2024 0530 0000     		.short	0
+ 2025 0532 0000     		.short	0
+ 2026 0534 0202     		.short	514
+ 2027 0536 0202     		.short	514
+ 2028 0538 0202     		.short	514
+ 2029 053a 0202     		.short	514
+ 2030 053c FC01     		.short	508
+ 2031 053e 0000     		.short	0
+ 2032 0540 0000     		.short	0
+ 2033 0542 0000     		.short	0
+ 2034 0544 0202     		.short	514
+ 2035 0546 0401     		.short	260
+ 2036 0548 8800     		.short	136
+ 2037 054a 5000     		.short	80
+ 2038 054c 2000     		.short	32
+ 2039 054e 0000     		.short	0
+ 2040 0550 0000     		.short	0
+ 2041 0552 0000     		.short	0
+ 2042 0554 0202     		.short	514
+ 2043 0556 2202     		.short	546
+ 2044 0558 2202     		.short	546
+ 2045 055a 2202     		.short	546
+ 2046 055c DC01     		.short	476
+ 2047 055e 0000     		.short	0
+ 2048 0560 0000     		.short	0
+ 2049 0562 0000     		.short	0
+ 2050 0564 0603     		.short	774
+ 2051 0566 8C01     		.short	396
+ 2052 0568 F800     		.short	248
+ 2053 056a 8C01     		.short	396
+ 2054 056c 0603     		.short	774
+ 2055 056e 0000     		.short	0
+ 2056 0570 0000     		.short	0
+ 2057 0572 0000     		.short	0
+ 2058 0574 0202     		.short	514
+ 2059 0576 0202     		.short	514
+ 2060 0578 FE03     		.short	1022
+ 2061 057a 0200     		.short	2
+ 2062 057c FE03     		.short	1022
+ 2063 057e 0000     		.short	0
+ 2064 0580 0000     		.short	0
+ 2065 0582 0000     		.short	0
+ 2066 0584 FE03     		.short	1022
+ 2067 0586 0200     		.short	2
+ 2068 0588 FC01     		.short	508
+ 2069 058a 0002     		.short	512
+ 2070 058c FE03     		.short	1022
+ 2071 058e 0000     		.short	0
+ 2072 0590 0001     		.short	256
+ARM GAS  /tmp/cchQtoVq.s 			page 42
+
+
+ 2073 0592 0002     		.short	512
+ 2074 0594 0002     		.short	512
+ 2075 0596 0001     		.short	256
+ 2076 0598 0002     		.short	512
+ 2077 059a 0002     		.short	512
+ 2078 059c 0001     		.short	256
+ 2079 059e 0000     		.short	0
+ 2080 05a0 0002     		.short	512
+ 2081 05a2 0001     		.short	256
+ 2082 05a4 0001     		.short	256
+ 2083 05a6 0002     		.short	512
+ 2084 05a8 0001     		.short	256
+ 2085 05aa 0001     		.short	256
+ 2086 05ac 0002     		.short	512
+ 2087 05ae 0000     		.short	0
+ 2088 05b0 0002     		.short	512
+ 2089 05b2 0002     		.short	512
+ 2090 05b4 0002     		.short	512
+ 2091 05b6 0002     		.short	512
+ 2092 05b8 0002     		.short	512
+ 2093 05ba 0002     		.short	512
+ 2094 05bc 0002     		.short	512
+ 2095 05be 0000     		.short	0
+ 2096 05c0 0000     		.short	0
+ 2097 05c2 0000     		.short	0
+ 2098 05c4 9001     		.short	400
+ 2099 05c6 6002     		.short	608
+ 2100 05c8 0000     		.short	0
+ 2101 05ca 0000     		.short	0
+ 2102 05cc 0000     		.short	0
+ 2103 05ce 0000     		.short	0
+ 2104 05d0 0000     		.short	0
+ 2105 05d2 2000     		.short	32
+ 2106 05d4 2000     		.short	32
+ 2107 05d6 F800     		.short	248
+ 2108 05d8 2000     		.short	32
+ 2109 05da 2000     		.short	32
+ 2110 05dc 0000     		.short	0
+ 2111 05de 0000     		.short	0
+ 2112 05e0 0000     		.short	0
+ 2113 05e2 0000     		.short	0
+ 2114 05e4 0000     		.short	0
+ 2115 05e6 0000     		.short	0
+ 2116 05e8 0000     		.short	0
+ 2117 05ea 0000     		.short	0
+ 2118 05ec 0000     		.short	0
+ 2119 05ee 0000     		.short	0
+ 2120              		.section	.rodata.charmap,"a"
+ 2121              		.align	2
+ 2122              		.set	.LANCHOR1,. + 0
+ 2125              	charmap:
+ 2126 0000 21222324 		.ascii	"!\"#$&%'()*,-./0123456789:;<>=?@ABCDEFGHIJKLMNOPQRS"
+ 2126      26252728 
+ 2126      292A2C2D 
+ 2126      2E2F3031 
+ 2126      32333435 
+ 2127 0032 54555657 		.ascii	"TUVWXYZ[]\\^_`abcdefghijklmnopqrstuvwxyz{}|~+ "
+ARM GAS  /tmp/cchQtoVq.s 			page 43
+
+
+ 2127      58595A5B 
+ 2127      5D5C5E5F 
+ 2127      60616263 
+ 2127      64656667 
+ 2128              		.section	.rodata.shape_arr,"a"
+ 2129              		.align	2
+ 2130              		.set	.LANCHOR3,. + 0
+ 2133              	shape_arr:
+ 2134 0000 0600     		.short	6
+ 2135 0002 1E00     		.short	30
+ 2136 0004 FE00     		.short	254
+ 2137 0006 FE03     		.short	1022
+ 2138 0008 FE00     		.short	254
+ 2139 000a 1E00     		.short	30
+ 2140 000c 0600     		.short	6
+ 2141 000e 0000     		.short	0
+ 2142 0010 0003     		.short	768
+ 2143 0012 C003     		.short	960
+ 2144 0014 F803     		.short	1016
+ 2145 0016 FE03     		.short	1022
+ 2146 0018 F803     		.short	1016
+ 2147 001a C003     		.short	960
+ 2148 001c 0003     		.short	768
+ 2149 001e 0000     		.short	0
+ 2150              		.text
+ 2151              	.Letext0:
+ 2152              		.file 2 "/usr/lib/gcc/arm-none-eabi/10.3.1/include/stdint.h"
+ 2153              		.file 3 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/CMSIS/Device/ST/STM32F4xx/Incl
+ 2154              		.file 4 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32
+ 2155              		.file 5 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32
+ 2156              		.file 6 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32
+ 2157              		.file 7 "Core/Inc/ssd1306.h"
+ 2158              		.file 8 "Core/Inc/main.h"
+ 2159              		.file 9 "Core/Inc/fonts.h"
+ 2160              		.file 10 "/usr/include/newlib/string.h"
+ARM GAS  /tmp/cchQtoVq.s 			page 44
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ssd1306.c
+     /tmp/cchQtoVq.s:18     .text.write_command:0000000000000000 $t
+     /tmp/cchQtoVq.s:26     .text.write_command:0000000000000000 write_command
+     /tmp/cchQtoVq.s:70     .text.write_command:0000000000000028 $d
+     /tmp/cchQtoVq.s:75     .text.write_data:0000000000000000 $t
+     /tmp/cchQtoVq.s:82     .text.write_data:0000000000000000 write_data
+     /tmp/cchQtoVq.s:153    .text.write_data:000000000000003c $d
+     /tmp/cchQtoVq.s:158    .text.ssd1306_update_display:0000000000000000 $t
+     /tmp/cchQtoVq.s:165    .text.ssd1306_update_display:0000000000000000 ssd1306_update_display
+     /tmp/cchQtoVq.s:209    .text.ssd1306_update_display:0000000000000030 $d
+     /tmp/cchQtoVq.s:214    .text.ssd1306_fill_buffer:0000000000000000 $t
+     /tmp/cchQtoVq.s:221    .text.ssd1306_fill_buffer:0000000000000000 ssd1306_fill_buffer
+     /tmp/cchQtoVq.s:247    .text.ssd1306_fill_buffer:0000000000000010 $d
+     /tmp/cchQtoVq.s:252    .text.clear_display:0000000000000000 $t
+     /tmp/cchQtoVq.s:259    .text.clear_display:0000000000000000 clear_display
+     /tmp/cchQtoVq.s:283    .text.ssd1306_init:0000000000000000 $t
+     /tmp/cchQtoVq.s:290    .text.ssd1306_init:0000000000000000 ssd1306_init
+     /tmp/cchQtoVq.s:434    .text.place_pixel:0000000000000000 $t
+     /tmp/cchQtoVq.s:441    .text.place_pixel:0000000000000000 place_pixel
+     /tmp/cchQtoVq.s:486    .text.place_pixel:000000000000002c $d
+     /tmp/cchQtoVq.s:491    .text.clear_pixel:0000000000000000 $t
+     /tmp/cchQtoVq.s:498    .text.clear_pixel:0000000000000000 clear_pixel
+     /tmp/cchQtoVq.s:532    .text.clear_pixel:0000000000000018 $d
+     /tmp/cchQtoVq.s:537    .text.invert_pixel:0000000000000000 $t
+     /tmp/cchQtoVq.s:544    .text.invert_pixel:0000000000000000 invert_pixel
+     /tmp/cchQtoVq.s:589    .text.invert_pixel:000000000000002c $d
+     /tmp/cchQtoVq.s:594    .text.place_char:0000000000000000 $t
+     /tmp/cchQtoVq.s:601    .text.place_char:0000000000000000 place_char
+     /tmp/cchQtoVq.s:707    .text.place_char:0000000000000050 $d
+     /tmp/cchQtoVq.s:713    .text.write_page:0000000000000000 $t
+     /tmp/cchQtoVq.s:720    .text.write_page:0000000000000000 write_page
+     /tmp/cchQtoVq.s:780    .text.draw_box:0000000000000000 $t
+     /tmp/cchQtoVq.s:787    .text.draw_box:0000000000000000 draw_box
+     /tmp/cchQtoVq.s:859    .text.clear_box:0000000000000000 $t
+     /tmp/cchQtoVq.s:866    .text.clear_box:0000000000000000 clear_box
+     /tmp/cchQtoVq.s:938    .text.clear_page:0000000000000000 $t
+     /tmp/cchQtoVq.s:945    .text.clear_page:0000000000000000 clear_page
+     /tmp/cchQtoVq.s:978    .text.invert_box:0000000000000000 $t
+     /tmp/cchQtoVq.s:985    .text.invert_box:0000000000000000 invert_box
+     /tmp/cchQtoVq.s:1057   .text.insert_shape:0000000000000000 $t
+     /tmp/cchQtoVq.s:1064   .text.insert_shape:0000000000000000 insert_shape
+     /tmp/cchQtoVq.s:1154   .text.insert_shape:0000000000000044 $d
+     /tmp/cchQtoVq.s:1159   .rodata.display_init.str1.4:0000000000000000 $d
+     /tmp/cchQtoVq.s:1178   .text.display_init:0000000000000000 $t
+     /tmp/cchQtoVq.s:1185   .text.display_init:0000000000000000 display_init
+     /tmp/cchQtoVq.s:1248   .text.display_init:0000000000000050 $d
+     /tmp/cchQtoVq.s:1258   .text.insert_selector:0000000000000000 $t
+     /tmp/cchQtoVq.s:1265   .text.insert_selector:0000000000000000 insert_selector
+     /tmp/cchQtoVq.s:1306   .text.move_selector:0000000000000000 $t
+     /tmp/cchQtoVq.s:1313   .text.move_selector:0000000000000000 move_selector
+     /tmp/cchQtoVq.s:1352   .bss.ssd1306_buf:0000000000000000 ssd1306_buf
+     /tmp/cchQtoVq.s:1359   .rodata.Font8x10:0000000000000000 Font8x10
+     /tmp/cchQtoVq.s:2133   .rodata.shape_arr:0000000000000000 shape_arr
+     /tmp/cchQtoVq.s:2125   .rodata.charmap:0000000000000000 charmap
+     /tmp/cchQtoVq.s:1348   .bss.ssd1306_buf:0000000000000000 $d
+     /tmp/cchQtoVq.s:1355   .rodata.Font8x10:0000000000000000 $d
+ARM GAS  /tmp/cchQtoVq.s 			page 45
+
+
+     /tmp/cchQtoVq.s:2121   .rodata.charmap:0000000000000000 $d
+     /tmp/cchQtoVq.s:2129   .rodata.shape_arr:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+HAL_I2C_Master_Transmit
+hi2c1
+memset

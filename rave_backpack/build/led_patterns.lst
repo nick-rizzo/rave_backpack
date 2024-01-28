@@ -1,0 +1,1509 @@
+ARM GAS  /tmp/ccMvBZgQ.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"led_patterns.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.static_color,"ax",%progbits
+  18              		.align	1
+  19              		.global	static_color
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	static_color:
+  27              	.LVL0:
+  28              	.LFB130:
+  29              		.file 1 "Core/Src/led_patterns.c"
+   1:Core/Src/led_patterns.c **** /*
+   2:Core/Src/led_patterns.c ****  *	===============================================================================================
+   3:Core/Src/led_patterns.c ****  *  File Name   :   led_patterns.c
+   4:Core/Src/led_patterns.c ****  *
+   5:Core/Src/led_patterns.c ****  *  Description :   different patterns for WS2812B
+   6:Core/Src/led_patterns.c ****  *
+   7:Core/Src/led_patterns.c ****  *  Contributors:   Nick Rizzo
+   8:Core/Src/led_patterns.c ****  *	===============================================================================================
+   9:Core/Src/led_patterns.c ****  */
+  10:Core/Src/led_patterns.c **** #ifndef LED_PATTERNS_C_
+  11:Core/Src/led_patterns.c **** #define LED_PATTERNS_C_
+  12:Core/Src/led_patterns.c **** 
+  13:Core/Src/led_patterns.c **** #include "led_driver.h"
+  14:Core/Src/led_patterns.c **** 
+  15:Core/Src/led_patterns.c **** typedef enum{
+  16:Core/Src/led_patterns.c **** 		RED,
+  17:Core/Src/led_patterns.c **** 		RED_2_GRN,
+  18:Core/Src/led_patterns.c **** 		GRN,
+  19:Core/Src/led_patterns.c **** 		GRN_2_BLU,
+  20:Core/Src/led_patterns.c **** 		BLU,
+  21:Core/Src/led_patterns.c **** 		BLU_2_RED
+  22:Core/Src/led_patterns.c **** 	}color_state;
+  23:Core/Src/led_patterns.c **** 
+  24:Core/Src/led_patterns.c **** typedef enum {
+  25:Core/Src/led_patterns.c **** 	INITIAL,
+  26:Core/Src/led_patterns.c **** 	BR_IN,
+  27:Core/Src/led_patterns.c **** 	BR_OUT
+  28:Core/Src/led_patterns.c **** } breathe_states;
+  29:Core/Src/led_patterns.c **** 
+ARM GAS  /tmp/ccMvBZgQ.s 			page 2
+
+
+  30:Core/Src/led_patterns.c **** //GRB
+  31:Core/Src/led_patterns.c **** const uint32_t red  	= 0x00FF00U;
+  32:Core/Src/led_patterns.c **** const uint32_t orange 	= 0x88FF00U;
+  33:Core/Src/led_patterns.c **** const uint32_t yellow 	= 0xFFFF00U;
+  34:Core/Src/led_patterns.c **** const uint32_t green 	= 0xFF0000U;
+  35:Core/Src/led_patterns.c **** const uint32_t blue 	= 0x0000FFU;
+  36:Core/Src/led_patterns.c **** const uint32_t purple 	= 0x005CBFU;
+  37:Core/Src/led_patterns.c **** const uint32_t pink		= 0x00BFAFU;
+  38:Core/Src/led_patterns.c **** const uint32_t cyan 	= 0xBF00BFU;
+  39:Core/Src/led_patterns.c **** const uint32_t white 	= 0xFFFFFFU;
+  40:Core/Src/led_patterns.c **** const uint32_t black 	= 0x000000U;
+  41:Core/Src/led_patterns.c **** 
+  42:Core/Src/led_patterns.c **** const uint32_t col_arr [9] = {red, orange, yellow, green, blue, purple, pink, cyan, white};
+  43:Core/Src/led_patterns.c **** const char * col_name [9] = {
+  44:Core/Src/led_patterns.c **** 		"    Red     ",
+  45:Core/Src/led_patterns.c **** 		"   Orange   ",
+  46:Core/Src/led_patterns.c **** 		"   Yellow   ",
+  47:Core/Src/led_patterns.c **** 		"   Green    ",
+  48:Core/Src/led_patterns.c **** 		"    Blue    ",
+  49:Core/Src/led_patterns.c **** 		"   Purple   ",
+  50:Core/Src/led_patterns.c **** 		"    Pink    ",
+  51:Core/Src/led_patterns.c **** 		"    Cyan    ",
+  52:Core/Src/led_patterns.c **** 		"   White    "
+  53:Core/Src/led_patterns.c **** };
+  54:Core/Src/led_patterns.c **** uint32_t col_arr_idx = 0;
+  55:Core/Src/led_patterns.c **** int head_pos = 0;
+  56:Core/Src/led_patterns.c **** 
+  57:Core/Src/led_patterns.c **** unsigned int r_val=25;
+  58:Core/Src/led_patterns.c **** unsigned int g_val=0;
+  59:Core/Src/led_patterns.c **** unsigned int b_val=0;
+  60:Core/Src/led_patterns.c **** 
+  61:Core/Src/led_patterns.c **** color_state cur_state = RED;
+  62:Core/Src/led_patterns.c **** breathe_states br_state = INITIAL;
+  63:Core/Src/led_patterns.c **** 
+  64:Core/Src/led_patterns.c **** unsigned int breathe_color;
+  65:Core/Src/led_patterns.c **** 
+  66:Core/Src/led_patterns.c **** void static_color(unsigned int grb_value){
+  30              		.loc 1 66 42 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 66 42 is_stmt 0 view .LVU1
+  35 0000 38B5     		push	{r3, r4, r5, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 16
+  38              		.cfi_offset 3, -16
+  39              		.cfi_offset 4, -12
+  40              		.cfi_offset 5, -8
+  41              		.cfi_offset 14, -4
+  42 0002 0546     		mov	r5, r0
+  67:Core/Src/led_patterns.c **** 	for(int i=0;i<NUM_LEDS;i++){
+  43              		.loc 1 67 2 is_stmt 1 view .LVU2
+  44              	.LBB2:
+  45              		.loc 1 67 6 view .LVU3
+  46              	.LVL1:
+  47              		.loc 1 67 10 is_stmt 0 view .LVU4
+  48 0004 0024     		movs	r4, #0
+ARM GAS  /tmp/ccMvBZgQ.s 			page 3
+
+
+  49              		.loc 1 67 2 view .LVU5
+  50 0006 03E0     		b	.L2
+  51              	.LVL2:
+  52              	.L3:
+  68:Core/Src/led_patterns.c **** 		drive_led(grb_value);
+  53              		.loc 1 68 3 is_stmt 1 discriminator 3 view .LVU6
+  54 0008 2846     		mov	r0, r5
+  55 000a FFF7FEFF 		bl	drive_led
+  56              	.LVL3:
+  67:Core/Src/led_patterns.c **** 	for(int i=0;i<NUM_LEDS;i++){
+  57              		.loc 1 67 25 discriminator 3 view .LVU7
+  67:Core/Src/led_patterns.c **** 	for(int i=0;i<NUM_LEDS;i++){
+  58              		.loc 1 67 26 is_stmt 0 discriminator 3 view .LVU8
+  59 000e 0134     		adds	r4, r4, #1
+  60              	.LVL4:
+  61              	.L2:
+  67:Core/Src/led_patterns.c **** 	for(int i=0;i<NUM_LEDS;i++){
+  62              		.loc 1 67 14 is_stmt 1 discriminator 1 view .LVU9
+  67:Core/Src/led_patterns.c **** 	for(int i=0;i<NUM_LEDS;i++){
+  63              		.loc 1 67 2 is_stmt 0 discriminator 1 view .LVU10
+  64 0010 122C     		cmp	r4, #18
+  65 0012 F9DD     		ble	.L3
+  66              	.LBE2:
+  69:Core/Src/led_patterns.c **** 	}
+  70:Core/Src/led_patterns.c **** }
+  67              		.loc 1 70 1 view .LVU11
+  68 0014 38BD     		pop	{r3, r4, r5, pc}
+  69              		.loc 1 70 1 view .LVU12
+  70              		.cfi_endproc
+  71              	.LFE130:
+  73              		.section	.text.rainbow,"ax",%progbits
+  74              		.align	1
+  75              		.global	rainbow
+  76              		.syntax unified
+  77              		.thumb
+  78              		.thumb_func
+  79              		.fpu fpv4-sp-d16
+  81              	rainbow:
+  82              	.LVL5:
+  83              	.LFB131:
+  71:Core/Src/led_patterns.c **** 
+  72:Core/Src/led_patterns.c **** void rainbow(uint8_t delay_modifier){
+  84              		.loc 1 72 37 is_stmt 1 view -0
+  85              		.cfi_startproc
+  86              		@ args = 0, pretend = 0, frame = 0
+  87              		@ frame_needed = 0, uses_anonymous_args = 0
+  88              		.loc 1 72 37 is_stmt 0 view .LVU14
+  89 0000 70B5     		push	{r4, r5, r6, lr}
+  90              	.LCFI1:
+  91              		.cfi_def_cfa_offset 16
+  92              		.cfi_offset 4, -16
+  93              		.cfi_offset 5, -12
+  94              		.cfi_offset 6, -8
+  95              		.cfi_offset 14, -4
+  96 0002 0646     		mov	r6, r0
+  73:Core/Src/led_patterns.c **** 	unsigned int color;
+  97              		.loc 1 73 2 is_stmt 1 view .LVU15
+ARM GAS  /tmp/ccMvBZgQ.s 			page 4
+
+
+  74:Core/Src/led_patterns.c **** 	color = (g_val<<16) + (r_val<<8) + (b_val<<0);
+  98              		.loc 1 74 2 view .LVU16
+  99              		.loc 1 74 16 is_stmt 0 view .LVU17
+ 100 0004 2D4B     		ldr	r3, .L26
+ 101 0006 1868     		ldr	r0, [r3]
+ 102              	.LVL6:
+ 103              		.loc 1 74 30 view .LVU18
+ 104 0008 2D4B     		ldr	r3, .L26+4
+ 105 000a 1968     		ldr	r1, [r3]
+ 106 000c 0D02     		lsls	r5, r1, #8
+ 107              		.loc 1 74 22 view .LVU19
+ 108 000e 05EB0045 		add	r5, r5, r0, lsl #16
+ 109              		.loc 1 74 35 view .LVU20
+ 110 0012 2C4B     		ldr	r3, .L26+8
+ 111 0014 1A68     		ldr	r2, [r3]
+ 112              		.loc 1 74 8 view .LVU21
+ 113 0016 1544     		add	r5, r5, r2
+ 114              	.LVL7:
+  75:Core/Src/led_patterns.c **** 
+  76:Core/Src/led_patterns.c **** 	switch(cur_state){
+ 115              		.loc 1 76 2 is_stmt 1 view .LVU22
+ 116 0018 2B4B     		ldr	r3, .L26+12
+ 117 001a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 118 001c 052B     		cmp	r3, #5
+ 119 001e 09D8     		bhi	.L6
+ 120 0020 DFE803F0 		tbb	[pc, r3]
+ 121              	.L8:
+ 122 0024 03       		.byte	(.L13-.L8)/2
+ 123 0025 0E       		.byte	(.L12-.L8)/2
+ 124 0026 17       		.byte	(.L11-.L8)/2
+ 125 0027 21       		.byte	(.L10-.L8)/2
+ 126 0028 2A       		.byte	(.L9-.L8)/2
+ 127 0029 34       		.byte	(.L7-.L8)/2
+ 128              		.p2align 1
+ 129              	.L13:
+  77:Core/Src/led_patterns.c **** 		case RED:{
+  78:Core/Src/led_patterns.c **** 			if(g_val == 255){
+ 130              		.loc 1 78 4 view .LVU23
+ 131              		.loc 1 78 6 is_stmt 0 view .LVU24
+ 132 002a FF28     		cmp	r0, #255
+ 133 002c 04D0     		beq	.L23
+  79:Core/Src/led_patterns.c **** 				cur_state = RED_2_GRN;
+  80:Core/Src/led_patterns.c **** 			}else{
+  81:Core/Src/led_patterns.c **** 				g_val++;
+ 134              		.loc 1 81 5 is_stmt 1 view .LVU25
+ 135              		.loc 1 81 10 is_stmt 0 view .LVU26
+ 136 002e 0130     		adds	r0, r0, #1
+ 137 0030 224B     		ldr	r3, .L26
+ 138 0032 1860     		str	r0, [r3]
+ 139              	.L6:
+  72:Core/Src/led_patterns.c **** 	unsigned int color;
+ 140              		.loc 1 72 37 discriminator 1 view .LVU27
+ 141 0034 0024     		movs	r4, #0
+ 142 0036 35E0     		b	.L20
+ 143              	.L23:
+  79:Core/Src/led_patterns.c **** 				cur_state = RED_2_GRN;
+ 144              		.loc 1 79 5 is_stmt 1 view .LVU28
+ARM GAS  /tmp/ccMvBZgQ.s 			page 5
+
+
+  79:Core/Src/led_patterns.c **** 				cur_state = RED_2_GRN;
+ 145              		.loc 1 79 15 is_stmt 0 view .LVU29
+ 146 0038 234B     		ldr	r3, .L26+12
+ 147 003a 0122     		movs	r2, #1
+ 148 003c 1A70     		strb	r2, [r3]
+ 149 003e F9E7     		b	.L6
+ 150              	.L12:
+  82:Core/Src/led_patterns.c **** 
+  83:Core/Src/led_patterns.c **** 			}
+  84:Core/Src/led_patterns.c **** 			break;
+  85:Core/Src/led_patterns.c **** 		}
+  86:Core/Src/led_patterns.c **** 		case RED_2_GRN:{
+  87:Core/Src/led_patterns.c **** 			if (r_val == 0){
+ 151              		.loc 1 87 4 is_stmt 1 view .LVU30
+ 152              		.loc 1 87 7 is_stmt 0 view .LVU31
+ 153 0040 19B9     		cbnz	r1, .L15
+  88:Core/Src/led_patterns.c **** 				cur_state = GRN;
+ 154              		.loc 1 88 5 is_stmt 1 view .LVU32
+ 155              		.loc 1 88 15 is_stmt 0 view .LVU33
+ 156 0042 214B     		ldr	r3, .L26+12
+ 157 0044 0222     		movs	r2, #2
+ 158 0046 1A70     		strb	r2, [r3]
+ 159 0048 F4E7     		b	.L6
+ 160              	.L15:
+  89:Core/Src/led_patterns.c **** 			}else{
+  90:Core/Src/led_patterns.c **** 				r_val--;
+ 161              		.loc 1 90 5 is_stmt 1 view .LVU34
+ 162              		.loc 1 90 10 is_stmt 0 view .LVU35
+ 163 004a 0139     		subs	r1, r1, #1
+ 164 004c 1C4B     		ldr	r3, .L26+4
+ 165 004e 1960     		str	r1, [r3]
+ 166 0050 F0E7     		b	.L6
+ 167              	.L11:
+  91:Core/Src/led_patterns.c **** 			}
+  92:Core/Src/led_patterns.c **** 				break;
+  93:Core/Src/led_patterns.c **** 		}
+  94:Core/Src/led_patterns.c **** 		case GRN:{
+  95:Core/Src/led_patterns.c **** 			if (b_val == 255){
+ 168              		.loc 1 95 4 is_stmt 1 view .LVU36
+ 169              		.loc 1 95 7 is_stmt 0 view .LVU37
+ 170 0052 FF2A     		cmp	r2, #255
+ 171 0054 03D0     		beq	.L24
+  96:Core/Src/led_patterns.c **** 				cur_state = GRN_2_BLU;
+  97:Core/Src/led_patterns.c **** 			}else{
+  98:Core/Src/led_patterns.c **** 				b_val++;
+ 172              		.loc 1 98 5 is_stmt 1 view .LVU38
+ 173              		.loc 1 98 10 is_stmt 0 view .LVU39
+ 174 0056 0132     		adds	r2, r2, #1
+ 175 0058 1A4B     		ldr	r3, .L26+8
+ 176 005a 1A60     		str	r2, [r3]
+ 177 005c EAE7     		b	.L6
+ 178              	.L24:
+  96:Core/Src/led_patterns.c **** 				cur_state = GRN_2_BLU;
+ 179              		.loc 1 96 5 is_stmt 1 view .LVU40
+  96:Core/Src/led_patterns.c **** 				cur_state = GRN_2_BLU;
+ 180              		.loc 1 96 15 is_stmt 0 view .LVU41
+ 181 005e 1A4B     		ldr	r3, .L26+12
+ARM GAS  /tmp/ccMvBZgQ.s 			page 6
+
+
+ 182 0060 0322     		movs	r2, #3
+ 183 0062 1A70     		strb	r2, [r3]
+ 184 0064 E6E7     		b	.L6
+ 185              	.L10:
+  99:Core/Src/led_patterns.c **** 			}
+ 100:Core/Src/led_patterns.c **** 				break;
+ 101:Core/Src/led_patterns.c **** 
+ 102:Core/Src/led_patterns.c **** 		}
+ 103:Core/Src/led_patterns.c **** 		case GRN_2_BLU:{
+ 104:Core/Src/led_patterns.c **** 			if (g_val == 0){
+ 186              		.loc 1 104 4 is_stmt 1 view .LVU42
+ 187              		.loc 1 104 7 is_stmt 0 view .LVU43
+ 188 0066 18B9     		cbnz	r0, .L17
+ 105:Core/Src/led_patterns.c **** 				cur_state = BLU;
+ 189              		.loc 1 105 5 is_stmt 1 view .LVU44
+ 190              		.loc 1 105 15 is_stmt 0 view .LVU45
+ 191 0068 174B     		ldr	r3, .L26+12
+ 192 006a 0422     		movs	r2, #4
+ 193 006c 1A70     		strb	r2, [r3]
+ 194 006e E1E7     		b	.L6
+ 195              	.L17:
+ 106:Core/Src/led_patterns.c **** 			}else{
+ 107:Core/Src/led_patterns.c **** 				g_val--;
+ 196              		.loc 1 107 5 is_stmt 1 view .LVU46
+ 197              		.loc 1 107 10 is_stmt 0 view .LVU47
+ 198 0070 0138     		subs	r0, r0, #1
+ 199 0072 124B     		ldr	r3, .L26
+ 200 0074 1860     		str	r0, [r3]
+ 201 0076 DDE7     		b	.L6
+ 202              	.L9:
+ 108:Core/Src/led_patterns.c **** 			}
+ 109:Core/Src/led_patterns.c **** 				break;
+ 110:Core/Src/led_patterns.c **** 		}
+ 111:Core/Src/led_patterns.c **** 		case BLU:{
+ 112:Core/Src/led_patterns.c **** 			if(r_val == 255){
+ 203              		.loc 1 112 4 is_stmt 1 view .LVU48
+ 204              		.loc 1 112 6 is_stmt 0 view .LVU49
+ 205 0078 FF29     		cmp	r1, #255
+ 206 007a 03D0     		beq	.L25
+ 113:Core/Src/led_patterns.c **** 				cur_state = BLU_2_RED;
+ 114:Core/Src/led_patterns.c **** 			}else{
+ 115:Core/Src/led_patterns.c **** 				r_val++;
+ 207              		.loc 1 115 5 is_stmt 1 view .LVU50
+ 208              		.loc 1 115 10 is_stmt 0 view .LVU51
+ 209 007c 0131     		adds	r1, r1, #1
+ 210 007e 104B     		ldr	r3, .L26+4
+ 211 0080 1960     		str	r1, [r3]
+ 212 0082 D7E7     		b	.L6
+ 213              	.L25:
+ 113:Core/Src/led_patterns.c **** 				cur_state = BLU_2_RED;
+ 214              		.loc 1 113 5 is_stmt 1 view .LVU52
+ 113:Core/Src/led_patterns.c **** 				cur_state = BLU_2_RED;
+ 215              		.loc 1 113 15 is_stmt 0 view .LVU53
+ 216 0084 104B     		ldr	r3, .L26+12
+ 217 0086 0522     		movs	r2, #5
+ 218 0088 1A70     		strb	r2, [r3]
+ 219 008a D3E7     		b	.L6
+ARM GAS  /tmp/ccMvBZgQ.s 			page 7
+
+
+ 220              	.L7:
+ 116:Core/Src/led_patterns.c **** 			}
+ 117:Core/Src/led_patterns.c **** 				break;
+ 118:Core/Src/led_patterns.c **** 		}
+ 119:Core/Src/led_patterns.c **** 		case BLU_2_RED:{
+ 120:Core/Src/led_patterns.c **** 			if(b_val == 0){
+ 221              		.loc 1 120 4 is_stmt 1 view .LVU54
+ 222              		.loc 1 120 6 is_stmt 0 view .LVU55
+ 223 008c 12B9     		cbnz	r2, .L19
+ 121:Core/Src/led_patterns.c **** 				cur_state = RED;
+ 224              		.loc 1 121 5 is_stmt 1 view .LVU56
+ 225              		.loc 1 121 15 is_stmt 0 view .LVU57
+ 226 008e 0E4B     		ldr	r3, .L26+12
+ 227 0090 1A70     		strb	r2, [r3]
+ 228 0092 CFE7     		b	.L6
+ 229              	.L19:
+ 122:Core/Src/led_patterns.c **** 			} else{
+ 123:Core/Src/led_patterns.c **** 				b_val--;
+ 230              		.loc 1 123 5 is_stmt 1 view .LVU58
+ 231              		.loc 1 123 10 is_stmt 0 view .LVU59
+ 232 0094 013A     		subs	r2, r2, #1
+ 233 0096 0B4B     		ldr	r3, .L26+8
+ 234 0098 1A60     		str	r2, [r3]
+ 235 009a CBE7     		b	.L6
+ 236              	.LVL8:
+ 237              	.L21:
+ 238              	.LBB3:
+ 124:Core/Src/led_patterns.c **** 			}
+ 125:Core/Src/led_patterns.c **** 				break;
+ 126:Core/Src/led_patterns.c **** 
+ 127:Core/Src/led_patterns.c **** 		}
+ 128:Core/Src/led_patterns.c **** 	}
+ 129:Core/Src/led_patterns.c **** 
+ 130:Core/Src/led_patterns.c **** 	for(int i=0;i<NUM_LEDS;i++){
+ 131:Core/Src/led_patterns.c **** 		drive_led(color);
+ 239              		.loc 1 131 3 is_stmt 1 discriminator 3 view .LVU60
+ 240 009c 2846     		mov	r0, r5
+ 241 009e FFF7FEFF 		bl	drive_led
+ 242              	.LVL9:
+ 130:Core/Src/led_patterns.c **** 		drive_led(color);
+ 243              		.loc 1 130 25 discriminator 3 view .LVU61
+ 130:Core/Src/led_patterns.c **** 		drive_led(color);
+ 244              		.loc 1 130 26 is_stmt 0 discriminator 3 view .LVU62
+ 245 00a2 0134     		adds	r4, r4, #1
+ 246              	.LVL10:
+ 247              	.L20:
+ 130:Core/Src/led_patterns.c **** 		drive_led(color);
+ 248              		.loc 1 130 14 is_stmt 1 discriminator 1 view .LVU63
+ 130:Core/Src/led_patterns.c **** 		drive_led(color);
+ 249              		.loc 1 130 2 is_stmt 0 discriminator 1 view .LVU64
+ 250 00a4 122C     		cmp	r4, #18
+ 251 00a6 F9DD     		ble	.L21
+ 252              	.LBE3:
+ 132:Core/Src/led_patterns.c **** 	}
+ 133:Core/Src/led_patterns.c **** 	HAL_Delay(1 + (10-(delay_modifier/10))); //arbitrary ratio that looks good
+ 253              		.loc 1 133 2 is_stmt 1 view .LVU65
+ 254              		.loc 1 133 35 is_stmt 0 view .LVU66
+ARM GAS  /tmp/ccMvBZgQ.s 			page 8
+
+
+ 255 00a8 0848     		ldr	r0, .L26+16
+ 256 00aa A0FB0630 		umull	r3, r0, r0, r6
+ 257 00ae C008     		lsrs	r0, r0, #3
+ 258              		.loc 1 133 2 view .LVU67
+ 259 00b0 C0F10B00 		rsb	r0, r0, #11
+ 260 00b4 FFF7FEFF 		bl	HAL_Delay
+ 261              	.LVL11:
+ 134:Core/Src/led_patterns.c **** }
+ 262              		.loc 1 134 1 view .LVU68
+ 263 00b8 70BD     		pop	{r4, r5, r6, pc}
+ 264              	.LVL12:
+ 265              	.L27:
+ 266              		.loc 1 134 1 view .LVU69
+ 267 00ba 00BF     		.align	2
+ 268              	.L26:
+ 269 00bc 00000000 		.word	.LANCHOR0
+ 270 00c0 00000000 		.word	.LANCHOR1
+ 271 00c4 00000000 		.word	.LANCHOR2
+ 272 00c8 00000000 		.word	.LANCHOR3
+ 273 00cc CDCCCCCC 		.word	-858993459
+ 274              		.cfi_endproc
+ 275              	.LFE131:
+ 277              		.section	.text.meteor,"ax",%progbits
+ 278              		.align	1
+ 279              		.global	meteor
+ 280              		.syntax unified
+ 281              		.thumb
+ 282              		.thumb_func
+ 283              		.fpu fpv4-sp-d16
+ 285              	meteor:
+ 286              	.LVL13:
+ 287              	.LFB132:
+ 135:Core/Src/led_patterns.c **** 
+ 136:Core/Src/led_patterns.c **** void meteor(unsigned int grb_value, uint8_t delay_modifier){
+ 288              		.loc 1 136 60 is_stmt 1 view -0
+ 289              		.cfi_startproc
+ 290              		@ args = 0, pretend = 0, frame = 176
+ 291              		@ frame_needed = 0, uses_anonymous_args = 0
+ 292              		.loc 1 136 60 is_stmt 0 view .LVU71
+ 293 0000 30B5     		push	{r4, r5, lr}
+ 294              	.LCFI2:
+ 295              		.cfi_def_cfa_offset 12
+ 296              		.cfi_offset 4, -12
+ 297              		.cfi_offset 5, -8
+ 298              		.cfi_offset 14, -4
+ 299 0002 ADB0     		sub	sp, sp, #180
+ 300              	.LCFI3:
+ 301              		.cfi_def_cfa_offset 192
+ 302 0004 0446     		mov	r4, r0
+ 303 0006 0D46     		mov	r5, r1
+ 137:Core/Src/led_patterns.c ****     #define METEOR_TAIL_LEN 5
+ 138:Core/Src/led_patterns.c **** 	uint32_t meteor_array [NUM_LEDS + METEOR_TAIL_LEN + NUM_LEDS] = {0};
+ 304              		.loc 1 138 2 is_stmt 1 view .LVU72
+ 305              		.loc 1 138 11 is_stmt 0 view .LVU73
+ 306 0008 AC22     		movs	r2, #172
+ 307 000a 0021     		movs	r1, #0
+ 308              	.LVL14:
+ARM GAS  /tmp/ccMvBZgQ.s 			page 9
+
+
+ 309              		.loc 1 138 11 view .LVU74
+ 310 000c 01A8     		add	r0, sp, #4
+ 311              	.LVL15:
+ 312              		.loc 1 138 11 view .LVU75
+ 313 000e FFF7FEFF 		bl	memset
+ 314              	.LVL16:
+ 139:Core/Src/led_patterns.c **** 	meteor_array[NUM_LEDS+0] = grb_value;
+ 315              		.loc 1 139 2 is_stmt 1 view .LVU76
+ 316              		.loc 1 139 27 is_stmt 0 view .LVU77
+ 317 0012 1494     		str	r4, [sp, #80]
+ 140:Core/Src/led_patterns.c **** 	meteor_array[NUM_LEDS+1] = grb_value&0b001111110011111100111111U;
+ 318              		.loc 1 140 2 is_stmt 1 view .LVU78
+ 319              		.loc 1 140 38 is_stmt 0 view .LVU79
+ 320 0014 04F03F33 		and	r3, r4, #1061109567
+ 321 0018 23F07C53 		bic	r3, r3, #1056964608
+ 322              		.loc 1 140 27 view .LVU80
+ 323 001c 1593     		str	r3, [sp, #84]
+ 141:Core/Src/led_patterns.c **** 	meteor_array[NUM_LEDS+2] = grb_value&0b000011110000111100001111U;
+ 324              		.loc 1 141 2 is_stmt 1 view .LVU81
+ 325              		.loc 1 141 38 is_stmt 0 view .LVU82
+ 326 001e 04F00F33 		and	r3, r4, #252645135
+ 327 0022 23F07063 		bic	r3, r3, #251658240
+ 328              		.loc 1 141 27 view .LVU83
+ 329 0026 1693     		str	r3, [sp, #88]
+ 142:Core/Src/led_patterns.c **** 	meteor_array[NUM_LEDS+3] = grb_value&0b000000110000001100000011U;
+ 330              		.loc 1 142 2 is_stmt 1 view .LVU84
+ 331              		.loc 1 142 38 is_stmt 0 view .LVU85
+ 332 0028 04F00333 		and	r3, r4, #50529027
+ 333 002c 23F04073 		bic	r3, r3, #50331648
+ 334              		.loc 1 142 27 view .LVU86
+ 335 0030 1793     		str	r3, [sp, #92]
+ 143:Core/Src/led_patterns.c **** 	meteor_array[NUM_LEDS+4] = grb_value&0b000000010000000100000001U;
+ 336              		.loc 1 143 2 is_stmt 1 view .LVU87
+ 337              		.loc 1 143 38 is_stmt 0 view .LVU88
+ 338 0032 04F00134 		and	r4, r4, #16843009
+ 339              	.LVL17:
+ 340              		.loc 1 143 38 view .LVU89
+ 341 0036 24F08074 		bic	r4, r4, #16777216
+ 342              		.loc 1 143 27 view .LVU90
+ 343 003a 1894     		str	r4, [sp, #96]
+ 144:Core/Src/led_patterns.c **** 
+ 145:Core/Src/led_patterns.c **** 	for(int i=head_pos;i<head_pos + NUM_LEDS;i++){
+ 344              		.loc 1 145 2 is_stmt 1 view .LVU91
+ 345              	.LBB4:
+ 346              		.loc 1 145 6 view .LVU92
+ 347              		.loc 1 145 10 is_stmt 0 view .LVU93
+ 348 003c 134B     		ldr	r3, .L35
+ 349 003e 1C68     		ldr	r4, [r3]
+ 350              	.LVL18:
+ 351              		.loc 1 145 2 view .LVU94
+ 352 0040 07E0     		b	.L29
+ 353              	.L30:
+ 146:Core/Src/led_patterns.c **** 		drive_led(meteor_array[i]);
+ 354              		.loc 1 146 3 is_stmt 1 discriminator 3 view .LVU95
+ 355              		.loc 1 146 25 is_stmt 0 discriminator 3 view .LVU96
+ 356 0042 2CAB     		add	r3, sp, #176
+ 357 0044 03EB8403 		add	r3, r3, r4, lsl #2
+ARM GAS  /tmp/ccMvBZgQ.s 			page 10
+
+
+ 358              		.loc 1 146 3 discriminator 3 view .LVU97
+ 359 0048 53F8AC0C 		ldr	r0, [r3, #-172]
+ 360 004c FFF7FEFF 		bl	drive_led
+ 361              	.LVL19:
+ 145:Core/Src/led_patterns.c **** 		drive_led(meteor_array[i]);
+ 362              		.loc 1 145 43 is_stmt 1 discriminator 3 view .LVU98
+ 145:Core/Src/led_patterns.c **** 		drive_led(meteor_array[i]);
+ 363              		.loc 1 145 44 is_stmt 0 discriminator 3 view .LVU99
+ 364 0050 0134     		adds	r4, r4, #1
+ 365              	.LVL20:
+ 366              	.L29:
+ 145:Core/Src/led_patterns.c **** 		drive_led(meteor_array[i]);
+ 367              		.loc 1 145 21 is_stmt 1 discriminator 1 view .LVU100
+ 145:Core/Src/led_patterns.c **** 		drive_led(meteor_array[i]);
+ 368              		.loc 1 145 22 is_stmt 0 discriminator 1 view .LVU101
+ 369 0052 0E4B     		ldr	r3, .L35
+ 370 0054 1B68     		ldr	r3, [r3]
+ 371 0056 03F11202 		add	r2, r3, #18
+ 145:Core/Src/led_patterns.c **** 		drive_led(meteor_array[i]);
+ 372              		.loc 1 145 2 discriminator 1 view .LVU102
+ 373 005a A242     		cmp	r2, r4
+ 374 005c F1DA     		bge	.L30
+ 145:Core/Src/led_patterns.c **** 		drive_led(meteor_array[i]);
+ 375              		.loc 1 145 2 discriminator 1 view .LVU103
+ 376              	.LBE4:
+ 147:Core/Src/led_patterns.c **** 	}
+ 148:Core/Src/led_patterns.c **** 
+ 149:Core/Src/led_patterns.c **** 	if (head_pos == METEOR_TAIL_LEN + NUM_LEDS){
+ 377              		.loc 1 149 2 is_stmt 1 view .LVU104
+ 378              		.loc 1 149 5 is_stmt 0 view .LVU105
+ 379 005e 182B     		cmp	r3, #24
+ 380 0060 08D0     		beq	.L34
+ 150:Core/Src/led_patterns.c **** 		head_pos = 0;
+ 151:Core/Src/led_patterns.c **** 		HAL_Delay(20*(110-delay_modifier)); //arbitrary ratio that looks good
+ 152:Core/Src/led_patterns.c **** 	} else{
+ 153:Core/Src/led_patterns.c **** 		head_pos++;
+ 381              		.loc 1 153 3 is_stmt 1 view .LVU106
+ 382              		.loc 1 153 11 is_stmt 0 view .LVU107
+ 383 0062 0133     		adds	r3, r3, #1
+ 384 0064 094A     		ldr	r2, .L35
+ 385 0066 1360     		str	r3, [r2]
+ 386              	.L32:
+ 154:Core/Src/led_patterns.c **** 	}
+ 155:Core/Src/led_patterns.c **** 	HAL_Delay(20+(110-delay_modifier)); //arbitrary ratio that looks good
+ 387              		.loc 1 155 2 is_stmt 1 view .LVU108
+ 388 0068 C5F18200 		rsb	r0, r5, #130
+ 389 006c FFF7FEFF 		bl	HAL_Delay
+ 390              	.LVL21:
+ 156:Core/Src/led_patterns.c **** }
+ 391              		.loc 1 156 1 is_stmt 0 view .LVU109
+ 392 0070 2DB0     		add	sp, sp, #180
+ 393              	.LCFI4:
+ 394              		.cfi_remember_state
+ 395              		.cfi_def_cfa_offset 12
+ 396              		@ sp needed
+ 397 0072 30BD     		pop	{r4, r5, pc}
+ 398              	.LVL22:
+ARM GAS  /tmp/ccMvBZgQ.s 			page 11
+
+
+ 399              	.L34:
+ 400              	.LCFI5:
+ 401              		.cfi_restore_state
+ 150:Core/Src/led_patterns.c **** 		head_pos = 0;
+ 402              		.loc 1 150 3 is_stmt 1 view .LVU110
+ 150:Core/Src/led_patterns.c **** 		head_pos = 0;
+ 403              		.loc 1 150 12 is_stmt 0 view .LVU111
+ 404 0074 054B     		ldr	r3, .L35
+ 405 0076 0022     		movs	r2, #0
+ 406 0078 1A60     		str	r2, [r3]
+ 151:Core/Src/led_patterns.c **** 	} else{
+ 407              		.loc 1 151 3 is_stmt 1 view .LVU112
+ 151:Core/Src/led_patterns.c **** 	} else{
+ 408              		.loc 1 151 20 is_stmt 0 view .LVU113
+ 409 007a C5F16E00 		rsb	r0, r5, #110
+ 151:Core/Src/led_patterns.c **** 	} else{
+ 410              		.loc 1 151 15 view .LVU114
+ 411 007e 00EB8000 		add	r0, r0, r0, lsl #2
+ 151:Core/Src/led_patterns.c **** 	} else{
+ 412              		.loc 1 151 3 view .LVU115
+ 413 0082 8000     		lsls	r0, r0, #2
+ 414 0084 FFF7FEFF 		bl	HAL_Delay
+ 415              	.LVL23:
+ 416 0088 EEE7     		b	.L32
+ 417              	.L36:
+ 418 008a 00BF     		.align	2
+ 419              	.L35:
+ 420 008c 00000000 		.word	.LANCHOR4
+ 421              		.cfi_endproc
+ 422              	.LFE132:
+ 424              		.section	.text.breathe,"ax",%progbits
+ 425              		.align	1
+ 426              		.global	breathe
+ 427              		.syntax unified
+ 428              		.thumb
+ 429              		.thumb_func
+ 430              		.fpu fpv4-sp-d16
+ 432              	breathe:
+ 433              	.LVL24:
+ 434              	.LFB133:
+ 157:Core/Src/led_patterns.c **** 
+ 158:Core/Src/led_patterns.c **** void breathe(unsigned int grb_value, uint8_t delay_modifier){
+ 435              		.loc 1 158 61 is_stmt 1 view -0
+ 436              		.cfi_startproc
+ 437              		@ args = 0, pretend = 0, frame = 0
+ 438              		@ frame_needed = 0, uses_anonymous_args = 0
+ 439              		.loc 1 158 61 is_stmt 0 view .LVU117
+ 440 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 441              	.LCFI6:
+ 442              		.cfi_def_cfa_offset 24
+ 443              		.cfi_offset 3, -24
+ 444              		.cfi_offset 4, -20
+ 445              		.cfi_offset 5, -16
+ 446              		.cfi_offset 6, -12
+ 447              		.cfi_offset 7, -8
+ 448              		.cfi_offset 14, -4
+ 449 0002 0446     		mov	r4, r0
+ARM GAS  /tmp/ccMvBZgQ.s 			page 12
+
+
+ 450 0004 0E46     		mov	r6, r1
+ 159:Core/Src/led_patterns.c **** 
+ 160:Core/Src/led_patterns.c **** 	unsigned int color;
+ 451              		.loc 1 160 2 is_stmt 1 view .LVU118
+ 161:Core/Src/led_patterns.c **** 	uint8_t target_g;
+ 452              		.loc 1 161 2 view .LVU119
+ 162:Core/Src/led_patterns.c **** 	uint8_t target_r;
+ 453              		.loc 1 162 2 view .LVU120
+ 163:Core/Src/led_patterns.c **** 	uint8_t target_b;
+ 454              		.loc 1 163 2 view .LVU121
+ 164:Core/Src/led_patterns.c **** 
+ 165:Core/Src/led_patterns.c **** 	switch (br_state){
+ 455              		.loc 1 165 2 view .LVU122
+ 456 0006 4D4B     		ldr	r3, .L57
+ 457 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 458 000a 012B     		cmp	r3, #1
+ 459 000c 26D0     		beq	.L38
+ 460 000e 022B     		cmp	r3, #2
+ 461 0010 55D0     		beq	.L39
+ 462 0012 93B1     		cbz	r3, .L54
+ 463              	.LVL25:
+ 464              	.L40:
+ 166:Core/Src/led_patterns.c **** 		case INITIAL:{
+ 167:Core/Src/led_patterns.c **** 			breathe_color = grb_value;
+ 168:Core/Src/led_patterns.c **** 			g_val = (grb_value>>16)&0xFF;
+ 169:Core/Src/led_patterns.c **** 			r_val = (grb_value>>8)&0xFF;
+ 170:Core/Src/led_patterns.c **** 			b_val = (grb_value>>0)&0xFF;
+ 171:Core/Src/led_patterns.c **** 			br_state = BR_IN;
+ 172:Core/Src/led_patterns.c **** 			break;
+ 173:Core/Src/led_patterns.c **** 		}
+ 174:Core/Src/led_patterns.c **** 		case BR_IN:{
+ 175:Core/Src/led_patterns.c **** 			if ((g_val==0) && (r_val==0) && (b_val==0)){
+ 176:Core/Src/led_patterns.c **** 				br_state = BR_OUT;
+ 177:Core/Src/led_patterns.c **** 				HAL_Delay(20*(110-delay_modifier));
+ 178:Core/Src/led_patterns.c **** 			}else{
+ 179:Core/Src/led_patterns.c **** 				if (g_val == 0){ g_val = 0; }else{ g_val--; }
+ 180:Core/Src/led_patterns.c **** 				if (r_val == 0){ r_val = 0; }else{ r_val--; }
+ 181:Core/Src/led_patterns.c **** 				if (b_val == 0){ b_val = 0; }else{ b_val--; }
+ 182:Core/Src/led_patterns.c **** 			}
+ 183:Core/Src/led_patterns.c **** 			break;
+ 184:Core/Src/led_patterns.c **** 		}
+ 185:Core/Src/led_patterns.c **** 		case BR_OUT:{
+ 186:Core/Src/led_patterns.c **** 			target_g = (breathe_color>>16)&0xFF;
+ 187:Core/Src/led_patterns.c **** 			target_r = (breathe_color>>8)&0xFF;
+ 188:Core/Src/led_patterns.c **** 			target_b = (breathe_color>>0)&0xFF;
+ 189:Core/Src/led_patterns.c **** 			if ((g_val==target_g) && (r_val==target_r) && (b_val==target_b)){
+ 190:Core/Src/led_patterns.c **** 				br_state = BR_IN;
+ 191:Core/Src/led_patterns.c **** 			}else{
+ 192:Core/Src/led_patterns.c **** 				if (g_val == target_g) { g_val = g_val; }else{ g_val++; }
+ 193:Core/Src/led_patterns.c **** 				if (r_val == target_r) { r_val = r_val; }else{ r_val++; }
+ 194:Core/Src/led_patterns.c **** 				if (b_val == target_b) { b_val = b_val; }else{ b_val++; }
+ 195:Core/Src/led_patterns.c **** 			}
+ 196:Core/Src/led_patterns.c **** 			break;
+ 197:Core/Src/led_patterns.c **** 		}
+ 198:Core/Src/led_patterns.c **** 	}
+ 199:Core/Src/led_patterns.c **** 
+ 200:Core/Src/led_patterns.c **** 	if (grb_value != breathe_color){
+ARM GAS  /tmp/ccMvBZgQ.s 			page 13
+
+
+ 465              		.loc 1 200 2 view .LVU123
+ 466              		.loc 1 200 16 is_stmt 0 view .LVU124
+ 467 0014 4A4B     		ldr	r3, .L57+4
+ 468 0016 1B68     		ldr	r3, [r3]
+ 469              		.loc 1 200 5 view .LVU125
+ 470 0018 A342     		cmp	r3, r4
+ 471 001a 02D0     		beq	.L50
+ 201:Core/Src/led_patterns.c **** 		br_state = INITIAL;
+ 472              		.loc 1 201 3 is_stmt 1 view .LVU126
+ 473              		.loc 1 201 12 is_stmt 0 view .LVU127
+ 474 001c 474B     		ldr	r3, .L57
+ 475 001e 0022     		movs	r2, #0
+ 476 0020 1A70     		strb	r2, [r3]
+ 477              	.L50:
+ 202:Core/Src/led_patterns.c **** 	}
+ 203:Core/Src/led_patterns.c **** 
+ 204:Core/Src/led_patterns.c **** 	color = (g_val<<16) + (r_val<<8) + (b_val<<0);
+ 478              		.loc 1 204 2 is_stmt 1 view .LVU128
+ 479              		.loc 1 204 16 is_stmt 0 view .LVU129
+ 480 0022 484B     		ldr	r3, .L57+8
+ 481 0024 1B68     		ldr	r3, [r3]
+ 482              		.loc 1 204 30 view .LVU130
+ 483 0026 484A     		ldr	r2, .L57+12
+ 484 0028 1568     		ldr	r5, [r2]
+ 485 002a 2D02     		lsls	r5, r5, #8
+ 486              		.loc 1 204 22 view .LVU131
+ 487 002c 05EB0345 		add	r5, r5, r3, lsl #16
+ 488              		.loc 1 204 35 view .LVU132
+ 489 0030 464B     		ldr	r3, .L57+16
+ 490 0032 1B68     		ldr	r3, [r3]
+ 491              		.loc 1 204 8 view .LVU133
+ 492 0034 1D44     		add	r5, r5, r3
+ 493              	.LVL26:
+ 205:Core/Src/led_patterns.c **** 	for(int i=0;i<NUM_LEDS;i++){
+ 494              		.loc 1 205 2 is_stmt 1 view .LVU134
+ 495              	.LBB5:
+ 496              		.loc 1 205 6 view .LVU135
+ 497              		.loc 1 205 10 is_stmt 0 view .LVU136
+ 498 0036 0024     		movs	r4, #0
+ 499              	.LVL27:
+ 500              		.loc 1 205 2 view .LVU137
+ 501 0038 72E0     		b	.L51
+ 502              	.LVL28:
+ 503              	.L54:
+ 504              		.loc 1 205 2 view .LVU138
+ 505              	.LBE5:
+ 167:Core/Src/led_patterns.c **** 			g_val = (grb_value>>16)&0xFF;
+ 506              		.loc 1 167 4 is_stmt 1 view .LVU139
+ 167:Core/Src/led_patterns.c **** 			g_val = (grb_value>>16)&0xFF;
+ 507              		.loc 1 167 18 is_stmt 0 view .LVU140
+ 508 003a 414B     		ldr	r3, .L57+4
+ 509 003c 1860     		str	r0, [r3]
+ 168:Core/Src/led_patterns.c **** 			r_val = (grb_value>>8)&0xFF;
+ 510              		.loc 1 168 4 is_stmt 1 view .LVU141
+ 168:Core/Src/led_patterns.c **** 			r_val = (grb_value>>8)&0xFF;
+ 511              		.loc 1 168 27 is_stmt 0 view .LVU142
+ 512 003e C0F30743 		ubfx	r3, r0, #16, #8
+ARM GAS  /tmp/ccMvBZgQ.s 			page 14
+
+
+ 168:Core/Src/led_patterns.c **** 			r_val = (grb_value>>8)&0xFF;
+ 513              		.loc 1 168 10 view .LVU143
+ 514 0042 404A     		ldr	r2, .L57+8
+ 515 0044 1360     		str	r3, [r2]
+ 169:Core/Src/led_patterns.c **** 			b_val = (grb_value>>0)&0xFF;
+ 516              		.loc 1 169 4 is_stmt 1 view .LVU144
+ 169:Core/Src/led_patterns.c **** 			b_val = (grb_value>>0)&0xFF;
+ 517              		.loc 1 169 26 is_stmt 0 view .LVU145
+ 518 0046 C0F30723 		ubfx	r3, r0, #8, #8
+ 169:Core/Src/led_patterns.c **** 			b_val = (grb_value>>0)&0xFF;
+ 519              		.loc 1 169 10 view .LVU146
+ 520 004a 3F4A     		ldr	r2, .L57+12
+ 521 004c 1360     		str	r3, [r2]
+ 170:Core/Src/led_patterns.c **** 			br_state = BR_IN;
+ 522              		.loc 1 170 4 is_stmt 1 view .LVU147
+ 170:Core/Src/led_patterns.c **** 			br_state = BR_IN;
+ 523              		.loc 1 170 26 is_stmt 0 view .LVU148
+ 524 004e C3B2     		uxtb	r3, r0
+ 170:Core/Src/led_patterns.c **** 			br_state = BR_IN;
+ 525              		.loc 1 170 10 view .LVU149
+ 526 0050 3E4A     		ldr	r2, .L57+16
+ 527 0052 1360     		str	r3, [r2]
+ 171:Core/Src/led_patterns.c **** 			break;
+ 528              		.loc 1 171 4 is_stmt 1 view .LVU150
+ 171:Core/Src/led_patterns.c **** 			break;
+ 529              		.loc 1 171 13 is_stmt 0 view .LVU151
+ 530 0054 394B     		ldr	r3, .L57
+ 531 0056 0122     		movs	r2, #1
+ 532 0058 1A70     		strb	r2, [r3]
+ 172:Core/Src/led_patterns.c **** 		}
+ 533              		.loc 1 172 4 is_stmt 1 view .LVU152
+ 534 005a DBE7     		b	.L40
+ 535              	.L38:
+ 175:Core/Src/led_patterns.c **** 				br_state = BR_OUT;
+ 536              		.loc 1 175 4 view .LVU153
+ 175:Core/Src/led_patterns.c **** 				br_state = BR_OUT;
+ 537              		.loc 1 175 14 is_stmt 0 view .LVU154
+ 538 005c 394B     		ldr	r3, .L57+8
+ 539 005e 1B68     		ldr	r3, [r3]
+ 175:Core/Src/led_patterns.c **** 				br_state = BR_OUT;
+ 540              		.loc 1 175 7 view .LVU155
+ 541 0060 2BB9     		cbnz	r3, .L41
+ 175:Core/Src/led_patterns.c **** 				br_state = BR_OUT;
+ 542              		.loc 1 175 28 discriminator 1 view .LVU156
+ 543 0062 394A     		ldr	r2, .L57+12
+ 544 0064 1268     		ldr	r2, [r2]
+ 175:Core/Src/led_patterns.c **** 				br_state = BR_OUT;
+ 545              		.loc 1 175 19 discriminator 1 view .LVU157
+ 546 0066 12B9     		cbnz	r2, .L41
+ 175:Core/Src/led_patterns.c **** 				br_state = BR_OUT;
+ 547              		.loc 1 175 42 discriminator 2 view .LVU158
+ 548 0068 384A     		ldr	r2, .L57+16
+ 549 006a 1268     		ldr	r2, [r2]
+ 175:Core/Src/led_patterns.c **** 				br_state = BR_OUT;
+ 550              		.loc 1 175 33 discriminator 2 view .LVU159
+ 551 006c 82B1     		cbz	r2, .L55
+ 552              	.L41:
+ARM GAS  /tmp/ccMvBZgQ.s 			page 15
+
+
+ 179:Core/Src/led_patterns.c **** 				if (r_val == 0){ r_val = 0; }else{ r_val--; }
+ 553              		.loc 1 179 5 is_stmt 1 view .LVU160
+ 179:Core/Src/led_patterns.c **** 				if (r_val == 0){ r_val = 0; }else{ r_val--; }
+ 554              		.loc 1 179 8 is_stmt 0 view .LVU161
+ 555 006e D3B9     		cbnz	r3, .L42
+ 179:Core/Src/led_patterns.c **** 				if (r_val == 0){ r_val = 0; }else{ r_val--; }
+ 556              		.loc 1 179 22 is_stmt 1 discriminator 1 view .LVU162
+ 179:Core/Src/led_patterns.c **** 				if (r_val == 0){ r_val = 0; }else{ r_val--; }
+ 557              		.loc 1 179 28 is_stmt 0 discriminator 1 view .LVU163
+ 558 0070 344B     		ldr	r3, .L57+8
+ 559 0072 0022     		movs	r2, #0
+ 560 0074 1A60     		str	r2, [r3]
+ 561              	.L43:
+ 180:Core/Src/led_patterns.c **** 				if (b_val == 0){ b_val = 0; }else{ b_val--; }
+ 562              		.loc 1 180 5 is_stmt 1 view .LVU164
+ 180:Core/Src/led_patterns.c **** 				if (b_val == 0){ b_val = 0; }else{ b_val--; }
+ 563              		.loc 1 180 15 is_stmt 0 view .LVU165
+ 564 0076 344B     		ldr	r3, .L57+12
+ 565 0078 1B68     		ldr	r3, [r3]
+ 180:Core/Src/led_patterns.c **** 				if (b_val == 0){ b_val = 0; }else{ b_val--; }
+ 566              		.loc 1 180 8 view .LVU166
+ 567 007a C3B9     		cbnz	r3, .L44
+ 180:Core/Src/led_patterns.c **** 				if (b_val == 0){ b_val = 0; }else{ b_val--; }
+ 568              		.loc 1 180 22 is_stmt 1 discriminator 1 view .LVU167
+ 180:Core/Src/led_patterns.c **** 				if (b_val == 0){ b_val = 0; }else{ b_val--; }
+ 569              		.loc 1 180 28 is_stmt 0 discriminator 1 view .LVU168
+ 570 007c 324B     		ldr	r3, .L57+12
+ 571 007e 0022     		movs	r2, #0
+ 572 0080 1A60     		str	r2, [r3]
+ 573              	.L45:
+ 181:Core/Src/led_patterns.c **** 			}
+ 574              		.loc 1 181 5 is_stmt 1 view .LVU169
+ 181:Core/Src/led_patterns.c **** 			}
+ 575              		.loc 1 181 15 is_stmt 0 view .LVU170
+ 576 0082 324B     		ldr	r3, .L57+16
+ 577 0084 1B68     		ldr	r3, [r3]
+ 181:Core/Src/led_patterns.c **** 			}
+ 578              		.loc 1 181 8 view .LVU171
+ 579 0086 B3B9     		cbnz	r3, .L46
+ 181:Core/Src/led_patterns.c **** 			}
+ 580              		.loc 1 181 22 is_stmt 1 discriminator 1 view .LVU172
+ 181:Core/Src/led_patterns.c **** 			}
+ 581              		.loc 1 181 28 is_stmt 0 discriminator 1 view .LVU173
+ 582 0088 304B     		ldr	r3, .L57+16
+ 583 008a 0022     		movs	r2, #0
+ 584 008c 1A60     		str	r2, [r3]
+ 585 008e C1E7     		b	.L40
+ 586              	.L55:
+ 176:Core/Src/led_patterns.c **** 				HAL_Delay(20*(110-delay_modifier));
+ 587              		.loc 1 176 5 is_stmt 1 view .LVU174
+ 176:Core/Src/led_patterns.c **** 				HAL_Delay(20*(110-delay_modifier));
+ 588              		.loc 1 176 14 is_stmt 0 view .LVU175
+ 589 0090 2A4B     		ldr	r3, .L57
+ 590 0092 0222     		movs	r2, #2
+ 591 0094 1A70     		strb	r2, [r3]
+ 177:Core/Src/led_patterns.c **** 			}else{
+ 592              		.loc 1 177 5 is_stmt 1 view .LVU176
+ARM GAS  /tmp/ccMvBZgQ.s 			page 16
+
+
+ 177:Core/Src/led_patterns.c **** 			}else{
+ 593              		.loc 1 177 22 is_stmt 0 view .LVU177
+ 594 0096 C1F16E00 		rsb	r0, r1, #110
+ 595              	.LVL29:
+ 177:Core/Src/led_patterns.c **** 			}else{
+ 596              		.loc 1 177 17 view .LVU178
+ 597 009a 00EB8000 		add	r0, r0, r0, lsl #2
+ 177:Core/Src/led_patterns.c **** 			}else{
+ 598              		.loc 1 177 5 view .LVU179
+ 599 009e 9040     		lsls	r0, r0, r2
+ 600 00a0 FFF7FEFF 		bl	HAL_Delay
+ 601              	.LVL30:
+ 177:Core/Src/led_patterns.c **** 			}else{
+ 602              		.loc 1 177 5 view .LVU180
+ 603 00a4 B6E7     		b	.L40
+ 604              	.LVL31:
+ 605              	.L42:
+ 179:Core/Src/led_patterns.c **** 				if (r_val == 0){ r_val = 0; }else{ r_val--; }
+ 606              		.loc 1 179 40 is_stmt 1 discriminator 2 view .LVU181
+ 179:Core/Src/led_patterns.c **** 				if (r_val == 0){ r_val = 0; }else{ r_val--; }
+ 607              		.loc 1 179 45 is_stmt 0 discriminator 2 view .LVU182
+ 608 00a6 013B     		subs	r3, r3, #1
+ 609 00a8 264A     		ldr	r2, .L57+8
+ 610 00aa 1360     		str	r3, [r2]
+ 611 00ac E3E7     		b	.L43
+ 612              	.L44:
+ 180:Core/Src/led_patterns.c **** 				if (b_val == 0){ b_val = 0; }else{ b_val--; }
+ 613              		.loc 1 180 40 is_stmt 1 discriminator 2 view .LVU183
+ 180:Core/Src/led_patterns.c **** 				if (b_val == 0){ b_val = 0; }else{ b_val--; }
+ 614              		.loc 1 180 45 is_stmt 0 discriminator 2 view .LVU184
+ 615 00ae 013B     		subs	r3, r3, #1
+ 616 00b0 254A     		ldr	r2, .L57+12
+ 617 00b2 1360     		str	r3, [r2]
+ 618 00b4 E5E7     		b	.L45
+ 619              	.L46:
+ 181:Core/Src/led_patterns.c **** 			}
+ 620              		.loc 1 181 40 is_stmt 1 discriminator 2 view .LVU185
+ 181:Core/Src/led_patterns.c **** 			}
+ 621              		.loc 1 181 45 is_stmt 0 discriminator 2 view .LVU186
+ 622 00b6 013B     		subs	r3, r3, #1
+ 623 00b8 244A     		ldr	r2, .L57+16
+ 624 00ba 1360     		str	r3, [r2]
+ 625 00bc AAE7     		b	.L40
+ 626              	.L39:
+ 186:Core/Src/led_patterns.c **** 			target_r = (breathe_color>>8)&0xFF;
+ 627              		.loc 1 186 4 is_stmt 1 view .LVU187
+ 186:Core/Src/led_patterns.c **** 			target_r = (breathe_color>>8)&0xFF;
+ 628              		.loc 1 186 29 is_stmt 0 view .LVU188
+ 629 00be 204B     		ldr	r3, .L57+4
+ 630 00c0 1B68     		ldr	r3, [r3]
+ 631              	.LVL32:
+ 187:Core/Src/led_patterns.c **** 			target_b = (breathe_color>>0)&0xFF;
+ 632              		.loc 1 187 4 is_stmt 1 view .LVU189
+ 187:Core/Src/led_patterns.c **** 			target_b = (breathe_color>>0)&0xFF;
+ 633              		.loc 1 187 29 is_stmt 0 view .LVU190
+ 634 00c2 190A     		lsrs	r1, r3, #8
+ 635              	.LVL33:
+ARM GAS  /tmp/ccMvBZgQ.s 			page 17
+
+
+ 188:Core/Src/led_patterns.c **** 			if ((g_val==target_g) && (r_val==target_r) && (b_val==target_b)){
+ 636              		.loc 1 188 4 is_stmt 1 view .LVU191
+ 189:Core/Src/led_patterns.c **** 				br_state = BR_IN;
+ 637              		.loc 1 189 4 view .LVU192
+ 638 00c4 C3F30740 		ubfx	r0, r3, #16, #8
+ 639              	.LVL34:
+ 189:Core/Src/led_patterns.c **** 				br_state = BR_IN;
+ 640              		.loc 1 189 14 is_stmt 0 view .LVU193
+ 641 00c8 1E4A     		ldr	r2, .L57+8
+ 642 00ca 1268     		ldr	r2, [r2]
+ 189:Core/Src/led_patterns.c **** 				br_state = BR_IN;
+ 643              		.loc 1 189 7 view .LVU194
+ 644 00cc 8242     		cmp	r2, r0
+ 645 00ce 15D0     		beq	.L56
+ 646              	.L47:
+ 192:Core/Src/led_patterns.c **** 				if (r_val == target_r) { r_val = r_val; }else{ r_val++; }
+ 647              		.loc 1 192 5 is_stmt 1 view .LVU195
+ 192:Core/Src/led_patterns.c **** 				if (r_val == target_r) { r_val = r_val; }else{ r_val++; }
+ 648              		.loc 1 192 8 is_stmt 0 view .LVU196
+ 649 00d0 8242     		cmp	r2, r0
+ 650 00d2 02D0     		beq	.L48
+ 192:Core/Src/led_patterns.c **** 				if (r_val == target_r) { r_val = r_val; }else{ r_val++; }
+ 651              		.loc 1 192 52 is_stmt 1 discriminator 2 view .LVU197
+ 192:Core/Src/led_patterns.c **** 				if (r_val == target_r) { r_val = r_val; }else{ r_val++; }
+ 652              		.loc 1 192 57 is_stmt 0 discriminator 2 view .LVU198
+ 653 00d4 0132     		adds	r2, r2, #1
+ 654 00d6 1B48     		ldr	r0, .L57+8
+ 655 00d8 0260     		str	r2, [r0]
+ 656              	.L48:
+ 193:Core/Src/led_patterns.c **** 				if (b_val == target_b) { b_val = b_val; }else{ b_val++; }
+ 657              		.loc 1 193 5 is_stmt 1 view .LVU199
+ 193:Core/Src/led_patterns.c **** 				if (b_val == target_b) { b_val = b_val; }else{ b_val++; }
+ 658              		.loc 1 193 15 is_stmt 0 view .LVU200
+ 659 00da 1B4A     		ldr	r2, .L57+12
+ 660 00dc 1268     		ldr	r2, [r2]
+ 193:Core/Src/led_patterns.c **** 				if (b_val == target_b) { b_val = b_val; }else{ b_val++; }
+ 661              		.loc 1 193 8 view .LVU201
+ 662 00de C9B2     		uxtb	r1, r1
+ 193:Core/Src/led_patterns.c **** 				if (b_val == target_b) { b_val = b_val; }else{ b_val++; }
+ 663              		.loc 1 193 8 view .LVU202
+ 664 00e0 8A42     		cmp	r2, r1
+ 665 00e2 02D0     		beq	.L49
+ 193:Core/Src/led_patterns.c **** 				if (b_val == target_b) { b_val = b_val; }else{ b_val++; }
+ 666              		.loc 1 193 52 is_stmt 1 discriminator 2 view .LVU203
+ 193:Core/Src/led_patterns.c **** 				if (b_val == target_b) { b_val = b_val; }else{ b_val++; }
+ 667              		.loc 1 193 57 is_stmt 0 discriminator 2 view .LVU204
+ 668 00e4 0132     		adds	r2, r2, #1
+ 669 00e6 1849     		ldr	r1, .L57+12
+ 670              	.LVL35:
+ 193:Core/Src/led_patterns.c **** 				if (b_val == target_b) { b_val = b_val; }else{ b_val++; }
+ 671              		.loc 1 193 57 discriminator 2 view .LVU205
+ 672 00e8 0A60     		str	r2, [r1]
+ 673              	.L49:
+ 194:Core/Src/led_patterns.c **** 			}
+ 674              		.loc 1 194 5 is_stmt 1 view .LVU206
+ 194:Core/Src/led_patterns.c **** 			}
+ 675              		.loc 1 194 15 is_stmt 0 view .LVU207
+ARM GAS  /tmp/ccMvBZgQ.s 			page 18
+
+
+ 676 00ea 184A     		ldr	r2, .L57+16
+ 677 00ec 1268     		ldr	r2, [r2]
+ 194:Core/Src/led_patterns.c **** 			}
+ 678              		.loc 1 194 8 view .LVU208
+ 679 00ee DBB2     		uxtb	r3, r3
+ 680              	.LVL36:
+ 194:Core/Src/led_patterns.c **** 			}
+ 681              		.loc 1 194 8 view .LVU209
+ 682 00f0 9A42     		cmp	r2, r3
+ 683 00f2 8FD0     		beq	.L40
+ 194:Core/Src/led_patterns.c **** 			}
+ 684              		.loc 1 194 52 is_stmt 1 discriminator 2 view .LVU210
+ 194:Core/Src/led_patterns.c **** 			}
+ 685              		.loc 1 194 57 is_stmt 0 discriminator 2 view .LVU211
+ 686 00f4 0132     		adds	r2, r2, #1
+ 687 00f6 154B     		ldr	r3, .L57+16
+ 688              	.LVL37:
+ 194:Core/Src/led_patterns.c **** 			}
+ 689              		.loc 1 194 57 discriminator 2 view .LVU212
+ 690 00f8 1A60     		str	r2, [r3]
+ 691 00fa 8BE7     		b	.L40
+ 692              	.LVL38:
+ 693              	.L56:
+ 189:Core/Src/led_patterns.c **** 				br_state = BR_IN;
+ 694              		.loc 1 189 35 discriminator 1 view .LVU213
+ 695 00fc 124D     		ldr	r5, .L57+12
+ 696 00fe 2F68     		ldr	r7, [r5]
+ 189:Core/Src/led_patterns.c **** 				br_state = BR_IN;
+ 697              		.loc 1 189 26 discriminator 1 view .LVU214
+ 698 0100 CDB2     		uxtb	r5, r1
+ 699 0102 AF42     		cmp	r7, r5
+ 700 0104 E4D1     		bne	.L47
+ 189:Core/Src/led_patterns.c **** 				br_state = BR_IN;
+ 701              		.loc 1 189 56 discriminator 2 view .LVU215
+ 702 0106 114D     		ldr	r5, .L57+16
+ 703 0108 2F68     		ldr	r7, [r5]
+ 189:Core/Src/led_patterns.c **** 				br_state = BR_IN;
+ 704              		.loc 1 189 47 discriminator 2 view .LVU216
+ 705 010a DDB2     		uxtb	r5, r3
+ 706 010c AF42     		cmp	r7, r5
+ 707 010e DFD1     		bne	.L47
+ 190:Core/Src/led_patterns.c **** 			}else{
+ 708              		.loc 1 190 5 is_stmt 1 view .LVU217
+ 190:Core/Src/led_patterns.c **** 			}else{
+ 709              		.loc 1 190 14 is_stmt 0 view .LVU218
+ 710 0110 0A4B     		ldr	r3, .L57
+ 711              	.LVL39:
+ 190:Core/Src/led_patterns.c **** 			}else{
+ 712              		.loc 1 190 14 view .LVU219
+ 713 0112 0122     		movs	r2, #1
+ 714 0114 1A70     		strb	r2, [r3]
+ 715 0116 7DE7     		b	.L40
+ 716              	.LVL40:
+ 717              	.L52:
+ 718              	.LBB6:
+ 206:Core/Src/led_patterns.c **** 		drive_led(color);
+ 719              		.loc 1 206 3 is_stmt 1 discriminator 3 view .LVU220
+ARM GAS  /tmp/ccMvBZgQ.s 			page 19
+
+
+ 720 0118 2846     		mov	r0, r5
+ 721 011a FFF7FEFF 		bl	drive_led
+ 722              	.LVL41:
+ 205:Core/Src/led_patterns.c **** 		drive_led(color);
+ 723              		.loc 1 205 25 discriminator 3 view .LVU221
+ 205:Core/Src/led_patterns.c **** 		drive_led(color);
+ 724              		.loc 1 205 26 is_stmt 0 discriminator 3 view .LVU222
+ 725 011e 0134     		adds	r4, r4, #1
+ 726              	.LVL42:
+ 727              	.L51:
+ 205:Core/Src/led_patterns.c **** 		drive_led(color);
+ 728              		.loc 1 205 14 is_stmt 1 discriminator 1 view .LVU223
+ 205:Core/Src/led_patterns.c **** 		drive_led(color);
+ 729              		.loc 1 205 2 is_stmt 0 discriminator 1 view .LVU224
+ 730 0120 122C     		cmp	r4, #18
+ 731 0122 F9DD     		ble	.L52
+ 732              	.LBE6:
+ 207:Core/Src/led_patterns.c **** 	}
+ 208:Core/Src/led_patterns.c **** 
+ 209:Core/Src/led_patterns.c **** 	HAL_Delay((110-delay_modifier)/10);
+ 733              		.loc 1 209 2 is_stmt 1 view .LVU225
+ 734              		.loc 1 209 16 is_stmt 0 view .LVU226
+ 735 0124 C6F16E03 		rsb	r3, r6, #110
+ 736              		.loc 1 209 32 view .LVU227
+ 737 0128 0948     		ldr	r0, .L57+20
+ 738 012a 80FB0320 		smull	r2, r0, r0, r3
+ 739 012e DB17     		asrs	r3, r3, #31
+ 740              		.loc 1 209 2 view .LVU228
+ 741 0130 C3EBA000 		rsb	r0, r3, r0, asr #2
+ 742 0134 FFF7FEFF 		bl	HAL_Delay
+ 743              	.LVL43:
+ 210:Core/Src/led_patterns.c **** }
+ 744              		.loc 1 210 1 view .LVU229
+ 745 0138 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 746              	.LVL44:
+ 747              	.L58:
+ 748              		.loc 1 210 1 view .LVU230
+ 749 013a 00BF     		.align	2
+ 750              	.L57:
+ 751 013c 00000000 		.word	.LANCHOR5
+ 752 0140 00000000 		.word	.LANCHOR6
+ 753 0144 00000000 		.word	.LANCHOR0
+ 754 0148 00000000 		.word	.LANCHOR1
+ 755 014c 00000000 		.word	.LANCHOR2
+ 756 0150 67666666 		.word	1717986919
+ 757              		.cfi_endproc
+ 758              	.LFE133:
+ 760              		.section	.text.display_pattern,"ax",%progbits
+ 761              		.align	1
+ 762              		.global	display_pattern
+ 763              		.syntax unified
+ 764              		.thumb
+ 765              		.thumb_func
+ 766              		.fpu fpv4-sp-d16
+ 768              	display_pattern:
+ 769              	.LVL45:
+ 770              	.LFB134:
+ARM GAS  /tmp/ccMvBZgQ.s 			page 20
+
+
+ 211:Core/Src/led_patterns.c **** 
+ 212:Core/Src/led_patterns.c **** void display_pattern (pattern_state pattern_in, uint32_t cur_color, uint8_t brightness, uint8_t spe
+ 771              		.loc 1 212 103 is_stmt 1 view -0
+ 772              		.cfi_startproc
+ 773              		@ args = 0, pretend = 0, frame = 0
+ 774              		@ frame_needed = 0, uses_anonymous_args = 0
+ 775              		.loc 1 212 103 is_stmt 0 view .LVU232
+ 776 0000 70B5     		push	{r4, r5, r6, lr}
+ 777              	.LCFI7:
+ 778              		.cfi_def_cfa_offset 16
+ 779              		.cfi_offset 4, -16
+ 780              		.cfi_offset 5, -12
+ 781              		.cfi_offset 6, -8
+ 782              		.cfi_offset 14, -4
+ 783 0002 0446     		mov	r4, r0
+ 784 0004 0D46     		mov	r5, r1
+ 785 0006 1E46     		mov	r6, r3
+ 213:Core/Src/led_patterns.c **** 	change_brightness(brightness);
+ 786              		.loc 1 213 2 is_stmt 1 view .LVU233
+ 787 0008 1046     		mov	r0, r2
+ 788              	.LVL46:
+ 789              		.loc 1 213 2 is_stmt 0 view .LVU234
+ 790 000a FFF7FEFF 		bl	change_brightness
+ 791              	.LVL47:
+ 214:Core/Src/led_patterns.c **** 	switch (pattern_in){
+ 792              		.loc 1 214 2 is_stmt 1 view .LVU235
+ 793 000e 621E     		subs	r2, r4, #1
+ 794 0010 032A     		cmp	r2, #3
+ 795 0012 06D8     		bhi	.L59
+ 796 0014 DFE802F0 		tbb	[pc, r2]
+ 797              	.L62:
+ 798 0018 02       		.byte	(.L65-.L62)/2
+ 799 0019 06       		.byte	(.L64-.L62)/2
+ 800 001a 0B       		.byte	(.L63-.L62)/2
+ 801 001b 0F       		.byte	(.L61-.L62)/2
+ 802              		.p2align 1
+ 803              	.L65:
+ 215:Core/Src/led_patterns.c **** 		case IDLE:{
+ 216:Core/Src/led_patterns.c **** 			break;
+ 217:Core/Src/led_patterns.c **** 		}
+ 218:Core/Src/led_patterns.c **** 		case STATIC:{
+ 219:Core/Src/led_patterns.c **** 			static_color(cur_color);
+ 804              		.loc 1 219 4 view .LVU236
+ 805 001c 2846     		mov	r0, r5
+ 806 001e FFF7FEFF 		bl	static_color
+ 807              	.LVL48:
+ 220:Core/Src/led_patterns.c **** 			break;
+ 808              		.loc 1 220 4 view .LVU237
+ 809              	.L59:
+ 221:Core/Src/led_patterns.c **** 		}
+ 222:Core/Src/led_patterns.c **** 		case BREATHE:{
+ 223:Core/Src/led_patterns.c **** 			breathe(cur_color, speed);
+ 224:Core/Src/led_patterns.c **** 			break;
+ 225:Core/Src/led_patterns.c **** 		}
+ 226:Core/Src/led_patterns.c **** 		case RAINBOW:{
+ 227:Core/Src/led_patterns.c **** 			rainbow(speed);
+ 228:Core/Src/led_patterns.c **** 			break;
+ARM GAS  /tmp/ccMvBZgQ.s 			page 21
+
+
+ 229:Core/Src/led_patterns.c **** 		}
+ 230:Core/Src/led_patterns.c **** 		case METEOR:{
+ 231:Core/Src/led_patterns.c **** 			meteor(cur_color, speed);
+ 232:Core/Src/led_patterns.c **** 			break;
+ 233:Core/Src/led_patterns.c **** 		}
+ 234:Core/Src/led_patterns.c **** 	}
+ 235:Core/Src/led_patterns.c **** }
+ 810              		.loc 1 235 1 is_stmt 0 view .LVU238
+ 811 0022 70BD     		pop	{r4, r5, r6, pc}
+ 812              	.LVL49:
+ 813              	.L64:
+ 223:Core/Src/led_patterns.c **** 			break;
+ 814              		.loc 1 223 4 is_stmt 1 view .LVU239
+ 815 0024 3146     		mov	r1, r6
+ 816 0026 2846     		mov	r0, r5
+ 817 0028 FFF7FEFF 		bl	breathe
+ 818              	.LVL50:
+ 224:Core/Src/led_patterns.c **** 		}
+ 819              		.loc 1 224 4 view .LVU240
+ 820 002c F9E7     		b	.L59
+ 821              	.L63:
+ 227:Core/Src/led_patterns.c **** 			break;
+ 822              		.loc 1 227 4 view .LVU241
+ 823 002e 3046     		mov	r0, r6
+ 824 0030 FFF7FEFF 		bl	rainbow
+ 825              	.LVL51:
+ 228:Core/Src/led_patterns.c **** 		}
+ 826              		.loc 1 228 4 view .LVU242
+ 827 0034 F5E7     		b	.L59
+ 828              	.L61:
+ 231:Core/Src/led_patterns.c **** 			break;
+ 829              		.loc 1 231 4 view .LVU243
+ 830 0036 3146     		mov	r1, r6
+ 831 0038 2846     		mov	r0, r5
+ 832 003a FFF7FEFF 		bl	meteor
+ 833              	.LVL52:
+ 232:Core/Src/led_patterns.c **** 		}
+ 834              		.loc 1 232 4 view .LVU244
+ 835              		.loc 1 235 1 is_stmt 0 view .LVU245
+ 836 003e F0E7     		b	.L59
+ 837              		.cfi_endproc
+ 838              	.LFE134:
+ 840              		.global	breathe_color
+ 841              		.global	br_state
+ 842              		.global	cur_state
+ 843              		.global	b_val
+ 844              		.global	g_val
+ 845              		.global	r_val
+ 846              		.global	head_pos
+ 847              		.global	col_arr_idx
+ 848              		.global	col_name
+ 849              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 850              		.align	2
+ 851              	.LC0:
+ 852 0000 20202020 		.ascii	"    Red     \000"
+ 852      52656420 
+ 852      20202020 
+ARM GAS  /tmp/ccMvBZgQ.s 			page 22
+
+
+ 852      00
+ 853 000d 000000   		.align	2
+ 854              	.LC1:
+ 855 0010 2020204F 		.ascii	"   Orange   \000"
+ 855      72616E67 
+ 855      65202020 
+ 855      00
+ 856 001d 000000   		.align	2
+ 857              	.LC2:
+ 858 0020 20202059 		.ascii	"   Yellow   \000"
+ 858      656C6C6F 
+ 858      77202020 
+ 858      00
+ 859 002d 000000   		.align	2
+ 860              	.LC3:
+ 861 0030 20202047 		.ascii	"   Green    \000"
+ 861      7265656E 
+ 861      20202020 
+ 861      00
+ 862 003d 000000   		.align	2
+ 863              	.LC4:
+ 864 0040 20202020 		.ascii	"    Blue    \000"
+ 864      426C7565 
+ 864      20202020 
+ 864      00
+ 865 004d 000000   		.align	2
+ 866              	.LC5:
+ 867 0050 20202050 		.ascii	"   Purple   \000"
+ 867      7572706C 
+ 867      65202020 
+ 867      00
+ 868 005d 000000   		.align	2
+ 869              	.LC6:
+ 870 0060 20202020 		.ascii	"    Pink    \000"
+ 870      50696E6B 
+ 870      20202020 
+ 870      00
+ 871 006d 000000   		.align	2
+ 872              	.LC7:
+ 873 0070 20202020 		.ascii	"    Cyan    \000"
+ 873      4379616E 
+ 873      20202020 
+ 873      00
+ 874 007d 000000   		.align	2
+ 875              	.LC8:
+ 876 0080 20202057 		.ascii	"   White    \000"
+ 876      68697465 
+ 876      20202020 
+ 876      00
+ 877              		.global	col_arr
+ 878              		.global	black
+ 879              		.global	white
+ 880              		.global	cyan
+ 881              		.global	pink
+ 882              		.global	purple
+ 883              		.global	blue
+ 884              		.global	green
+ARM GAS  /tmp/ccMvBZgQ.s 			page 23
+
+
+ 885              		.global	yellow
+ 886              		.global	orange
+ 887              		.global	red
+ 888              		.section	.bss.b_val,"aw",%nobits
+ 889              		.align	2
+ 890              		.set	.LANCHOR2,. + 0
+ 893              	b_val:
+ 894 0000 00000000 		.space	4
+ 895              		.section	.bss.br_state,"aw",%nobits
+ 896              		.set	.LANCHOR5,. + 0
+ 899              	br_state:
+ 900 0000 00       		.space	1
+ 901              		.section	.bss.breathe_color,"aw",%nobits
+ 902              		.align	2
+ 903              		.set	.LANCHOR6,. + 0
+ 906              	breathe_color:
+ 907 0000 00000000 		.space	4
+ 908              		.section	.bss.col_arr_idx,"aw",%nobits
+ 909              		.align	2
+ 912              	col_arr_idx:
+ 913 0000 00000000 		.space	4
+ 914              		.section	.bss.cur_state,"aw",%nobits
+ 915              		.set	.LANCHOR3,. + 0
+ 918              	cur_state:
+ 919 0000 00       		.space	1
+ 920              		.section	.bss.g_val,"aw",%nobits
+ 921              		.align	2
+ 922              		.set	.LANCHOR0,. + 0
+ 925              	g_val:
+ 926 0000 00000000 		.space	4
+ 927              		.section	.bss.head_pos,"aw",%nobits
+ 928              		.align	2
+ 929              		.set	.LANCHOR4,. + 0
+ 932              	head_pos:
+ 933 0000 00000000 		.space	4
+ 934              		.section	.data.col_name,"aw"
+ 935              		.align	2
+ 938              	col_name:
+ 939 0000 00000000 		.word	.LC0
+ 940 0004 10000000 		.word	.LC1
+ 941 0008 20000000 		.word	.LC2
+ 942 000c 30000000 		.word	.LC3
+ 943 0010 40000000 		.word	.LC4
+ 944 0014 50000000 		.word	.LC5
+ 945 0018 60000000 		.word	.LC6
+ 946 001c 70000000 		.word	.LC7
+ 947 0020 80000000 		.word	.LC8
+ 948              		.section	.data.r_val,"aw"
+ 949              		.align	2
+ 950              		.set	.LANCHOR1,. + 0
+ 953              	r_val:
+ 954 0000 19000000 		.word	25
+ 955              		.section	.rodata.black,"a"
+ 956              		.align	2
+ 959              	black:
+ 960 0000 00000000 		.space	4
+ 961              		.section	.rodata.blue,"a"
+ARM GAS  /tmp/ccMvBZgQ.s 			page 24
+
+
+ 962              		.align	2
+ 965              	blue:
+ 966 0000 FF000000 		.word	255
+ 967              		.section	.rodata.col_arr,"a"
+ 968              		.align	2
+ 971              	col_arr:
+ 972 0000 00FF0000 		.word	65280
+ 973 0004 00FF8800 		.word	8978176
+ 974 0008 00FFFF00 		.word	16776960
+ 975 000c 0000FF00 		.word	16711680
+ 976 0010 FF000000 		.word	255
+ 977 0014 BF5C0000 		.word	23743
+ 978 0018 AFBF0000 		.word	49071
+ 979 001c BF00BF00 		.word	12517567
+ 980 0020 FFFFFF00 		.word	16777215
+ 981              		.section	.rodata.cyan,"a"
+ 982              		.align	2
+ 985              	cyan:
+ 986 0000 BF00BF00 		.word	12517567
+ 987              		.section	.rodata.green,"a"
+ 988              		.align	2
+ 991              	green:
+ 992 0000 0000FF00 		.word	16711680
+ 993              		.section	.rodata.orange,"a"
+ 994              		.align	2
+ 997              	orange:
+ 998 0000 00FF8800 		.word	8978176
+ 999              		.section	.rodata.pink,"a"
+ 1000              		.align	2
+ 1003              	pink:
+ 1004 0000 AFBF0000 		.word	49071
+ 1005              		.section	.rodata.purple,"a"
+ 1006              		.align	2
+ 1009              	purple:
+ 1010 0000 BF5C0000 		.word	23743
+ 1011              		.section	.rodata.red,"a"
+ 1012              		.align	2
+ 1015              	red:
+ 1016 0000 00FF0000 		.word	65280
+ 1017              		.section	.rodata.white,"a"
+ 1018              		.align	2
+ 1021              	white:
+ 1022 0000 FFFFFF00 		.word	16777215
+ 1023              		.section	.rodata.yellow,"a"
+ 1024              		.align	2
+ 1027              	yellow:
+ 1028 0000 00FFFF00 		.word	16776960
+ 1029              		.text
+ 1030              	.Letext0:
+ 1031              		.file 2 "/usr/lib/gcc/arm-none-eabi/10.3.1/include/stdint.h"
+ 1032              		.file 3 "Core/Inc/main.h"
+ 1033              		.file 4 "Core/Inc/led_driver.h"
+ 1034              		.file 5 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32
+ 1035              		.file 6 "<built-in>"
+ARM GAS  /tmp/ccMvBZgQ.s 			page 25
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 led_patterns.c
+     /tmp/ccMvBZgQ.s:18     .text.static_color:0000000000000000 $t
+     /tmp/ccMvBZgQ.s:26     .text.static_color:0000000000000000 static_color
+     /tmp/ccMvBZgQ.s:74     .text.rainbow:0000000000000000 $t
+     /tmp/ccMvBZgQ.s:81     .text.rainbow:0000000000000000 rainbow
+     /tmp/ccMvBZgQ.s:122    .text.rainbow:0000000000000024 $d
+     /tmp/ccMvBZgQ.s:128    .text.rainbow:000000000000002a $t
+     /tmp/ccMvBZgQ.s:269    .text.rainbow:00000000000000bc $d
+     /tmp/ccMvBZgQ.s:278    .text.meteor:0000000000000000 $t
+     /tmp/ccMvBZgQ.s:285    .text.meteor:0000000000000000 meteor
+     /tmp/ccMvBZgQ.s:420    .text.meteor:000000000000008c $d
+     /tmp/ccMvBZgQ.s:425    .text.breathe:0000000000000000 $t
+     /tmp/ccMvBZgQ.s:432    .text.breathe:0000000000000000 breathe
+     /tmp/ccMvBZgQ.s:751    .text.breathe:000000000000013c $d
+     /tmp/ccMvBZgQ.s:761    .text.display_pattern:0000000000000000 $t
+     /tmp/ccMvBZgQ.s:768    .text.display_pattern:0000000000000000 display_pattern
+     /tmp/ccMvBZgQ.s:798    .text.display_pattern:0000000000000018 $d
+     /tmp/ccMvBZgQ.s:802    .text.display_pattern:000000000000001c $t
+     /tmp/ccMvBZgQ.s:906    .bss.breathe_color:0000000000000000 breathe_color
+     /tmp/ccMvBZgQ.s:899    .bss.br_state:0000000000000000 br_state
+     /tmp/ccMvBZgQ.s:918    .bss.cur_state:0000000000000000 cur_state
+     /tmp/ccMvBZgQ.s:893    .bss.b_val:0000000000000000 b_val
+     /tmp/ccMvBZgQ.s:925    .bss.g_val:0000000000000000 g_val
+     /tmp/ccMvBZgQ.s:953    .data.r_val:0000000000000000 r_val
+     /tmp/ccMvBZgQ.s:932    .bss.head_pos:0000000000000000 head_pos
+     /tmp/ccMvBZgQ.s:912    .bss.col_arr_idx:0000000000000000 col_arr_idx
+     /tmp/ccMvBZgQ.s:938    .data.col_name:0000000000000000 col_name
+     /tmp/ccMvBZgQ.s:850    .rodata.str1.4:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:971    .rodata.col_arr:0000000000000000 col_arr
+     /tmp/ccMvBZgQ.s:959    .rodata.black:0000000000000000 black
+     /tmp/ccMvBZgQ.s:1021   .rodata.white:0000000000000000 white
+     /tmp/ccMvBZgQ.s:985    .rodata.cyan:0000000000000000 cyan
+     /tmp/ccMvBZgQ.s:1003   .rodata.pink:0000000000000000 pink
+     /tmp/ccMvBZgQ.s:1009   .rodata.purple:0000000000000000 purple
+     /tmp/ccMvBZgQ.s:965    .rodata.blue:0000000000000000 blue
+     /tmp/ccMvBZgQ.s:991    .rodata.green:0000000000000000 green
+     /tmp/ccMvBZgQ.s:1027   .rodata.yellow:0000000000000000 yellow
+     /tmp/ccMvBZgQ.s:997    .rodata.orange:0000000000000000 orange
+     /tmp/ccMvBZgQ.s:1015   .rodata.red:0000000000000000 red
+     /tmp/ccMvBZgQ.s:889    .bss.b_val:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:900    .bss.br_state:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:902    .bss.breathe_color:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:909    .bss.col_arr_idx:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:919    .bss.cur_state:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:921    .bss.g_val:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:928    .bss.head_pos:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:935    .data.col_name:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:949    .data.r_val:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:956    .rodata.black:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:962    .rodata.blue:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:968    .rodata.col_arr:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:982    .rodata.cyan:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:988    .rodata.green:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:994    .rodata.orange:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:1000   .rodata.pink:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:1006   .rodata.purple:0000000000000000 $d
+ARM GAS  /tmp/ccMvBZgQ.s 			page 26
+
+
+     /tmp/ccMvBZgQ.s:1012   .rodata.red:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:1018   .rodata.white:0000000000000000 $d
+     /tmp/ccMvBZgQ.s:1024   .rodata.yellow:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+drive_led
+HAL_Delay
+memset
+change_brightness

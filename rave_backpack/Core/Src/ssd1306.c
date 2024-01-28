@@ -56,6 +56,10 @@ void clear_display(){
 }
 
 void ssd1306_init(){
+	/*
+	* Common modifications:
+	*	Invert across X Axis : Change C0 -> C8; Change A0 -> A1
+	*/
 	write_command(0xAE); //display off
 
 	write_command(0x20); //Set Memory Addressing Mode
@@ -74,12 +78,12 @@ void ssd1306_init(){
 
 	write_command(0x40); //--set start line address
 
-	write_command(0xA1); //--set segment re-map 0 to 127
+	write_command(0xA0); //--set segment re-map 0 to 127 A1 is 0-127 For mirror across X access. (A1/C8 is normal A0/C0 is inverted)
 
 	write_command(0xA8); //--set multiplex ratio(1 to 64)
 	write_command(0x3F); //
 
-	write_command(0xC8); //Set COM Output Scan Direction
+	write_command(0xC0); //Set COM Output Scan Direction -- C8 = 127-0 C0 = 0-127
 
 	write_command(0xD3); //-set display offset
 	write_command(0x00); //-not offset

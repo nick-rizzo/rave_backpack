@@ -1,0 +1,1387 @@
+ARM GAS  /tmp/ccJo11RQ.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"stm32f4xx_hal_pwr.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.HAL_PWR_DeInit,"ax",%progbits
+  18              		.align	1
+  19              		.global	HAL_PWR_DeInit
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	HAL_PWR_DeInit:
+  27              	.LFB130:
+  28              		.file 1 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32
+   1:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+   2:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   ******************************************************************************
+   3:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @file    stm32f4xx_hal_pwr.c
+   4:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @author  MCD Application Team
+   5:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief   PWR HAL module driver.
+   6:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *          This file provides firmware functions to manage the following 
+   7:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *          functionalities of the Power Controller (PWR) peripheral:
+   8:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *           + Initialization and de-initialization functions
+   9:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *           + Peripheral Control functions 
+  10:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         
+  11:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   ******************************************************************************
+  12:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @attention
+  13:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *
+  14:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * Copyright (c) 2017 STMicroelectronics.
+  15:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * All rights reserved.
+  16:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *
+  17:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * This software is licensed under terms that can be found in the LICENSE file in
+  18:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * the root directory of this software component.
+  19:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * If no LICENSE file comes with this software, it is provided AS-IS.
+  20:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   ******************************************************************************
+  21:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */ 
+  22:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+  23:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /* Includes ------------------------------------------------------------------*/
+  24:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** #include "stm32f4xx_hal.h"
+  25:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+  26:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /** @addtogroup STM32F4xx_HAL_Driver
+  27:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @{
+  28:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+  29:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+  30:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /** @defgroup PWR PWR
+ARM GAS  /tmp/ccJo11RQ.s 			page 2
+
+
+  31:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief PWR HAL module driver
+  32:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @{
+  33:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+  34:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+  35:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** #ifdef HAL_PWR_MODULE_ENABLED
+  36:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+  37:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /* Private typedef -----------------------------------------------------------*/
+  38:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /* Private define ------------------------------------------------------------*/
+  39:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /** @addtogroup PWR_Private_Constants
+  40:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @{
+  41:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+  42:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   
+  43:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /** @defgroup PWR_PVD_Mode_Mask PWR PVD Mode Mask
+  44:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @{
+  45:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */     
+  46:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** #define PVD_MODE_IT               0x00010000U
+  47:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** #define PVD_MODE_EVT              0x00020000U
+  48:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** #define PVD_RISING_EDGE           0x00000001U
+  49:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** #define PVD_FALLING_EDGE          0x00000002U
+  50:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+  51:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @}
+  52:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+  53:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+  54:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+  55:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @}
+  56:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */    
+  57:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /* Private macro -------------------------------------------------------------*/
+  58:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /* Private variables ---------------------------------------------------------*/
+  59:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /* Private function prototypes -----------------------------------------------*/
+  60:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /* Private functions ---------------------------------------------------------*/
+  61:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+  62:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /** @defgroup PWR_Exported_Functions PWR Exported Functions
+  63:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @{
+  64:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+  65:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+  66:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /** @defgroup PWR_Exported_Functions_Group1 Initialization and de-initialization functions 
+  67:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *  @brief    Initialization and de-initialization functions
+  68:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *
+  69:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** @verbatim
+  70:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****  ===============================================================================
+  71:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****               ##### Initialization and de-initialization functions #####
+  72:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****  ===============================================================================
+  73:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     [..]
+  74:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       After reset, the backup domain (RTC registers, RTC backup data 
+  75:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       registers and backup SRAM) is protected against possible unwanted 
+  76:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       write accesses. 
+  77:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       To enable access to the RTC Domain and RTC registers, proceed as follows:
+  78:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****         (+) Enable the Power Controller (PWR) APB1 interface clock using the
+  79:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****             __HAL_RCC_PWR_CLK_ENABLE() macro.
+  80:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****         (+) Enable access to RTC domain using the HAL_PWR_EnableBkUpAccess() function.
+  81:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****  
+  82:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** @endverbatim
+  83:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @{
+  84:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+  85:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+  86:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+  87:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Deinitializes the HAL PWR peripheral registers to their default reset values.
+ARM GAS  /tmp/ccJo11RQ.s 			page 3
+
+
+  88:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+  89:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+  90:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_DeInit(void)
+  91:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+  29              		.loc 1 91 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  92:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   __HAL_RCC_PWR_FORCE_RESET();
+  34              		.loc 1 92 3 view .LVU1
+  35 0000 044B     		ldr	r3, .L2
+  36 0002 1A6A     		ldr	r2, [r3, #32]
+  37 0004 42F08052 		orr	r2, r2, #268435456
+  38 0008 1A62     		str	r2, [r3, #32]
+  93:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   __HAL_RCC_PWR_RELEASE_RESET();
+  39              		.loc 1 93 3 view .LVU2
+  40 000a 1A6A     		ldr	r2, [r3, #32]
+  41 000c 22F08052 		bic	r2, r2, #268435456
+  42 0010 1A62     		str	r2, [r3, #32]
+  94:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+  43              		.loc 1 94 1 is_stmt 0 view .LVU3
+  44 0012 7047     		bx	lr
+  45              	.L3:
+  46              		.align	2
+  47              	.L2:
+  48 0014 00380240 		.word	1073887232
+  49              		.cfi_endproc
+  50              	.LFE130:
+  52              		.section	.text.HAL_PWR_EnableBkUpAccess,"ax",%progbits
+  53              		.align	1
+  54              		.global	HAL_PWR_EnableBkUpAccess
+  55              		.syntax unified
+  56              		.thumb
+  57              		.thumb_func
+  58              		.fpu fpv4-sp-d16
+  60              	HAL_PWR_EnableBkUpAccess:
+  61              	.LFB131:
+  95:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+  96:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+  97:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Enables access to the backup domain (RTC registers, RTC 
+  98:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         backup data registers and backup SRAM).
+  99:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note If the HSE divided by 2, 3, ..31 is used as the RTC clock, the 
+ 100:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         Backup Domain Access should be kept enabled.
+ 101:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note The following sequence is required to bypass the delay between
+ 102:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         DBP bit programming and the effective enabling  of the backup domain.
+ 103:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         Please check the Errata Sheet for more details under "Possible delay
+ 104:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         in backup domain protection disabling/enabling after programming the
+ 105:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         DBP bit" section.
+ 106:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 107:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 108:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_EnableBkUpAccess(void)
+ 109:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+  62              		.loc 1 109 1 is_stmt 1 view -0
+  63              		.cfi_startproc
+  64              		@ args = 0, pretend = 0, frame = 8
+  65              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccJo11RQ.s 			page 4
+
+
+  66              		@ link register save eliminated.
+  67 0000 82B0     		sub	sp, sp, #8
+  68              	.LCFI0:
+  69              		.cfi_def_cfa_offset 8
+ 110:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   __IO uint32_t dummyread;
+  70              		.loc 1 110 3 view .LVU5
+ 111:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *(__IO uint32_t *) CR_DBP_BB = (uint32_t)ENABLE;
+  71              		.loc 1 111 3 view .LVU6
+  72              		.loc 1 111 32 is_stmt 0 view .LVU7
+  73 0002 044B     		ldr	r3, .L6
+  74 0004 0122     		movs	r2, #1
+  75 0006 1A62     		str	r2, [r3, #32]
+ 112:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   dummyread = PWR->CR;
+  76              		.loc 1 112 3 is_stmt 1 view .LVU8
+  77              		.loc 1 112 18 is_stmt 0 view .LVU9
+  78 0008 034B     		ldr	r3, .L6+4
+  79 000a 1B68     		ldr	r3, [r3]
+  80              		.loc 1 112 13 view .LVU10
+  81 000c 0193     		str	r3, [sp, #4]
+ 113:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   UNUSED(dummyread);
+  82              		.loc 1 113 3 is_stmt 1 view .LVU11
+  83 000e 019B     		ldr	r3, [sp, #4]
+ 114:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+  84              		.loc 1 114 1 is_stmt 0 view .LVU12
+  85 0010 02B0     		add	sp, sp, #8
+  86              	.LCFI1:
+  87              		.cfi_def_cfa_offset 0
+  88              		@ sp needed
+  89 0012 7047     		bx	lr
+  90              	.L7:
+  91              		.align	2
+  92              	.L6:
+  93 0014 00000E42 		.word	1108213760
+  94 0018 00700040 		.word	1073770496
+  95              		.cfi_endproc
+  96              	.LFE131:
+  98              		.section	.text.HAL_PWR_DisableBkUpAccess,"ax",%progbits
+  99              		.align	1
+ 100              		.global	HAL_PWR_DisableBkUpAccess
+ 101              		.syntax unified
+ 102              		.thumb
+ 103              		.thumb_func
+ 104              		.fpu fpv4-sp-d16
+ 106              	HAL_PWR_DisableBkUpAccess:
+ 107              	.LFB132:
+ 115:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 116:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 117:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Disables access to the backup domain (RTC registers, RTC 
+ 118:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         backup data registers and backup SRAM).
+ 119:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note If the HSE divided by 2, 3, ..31 is used as the RTC clock, the 
+ 120:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         Backup Domain Access should be kept enabled.
+ 121:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note The following sequence is required to bypass the delay between
+ 122:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         DBP bit programming and the effective disabling  of the backup domain.
+ 123:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         Please check the Errata Sheet for more details under "Possible delay
+ 124:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         in backup domain protection disabling/enabling after programming the
+ 125:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         DBP bit" section.
+ 126:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ARM GAS  /tmp/ccJo11RQ.s 			page 5
+
+
+ 127:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 128:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_DisableBkUpAccess(void)
+ 129:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 108              		.loc 1 129 1 is_stmt 1 view -0
+ 109              		.cfi_startproc
+ 110              		@ args = 0, pretend = 0, frame = 8
+ 111              		@ frame_needed = 0, uses_anonymous_args = 0
+ 112              		@ link register save eliminated.
+ 113 0000 82B0     		sub	sp, sp, #8
+ 114              	.LCFI2:
+ 115              		.cfi_def_cfa_offset 8
+ 130:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   __IO uint32_t dummyread;
+ 116              		.loc 1 130 3 view .LVU14
+ 131:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *(__IO uint32_t *) CR_DBP_BB = (uint32_t)DISABLE;
+ 117              		.loc 1 131 3 view .LVU15
+ 118              		.loc 1 131 32 is_stmt 0 view .LVU16
+ 119 0002 044B     		ldr	r3, .L10
+ 120 0004 0022     		movs	r2, #0
+ 121 0006 1A62     		str	r2, [r3, #32]
+ 132:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   dummyread = PWR->CR;
+ 122              		.loc 1 132 3 is_stmt 1 view .LVU17
+ 123              		.loc 1 132 18 is_stmt 0 view .LVU18
+ 124 0008 034B     		ldr	r3, .L10+4
+ 125 000a 1B68     		ldr	r3, [r3]
+ 126              		.loc 1 132 13 view .LVU19
+ 127 000c 0193     		str	r3, [sp, #4]
+ 133:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   UNUSED(dummyread);
+ 128              		.loc 1 133 3 is_stmt 1 view .LVU20
+ 129 000e 019B     		ldr	r3, [sp, #4]
+ 134:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 130              		.loc 1 134 1 is_stmt 0 view .LVU21
+ 131 0010 02B0     		add	sp, sp, #8
+ 132              	.LCFI3:
+ 133              		.cfi_def_cfa_offset 0
+ 134              		@ sp needed
+ 135 0012 7047     		bx	lr
+ 136              	.L11:
+ 137              		.align	2
+ 138              	.L10:
+ 139 0014 00000E42 		.word	1108213760
+ 140 0018 00700040 		.word	1073770496
+ 141              		.cfi_endproc
+ 142              	.LFE132:
+ 144              		.section	.text.HAL_PWR_ConfigPVD,"ax",%progbits
+ 145              		.align	1
+ 146              		.global	HAL_PWR_ConfigPVD
+ 147              		.syntax unified
+ 148              		.thumb
+ 149              		.thumb_func
+ 150              		.fpu fpv4-sp-d16
+ 152              	HAL_PWR_ConfigPVD:
+ 153              	.LVL0:
+ 154              	.LFB133:
+ 135:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 136:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 137:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @}
+ 138:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ARM GAS  /tmp/ccJo11RQ.s 			page 6
+
+
+ 139:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 140:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /** @defgroup PWR_Exported_Functions_Group2 Peripheral Control functions 
+ 141:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *  @brief Low Power modes configuration functions 
+ 142:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *
+ 143:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** @verbatim
+ 144:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 145:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****  ===============================================================================
+ 146:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****                  ##### Peripheral Control functions #####
+ 147:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****  ===============================================================================
+ 148:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****      
+ 149:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     *** PVD configuration ***
+ 150:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     =========================
+ 151:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     [..]
+ 152:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (+) The PVD is used to monitor the VDD power supply by comparing it to a 
+ 153:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****           threshold selected by the PVD Level (PLS[2:0] bits in the PWR_CR).
+ 154:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (+) A PVDO flag is available to indicate if VDD/VDDA is higher or lower 
+ 155:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****           than the PVD threshold. This event is internally connected to the EXTI 
+ 156:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****           line16 and can generate an interrupt if enabled. This is done through
+ 157:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****           __HAL_PWR_PVD_EXTI_ENABLE_IT() macro.
+ 158:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (+) The PVD is stopped in Standby mode.
+ 159:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 160:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     *** Wake-up pin configuration ***
+ 161:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     ================================
+ 162:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     [..]
+ 163:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (+) Wake-up pin is used to wake up the system from Standby mode. This pin is 
+ 164:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****           forced in input pull-down configuration and is active on rising edges.
+ 165:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (+) There is one Wake-up pin: Wake-up Pin 1 on PA.00.
+ 166:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 	   (++) For STM32F446xx there are two Wake-Up pins: Pin1 on PA.00 and Pin2 on PC.13
+ 167:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****            (++) For STM32F410xx/STM32F412xx/STM32F413xx/STM32F423xx  there are three Wake-Up pins: 
+ 168:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 169:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     *** Low Power modes configuration ***
+ 170:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     =====================================
+ 171:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     [..]
+ 172:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       The devices feature 3 low-power modes:
+ 173:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (+) Sleep mode: Cortex-M4 core stopped, peripherals kept running.
+ 174:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (+) Stop mode: all clocks are stopped, regulator running, regulator 
+ 175:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****           in low power mode
+ 176:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (+) Standby mode: 1.2V domain powered off.
+ 177:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****    
+ 178:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****    *** Sleep mode ***
+ 179:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****    ==================
+ 180:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     [..]
+ 181:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (+) Entry:
+ 182:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****         The Sleep mode is entered by using the HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLE
+ 183:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****               functions with
+ 184:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****           (++) PWR_SLEEPENTRY_WFI: enter SLEEP mode with WFI instruction
+ 185:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****           (++) PWR_SLEEPENTRY_WFE: enter SLEEP mode with WFE instruction
+ 186:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       
+ 187:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       -@@- The Regulator parameter is not used for the STM32F4 family 
+ 188:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****               and is kept as parameter just to maintain compatibility with the 
+ 189:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****               lower power families (STM32L).
+ 190:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (+) Exit:
+ 191:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****         Any peripheral interrupt acknowledged by the nested vectored interrupt 
+ 192:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****               controller (NVIC) can wake up the device from Sleep mode.
+ 193:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 194:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****    *** Stop mode ***
+ 195:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****    =================
+ARM GAS  /tmp/ccJo11RQ.s 			page 7
+
+
+ 196:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     [..]
+ 197:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       In Stop mode, all clocks in the 1.2V domain are stopped, the PLL, the HSI,
+ 198:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       and the HSE RC oscillators are disabled. Internal SRAM and register contents 
+ 199:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       are preserved.
+ 200:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       The voltage regulator can be configured either in normal or low-power mode.
+ 201:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       To minimize the consumption In Stop mode, FLASH can be powered off before 
+ 202:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       entering the Stop mode using the HAL_PWREx_EnableFlashPowerDown() function.
+ 203:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       It can be switched on again by software after exiting the Stop mode using
+ 204:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       the HAL_PWREx_DisableFlashPowerDown() function. 
+ 205:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 206:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (+) Entry:
+ 207:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****          The Stop mode is entered using the HAL_PWR_EnterSTOPMode(PWR_MAINREGULATOR_ON) 
+ 208:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****              function with:
+ 209:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****           (++) Main regulator ON.
+ 210:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****           (++) Low Power regulator ON.
+ 211:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (+) Exit:
+ 212:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****         Any EXTI Line (Internal or External) configured in Interrupt/Event mode.
+ 213:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 214:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****    *** Standby mode ***
+ 215:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****    ====================
+ 216:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     [..]
+ 217:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     (+)
+ 218:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       The Standby mode allows to achieve the lowest power consumption. It is based 
+ 219:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       on the Cortex-M4 deep sleep mode, with the voltage regulator disabled. 
+ 220:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       The 1.2V domain is consequently powered off. The PLL, the HSI oscillator and 
+ 221:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       the HSE oscillator are also switched off. SRAM and register contents are lost 
+ 222:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       except for the RTC registers, RTC backup registers, backup SRAM and Standby 
+ 223:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       circuitry.
+ 224:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****    
+ 225:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       The voltage regulator is OFF.
+ 226:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       
+ 227:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (++) Entry:
+ 228:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****         (+++) The Standby mode is entered using the HAL_PWR_EnterSTANDBYMode() function.
+ 229:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (++) Exit:
+ 230:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****         (+++) WKUP pin rising edge, RTC alarm (Alarm A and Alarm B), RTC wake-up,
+ 231:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****              tamper event, time-stamp event, external reset in NRST pin, IWDG reset.
+ 232:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 233:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****    *** Auto-wake-up (AWU) from low-power mode ***
+ 234:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****    =============================================
+ 235:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     [..]
+ 236:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     
+ 237:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****      (+) The MCU can be woken up from low-power mode by an RTC Alarm event, an RTC 
+ 238:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       Wake-up event, a tamper event or a time-stamp event, without depending on 
+ 239:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       an external interrupt (Auto-wake-up mode).
+ 240:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 241:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****       (+) RTC auto-wake-up (AWU) from the Stop and Standby modes
+ 242:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****        
+ 243:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****         (++) To wake up from the Stop mode with an RTC alarm event, it is necessary to 
+ 244:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****               configure the RTC to generate the RTC alarm using the HAL_RTC_SetAlarm_IT() function.
+ 245:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 246:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****         (++) To wake up from the Stop mode with an RTC Tamper or time stamp event, it 
+ 247:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****              is necessary to configure the RTC to detect the tamper or time stamp event using the
+ 248:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****                 HAL_RTCEx_SetTimeStamp_IT() or HAL_RTCEx_SetTamper_IT() functions.
+ 249:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****                   
+ 250:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****         (++) To wake up from the Stop mode with an RTC Wake-up event, it is necessary to
+ 251:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****               configure the RTC to generate the RTC Wake-up event using the HAL_RTCEx_SetWakeUpTime
+ 252:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ARM GAS  /tmp/ccJo11RQ.s 			page 8
+
+
+ 253:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** @endverbatim
+ 254:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @{
+ 255:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 256:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 257:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 258:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Configures the voltage threshold detected by the Power Voltage Detector(PVD).
+ 259:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @param sConfigPVD pointer to an PWR_PVDTypeDef structure that contains the configuration
+ 260:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *        information for the PVD.
+ 261:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note Refer to the electrical characteristics of your device datasheet for
+ 262:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         more details about the voltage threshold corresponding to each 
+ 263:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         detection level.
+ 264:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 265:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 266:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_ConfigPVD(PWR_PVDTypeDef *sConfigPVD)
+ 267:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 155              		.loc 1 267 1 is_stmt 1 view -0
+ 156              		.cfi_startproc
+ 157              		@ args = 0, pretend = 0, frame = 0
+ 158              		@ frame_needed = 0, uses_anonymous_args = 0
+ 159              		@ link register save eliminated.
+ 268:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Check the parameters */
+ 269:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   assert_param(IS_PWR_PVD_LEVEL(sConfigPVD->PVDLevel));
+ 160              		.loc 1 269 3 view .LVU23
+ 270:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   assert_param(IS_PWR_PVD_MODE(sConfigPVD->Mode));
+ 161              		.loc 1 270 3 view .LVU24
+ 271:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   
+ 272:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Set PLS[7:5] bits according to PVDLevel value */
+ 273:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   MODIFY_REG(PWR->CR, PWR_CR_PLS, sConfigPVD->PVDLevel);
+ 162              		.loc 1 273 3 view .LVU25
+ 163 0000 1E4A     		ldr	r2, .L17
+ 164 0002 1368     		ldr	r3, [r2]
+ 165 0004 23F0E003 		bic	r3, r3, #224
+ 166 0008 0168     		ldr	r1, [r0]
+ 167 000a 0B43     		orrs	r3, r3, r1
+ 168 000c 1360     		str	r3, [r2]
+ 274:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   
+ 275:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Clear any previous config. Keep it clear if no event or IT mode is selected */
+ 276:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   __HAL_PWR_PVD_EXTI_DISABLE_EVENT();
+ 169              		.loc 1 276 3 view .LVU26
+ 170 000e 1C4B     		ldr	r3, .L17+4
+ 171 0010 5A68     		ldr	r2, [r3, #4]
+ 172 0012 22F48032 		bic	r2, r2, #65536
+ 173 0016 5A60     		str	r2, [r3, #4]
+ 277:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   __HAL_PWR_PVD_EXTI_DISABLE_IT();
+ 174              		.loc 1 277 3 view .LVU27
+ 175 0018 1A68     		ldr	r2, [r3]
+ 176 001a 22F48032 		bic	r2, r2, #65536
+ 177 001e 1A60     		str	r2, [r3]
+ 278:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   __HAL_PWR_PVD_EXTI_DISABLE_RISING_EDGE();
+ 178              		.loc 1 278 3 view .LVU28
+ 179 0020 9A68     		ldr	r2, [r3, #8]
+ 180 0022 22F48032 		bic	r2, r2, #65536
+ 181 0026 9A60     		str	r2, [r3, #8]
+ 279:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   __HAL_PWR_PVD_EXTI_DISABLE_FALLING_EDGE(); 
+ 182              		.loc 1 279 3 view .LVU29
+ 183 0028 DA68     		ldr	r2, [r3, #12]
+ 184 002a 22F48032 		bic	r2, r2, #65536
+ARM GAS  /tmp/ccJo11RQ.s 			page 9
+
+
+ 185 002e DA60     		str	r2, [r3, #12]
+ 280:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 281:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Configure interrupt mode */
+ 282:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   if((sConfigPVD->Mode & PVD_MODE_IT) == PVD_MODE_IT)
+ 186              		.loc 1 282 3 view .LVU30
+ 187              		.loc 1 282 17 is_stmt 0 view .LVU31
+ 188 0030 4368     		ldr	r3, [r0, #4]
+ 189              		.loc 1 282 5 view .LVU32
+ 190 0032 13F4803F 		tst	r3, #65536
+ 191 0036 04D0     		beq	.L13
+ 283:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   {
+ 284:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     __HAL_PWR_PVD_EXTI_ENABLE_IT();
+ 192              		.loc 1 284 5 is_stmt 1 view .LVU33
+ 193 0038 114A     		ldr	r2, .L17+4
+ 194 003a 1368     		ldr	r3, [r2]
+ 195 003c 43F48033 		orr	r3, r3, #65536
+ 196 0040 1360     		str	r3, [r2]
+ 197              	.L13:
+ 285:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   }
+ 286:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   
+ 287:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Configure event mode */
+ 288:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   if((sConfigPVD->Mode & PVD_MODE_EVT) == PVD_MODE_EVT)
+ 198              		.loc 1 288 3 view .LVU34
+ 199              		.loc 1 288 17 is_stmt 0 view .LVU35
+ 200 0042 4368     		ldr	r3, [r0, #4]
+ 201              		.loc 1 288 5 view .LVU36
+ 202 0044 13F4003F 		tst	r3, #131072
+ 203 0048 04D0     		beq	.L14
+ 289:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   {
+ 290:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     __HAL_PWR_PVD_EXTI_ENABLE_EVENT();
+ 204              		.loc 1 290 5 is_stmt 1 view .LVU37
+ 205 004a 0D4A     		ldr	r2, .L17+4
+ 206 004c 5368     		ldr	r3, [r2, #4]
+ 207 004e 43F48033 		orr	r3, r3, #65536
+ 208 0052 5360     		str	r3, [r2, #4]
+ 209              	.L14:
+ 291:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   }
+ 292:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   
+ 293:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Configure the edge */
+ 294:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   if((sConfigPVD->Mode & PVD_RISING_EDGE) == PVD_RISING_EDGE)
+ 210              		.loc 1 294 3 view .LVU38
+ 211              		.loc 1 294 17 is_stmt 0 view .LVU39
+ 212 0054 4368     		ldr	r3, [r0, #4]
+ 213              		.loc 1 294 5 view .LVU40
+ 214 0056 13F0010F 		tst	r3, #1
+ 215 005a 04D0     		beq	.L15
+ 295:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   {
+ 296:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     __HAL_PWR_PVD_EXTI_ENABLE_RISING_EDGE();
+ 216              		.loc 1 296 5 is_stmt 1 view .LVU41
+ 217 005c 084A     		ldr	r2, .L17+4
+ 218 005e 9368     		ldr	r3, [r2, #8]
+ 219 0060 43F48033 		orr	r3, r3, #65536
+ 220 0064 9360     		str	r3, [r2, #8]
+ 221              	.L15:
+ 297:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   }
+ 298:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   
+ 299:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   if((sConfigPVD->Mode & PVD_FALLING_EDGE) == PVD_FALLING_EDGE)
+ARM GAS  /tmp/ccJo11RQ.s 			page 10
+
+
+ 222              		.loc 1 299 3 view .LVU42
+ 223              		.loc 1 299 17 is_stmt 0 view .LVU43
+ 224 0066 4368     		ldr	r3, [r0, #4]
+ 225              		.loc 1 299 5 view .LVU44
+ 226 0068 13F0020F 		tst	r3, #2
+ 227 006c 04D0     		beq	.L12
+ 300:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   {
+ 301:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     __HAL_PWR_PVD_EXTI_ENABLE_FALLING_EDGE();
+ 228              		.loc 1 301 5 is_stmt 1 view .LVU45
+ 229 006e 044A     		ldr	r2, .L17+4
+ 230 0070 D368     		ldr	r3, [r2, #12]
+ 231 0072 43F48033 		orr	r3, r3, #65536
+ 232 0076 D360     		str	r3, [r2, #12]
+ 233              	.L12:
+ 302:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   }
+ 303:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 234              		.loc 1 303 1 is_stmt 0 view .LVU46
+ 235 0078 7047     		bx	lr
+ 236              	.L18:
+ 237 007a 00BF     		.align	2
+ 238              	.L17:
+ 239 007c 00700040 		.word	1073770496
+ 240 0080 003C0140 		.word	1073822720
+ 241              		.cfi_endproc
+ 242              	.LFE133:
+ 244              		.section	.text.HAL_PWR_EnablePVD,"ax",%progbits
+ 245              		.align	1
+ 246              		.global	HAL_PWR_EnablePVD
+ 247              		.syntax unified
+ 248              		.thumb
+ 249              		.thumb_func
+ 250              		.fpu fpv4-sp-d16
+ 252              	HAL_PWR_EnablePVD:
+ 253              	.LFB134:
+ 304:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 305:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 306:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Enables the Power Voltage Detector(PVD).
+ 307:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 308:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 309:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_EnablePVD(void)
+ 310:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 254              		.loc 1 310 1 is_stmt 1 view -0
+ 255              		.cfi_startproc
+ 256              		@ args = 0, pretend = 0, frame = 0
+ 257              		@ frame_needed = 0, uses_anonymous_args = 0
+ 258              		@ link register save eliminated.
+ 311:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *(__IO uint32_t *) CR_PVDE_BB = (uint32_t)ENABLE;
+ 259              		.loc 1 311 3 view .LVU48
+ 260              		.loc 1 311 33 is_stmt 0 view .LVU49
+ 261 0000 014B     		ldr	r3, .L20
+ 262 0002 0122     		movs	r2, #1
+ 263 0004 1A61     		str	r2, [r3, #16]
+ 312:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 264              		.loc 1 312 1 view .LVU50
+ 265 0006 7047     		bx	lr
+ 266              	.L21:
+ 267              		.align	2
+ARM GAS  /tmp/ccJo11RQ.s 			page 11
+
+
+ 268              	.L20:
+ 269 0008 00000E42 		.word	1108213760
+ 270              		.cfi_endproc
+ 271              	.LFE134:
+ 273              		.section	.text.HAL_PWR_DisablePVD,"ax",%progbits
+ 274              		.align	1
+ 275              		.global	HAL_PWR_DisablePVD
+ 276              		.syntax unified
+ 277              		.thumb
+ 278              		.thumb_func
+ 279              		.fpu fpv4-sp-d16
+ 281              	HAL_PWR_DisablePVD:
+ 282              	.LFB135:
+ 313:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 314:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 315:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Disables the Power Voltage Detector(PVD).
+ 316:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 317:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 318:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_DisablePVD(void)
+ 319:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 283              		.loc 1 319 1 is_stmt 1 view -0
+ 284              		.cfi_startproc
+ 285              		@ args = 0, pretend = 0, frame = 0
+ 286              		@ frame_needed = 0, uses_anonymous_args = 0
+ 287              		@ link register save eliminated.
+ 320:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *(__IO uint32_t *) CR_PVDE_BB = (uint32_t)DISABLE;
+ 288              		.loc 1 320 3 view .LVU52
+ 289              		.loc 1 320 33 is_stmt 0 view .LVU53
+ 290 0000 014B     		ldr	r3, .L23
+ 291 0002 0022     		movs	r2, #0
+ 292 0004 1A61     		str	r2, [r3, #16]
+ 321:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 293              		.loc 1 321 1 view .LVU54
+ 294 0006 7047     		bx	lr
+ 295              	.L24:
+ 296              		.align	2
+ 297              	.L23:
+ 298 0008 00000E42 		.word	1108213760
+ 299              		.cfi_endproc
+ 300              	.LFE135:
+ 302              		.section	.text.HAL_PWR_EnableWakeUpPin,"ax",%progbits
+ 303              		.align	1
+ 304              		.global	HAL_PWR_EnableWakeUpPin
+ 305              		.syntax unified
+ 306              		.thumb
+ 307              		.thumb_func
+ 308              		.fpu fpv4-sp-d16
+ 310              	HAL_PWR_EnableWakeUpPin:
+ 311              	.LVL1:
+ 312              	.LFB136:
+ 322:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 323:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 324:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Enables the Wake-up PINx functionality.
+ 325:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @param WakeUpPinx Specifies the Power Wake-Up pin to enable.
+ 326:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         This parameter can be one of the following values:
+ 327:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *           @arg PWR_WAKEUP_PIN1
+ 328:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *           @arg PWR_WAKEUP_PIN2 available only on STM32F410xx/STM32F446xx/STM32F412xx/STM32F413x
+ARM GAS  /tmp/ccJo11RQ.s 			page 12
+
+
+ 329:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *           @arg PWR_WAKEUP_PIN3 available only on STM32F410xx/STM32F412xx/STM32F413xx/STM32F423x
+ 330:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 331:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 332:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_EnableWakeUpPin(uint32_t WakeUpPinx)
+ 333:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 313              		.loc 1 333 1 is_stmt 1 view -0
+ 314              		.cfi_startproc
+ 315              		@ args = 0, pretend = 0, frame = 0
+ 316              		@ frame_needed = 0, uses_anonymous_args = 0
+ 317              		@ link register save eliminated.
+ 334:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Check the parameter */
+ 335:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   assert_param(IS_PWR_WAKEUP_PIN(WakeUpPinx));
+ 318              		.loc 1 335 3 view .LVU56
+ 336:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 337:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Enable the wake up pin */
+ 338:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   SET_BIT(PWR->CSR, WakeUpPinx);
+ 319              		.loc 1 338 3 view .LVU57
+ 320 0000 024A     		ldr	r2, .L26
+ 321 0002 5368     		ldr	r3, [r2, #4]
+ 322 0004 0343     		orrs	r3, r3, r0
+ 323 0006 5360     		str	r3, [r2, #4]
+ 339:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 324              		.loc 1 339 1 is_stmt 0 view .LVU58
+ 325 0008 7047     		bx	lr
+ 326              	.L27:
+ 327 000a 00BF     		.align	2
+ 328              	.L26:
+ 329 000c 00700040 		.word	1073770496
+ 330              		.cfi_endproc
+ 331              	.LFE136:
+ 333              		.section	.text.HAL_PWR_DisableWakeUpPin,"ax",%progbits
+ 334              		.align	1
+ 335              		.global	HAL_PWR_DisableWakeUpPin
+ 336              		.syntax unified
+ 337              		.thumb
+ 338              		.thumb_func
+ 339              		.fpu fpv4-sp-d16
+ 341              	HAL_PWR_DisableWakeUpPin:
+ 342              	.LVL2:
+ 343              	.LFB137:
+ 340:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 341:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 342:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Disables the Wake-up PINx functionality.
+ 343:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @param WakeUpPinx Specifies the Power Wake-Up pin to disable.
+ 344:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         This parameter can be one of the following values:
+ 345:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *           @arg PWR_WAKEUP_PIN1
+ 346:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *           @arg PWR_WAKEUP_PIN2 available only on STM32F410xx/STM32F446xx/STM32F412xx/STM32F413x
+ 347:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *           @arg PWR_WAKEUP_PIN3 available only on STM32F410xx/STM32F412xx/STM32F413xx/STM32F423x
+ 348:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 349:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 350:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_DisableWakeUpPin(uint32_t WakeUpPinx)
+ 351:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 344              		.loc 1 351 1 is_stmt 1 view -0
+ 345              		.cfi_startproc
+ 346              		@ args = 0, pretend = 0, frame = 0
+ 347              		@ frame_needed = 0, uses_anonymous_args = 0
+ 348              		@ link register save eliminated.
+ARM GAS  /tmp/ccJo11RQ.s 			page 13
+
+
+ 352:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Check the parameter */
+ 353:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   assert_param(IS_PWR_WAKEUP_PIN(WakeUpPinx));  
+ 349              		.loc 1 353 3 view .LVU60
+ 354:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 355:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Disable the wake up pin */
+ 356:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   CLEAR_BIT(PWR->CSR, WakeUpPinx);
+ 350              		.loc 1 356 3 view .LVU61
+ 351 0000 024A     		ldr	r2, .L29
+ 352 0002 5368     		ldr	r3, [r2, #4]
+ 353 0004 23EA0003 		bic	r3, r3, r0
+ 354 0008 5360     		str	r3, [r2, #4]
+ 357:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 355              		.loc 1 357 1 is_stmt 0 view .LVU62
+ 356 000a 7047     		bx	lr
+ 357              	.L30:
+ 358              		.align	2
+ 359              	.L29:
+ 360 000c 00700040 		.word	1073770496
+ 361              		.cfi_endproc
+ 362              	.LFE137:
+ 364              		.section	.text.HAL_PWR_EnterSLEEPMode,"ax",%progbits
+ 365              		.align	1
+ 366              		.global	HAL_PWR_EnterSLEEPMode
+ 367              		.syntax unified
+ 368              		.thumb
+ 369              		.thumb_func
+ 370              		.fpu fpv4-sp-d16
+ 372              	HAL_PWR_EnterSLEEPMode:
+ 373              	.LVL3:
+ 374              	.LFB138:
+ 358:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   
+ 359:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 360:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Enters Sleep mode.
+ 361:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *   
+ 362:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note In Sleep mode, all I/O pins keep the same state as in Run mode.
+ 363:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * 
+ 364:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note In Sleep mode, the systick is stopped to avoid exit from this mode with
+ 365:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *       systick interrupt when used as time base for Timeout 
+ 366:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *                
+ 367:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @param Regulator Specifies the regulator state in SLEEP mode.
+ 368:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *            This parameter can be one of the following values:
+ 369:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *            @arg PWR_MAINREGULATOR_ON: SLEEP mode with regulator ON
+ 370:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *            @arg PWR_LOWPOWERREGULATOR_ON: SLEEP mode with low power regulator ON
+ 371:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note This parameter is not used for the STM32F4 family and is kept as parameter
+ 372:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *       just to maintain compatibility with the lower power families.
+ 373:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @param SLEEPEntry Specifies if SLEEP mode in entered with WFI or WFE instruction.
+ 374:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *          This parameter can be one of the following values:
+ 375:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *            @arg PWR_SLEEPENTRY_WFI: enter SLEEP mode with WFI instruction
+ 376:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *            @arg PWR_SLEEPENTRY_WFE: enter SLEEP mode with WFE instruction
+ 377:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 378:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 379:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_EnterSLEEPMode(uint32_t Regulator, uint8_t SLEEPEntry)
+ 380:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 375              		.loc 1 380 1 is_stmt 1 view -0
+ 376              		.cfi_startproc
+ 377              		@ args = 0, pretend = 0, frame = 0
+ 378              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccJo11RQ.s 			page 14
+
+
+ 379              		@ link register save eliminated.
+ 381:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Prevent unused argument(s) compilation warning */
+ 382:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   UNUSED(Regulator);
+ 380              		.loc 1 382 3 view .LVU64
+ 383:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 384:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Check the parameters */
+ 385:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   assert_param(IS_PWR_REGULATOR(Regulator));
+ 381              		.loc 1 385 3 view .LVU65
+ 386:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   assert_param(IS_PWR_SLEEP_ENTRY(SLEEPEntry));
+ 382              		.loc 1 386 3 view .LVU66
+ 387:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 388:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Clear SLEEPDEEP bit of Cortex System Control Register */
+ 389:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   CLEAR_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SLEEPDEEP_Msk));
+ 383              		.loc 1 389 3 view .LVU67
+ 384 0000 064A     		ldr	r2, .L35
+ 385 0002 1369     		ldr	r3, [r2, #16]
+ 386 0004 23F00403 		bic	r3, r3, #4
+ 387 0008 1361     		str	r3, [r2, #16]
+ 390:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 391:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Select SLEEP mode entry -------------------------------------------------*/
+ 392:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   if(SLEEPEntry == PWR_SLEEPENTRY_WFI)
+ 388              		.loc 1 392 3 view .LVU68
+ 389              		.loc 1 392 5 is_stmt 0 view .LVU69
+ 390 000a 0129     		cmp	r1, #1
+ 391 000c 03D0     		beq	.L34
+ 393:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   {   
+ 394:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     /* Request Wait For Interrupt */
+ 395:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     __WFI();
+ 396:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   }
+ 397:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   else
+ 398:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   {
+ 399:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     /* Request Wait For Event */
+ 400:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     __SEV();
+ 392              		.loc 1 400 5 is_stmt 1 view .LVU70
+ 393              		.syntax unified
+ 394              	@ 400 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4x
+ 395 000e 40BF     		sev
+ 396              	@ 0 "" 2
+ 401:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     __WFE();
+ 397              		.loc 1 401 5 view .LVU71
+ 398              	@ 401 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4x
+ 399 0010 20BF     		wfe
+ 400              	@ 0 "" 2
+ 402:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     __WFE();
+ 401              		.loc 1 402 5 view .LVU72
+ 402              	@ 402 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4x
+ 403 0012 20BF     		wfe
+ 404              	@ 0 "" 2
+ 403:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   }
+ 404:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 405              		.loc 1 404 1 is_stmt 0 view .LVU73
+ 406              		.thumb
+ 407              		.syntax unified
+ 408 0014 7047     		bx	lr
+ 409              	.L34:
+ 395:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   }
+ 410              		.loc 1 395 5 is_stmt 1 view .LVU74
+ARM GAS  /tmp/ccJo11RQ.s 			page 15
+
+
+ 411              		.syntax unified
+ 412              	@ 395 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4x
+ 413 0016 30BF     		wfi
+ 414              	@ 0 "" 2
+ 415              		.thumb
+ 416              		.syntax unified
+ 417 0018 7047     		bx	lr
+ 418              	.L36:
+ 419 001a 00BF     		.align	2
+ 420              	.L35:
+ 421 001c 00ED00E0 		.word	-536810240
+ 422              		.cfi_endproc
+ 423              	.LFE138:
+ 425              		.section	.text.HAL_PWR_EnterSTOPMode,"ax",%progbits
+ 426              		.align	1
+ 427              		.global	HAL_PWR_EnterSTOPMode
+ 428              		.syntax unified
+ 429              		.thumb
+ 430              		.thumb_func
+ 431              		.fpu fpv4-sp-d16
+ 433              	HAL_PWR_EnterSTOPMode:
+ 434              	.LVL4:
+ 435              	.LFB139:
+ 405:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 406:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 407:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Enters Stop mode. 
+ 408:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note In Stop mode, all I/O pins keep the same state as in Run mode.
+ 409:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note When exiting Stop mode by issuing an interrupt or a wake-up event, 
+ 410:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         the HSI RC oscillator is selected as system clock.
+ 411:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note When the voltage regulator operates in low power mode, an additional 
+ 412:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         startup delay is incurred when waking up from Stop mode. 
+ 413:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         By keeping the internal regulator ON during Stop mode, the consumption 
+ 414:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *         is higher although the startup time is reduced.    
+ 415:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @param Regulator Specifies the regulator state in Stop mode.
+ 416:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *          This parameter can be one of the following values:
+ 417:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *            @arg PWR_MAINREGULATOR_ON: Stop mode with regulator ON
+ 418:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *            @arg PWR_LOWPOWERREGULATOR_ON: Stop mode with low power regulator ON
+ 419:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @param STOPEntry Specifies if Stop mode in entered with WFI or WFE instruction.
+ 420:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *          This parameter can be one of the following values:
+ 421:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *            @arg PWR_STOPENTRY_WFI: Enter Stop mode with WFI instruction
+ 422:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *            @arg PWR_STOPENTRY_WFE: Enter Stop mode with WFE instruction
+ 423:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 424:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 425:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_EnterSTOPMode(uint32_t Regulator, uint8_t STOPEntry)
+ 426:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 436              		.loc 1 426 1 view -0
+ 437              		.cfi_startproc
+ 438              		@ args = 0, pretend = 0, frame = 0
+ 439              		@ frame_needed = 0, uses_anonymous_args = 0
+ 440              		@ link register save eliminated.
+ 427:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Check the parameters */
+ 428:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   assert_param(IS_PWR_REGULATOR(Regulator));
+ 441              		.loc 1 428 3 view .LVU76
+ 429:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   assert_param(IS_PWR_STOP_ENTRY(STOPEntry));
+ 442              		.loc 1 429 3 view .LVU77
+ 430:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   
+ 431:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Select the regulator state in Stop mode: Set PDDS and LPDS bits according to PWR_Regulator val
+ARM GAS  /tmp/ccJo11RQ.s 			page 16
+
+
+ 432:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   MODIFY_REG(PWR->CR, (PWR_CR_PDDS | PWR_CR_LPDS), Regulator);
+ 443              		.loc 1 432 3 view .LVU78
+ 444 0000 0B4A     		ldr	r2, .L41
+ 445 0002 1368     		ldr	r3, [r2]
+ 446 0004 23F00303 		bic	r3, r3, #3
+ 447 0008 0343     		orrs	r3, r3, r0
+ 448 000a 1360     		str	r3, [r2]
+ 433:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   
+ 434:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Set SLEEPDEEP bit of Cortex System Control Register */
+ 435:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   SET_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SLEEPDEEP_Msk));
+ 449              		.loc 1 435 3 view .LVU79
+ 450 000c 094A     		ldr	r2, .L41+4
+ 451 000e 1369     		ldr	r3, [r2, #16]
+ 452 0010 43F00403 		orr	r3, r3, #4
+ 453 0014 1361     		str	r3, [r2, #16]
+ 436:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   
+ 437:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Select Stop mode entry --------------------------------------------------*/
+ 438:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   if(STOPEntry == PWR_STOPENTRY_WFI)
+ 454              		.loc 1 438 3 view .LVU80
+ 455              		.loc 1 438 5 is_stmt 0 view .LVU81
+ 456 0016 0129     		cmp	r1, #1
+ 457 0018 08D0     		beq	.L40
+ 439:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   {   
+ 440:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     /* Request Wait For Interrupt */
+ 441:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     __WFI();
+ 442:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   }
+ 443:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   else
+ 444:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   {
+ 445:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     /* Request Wait For Event */
+ 446:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     __SEV();
+ 458              		.loc 1 446 5 is_stmt 1 view .LVU82
+ 459              		.syntax unified
+ 460              	@ 446 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4x
+ 461 001a 40BF     		sev
+ 462              	@ 0 "" 2
+ 447:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     __WFE();
+ 463              		.loc 1 447 5 view .LVU83
+ 464              	@ 447 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4x
+ 465 001c 20BF     		wfe
+ 466              	@ 0 "" 2
+ 448:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     __WFE();
+ 467              		.loc 1 448 5 view .LVU84
+ 468              	@ 448 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4x
+ 469 001e 20BF     		wfe
+ 470              	@ 0 "" 2
+ 471              		.thumb
+ 472              		.syntax unified
+ 473              	.L39:
+ 449:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   }
+ 450:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Reset SLEEPDEEP bit of Cortex System Control Register */
+ 451:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   CLEAR_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SLEEPDEEP_Msk));  
+ 474              		.loc 1 451 3 view .LVU85
+ 475 0020 044A     		ldr	r2, .L41+4
+ 476 0022 1369     		ldr	r3, [r2, #16]
+ 477 0024 23F00403 		bic	r3, r3, #4
+ 478 0028 1361     		str	r3, [r2, #16]
+ 452:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ARM GAS  /tmp/ccJo11RQ.s 			page 17
+
+
+ 479              		.loc 1 452 1 is_stmt 0 view .LVU86
+ 480 002a 7047     		bx	lr
+ 481              	.L40:
+ 441:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   }
+ 482              		.loc 1 441 5 is_stmt 1 view .LVU87
+ 483              		.syntax unified
+ 484              	@ 441 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4x
+ 485 002c 30BF     		wfi
+ 486              	@ 0 "" 2
+ 487              		.thumb
+ 488              		.syntax unified
+ 489 002e F7E7     		b	.L39
+ 490              	.L42:
+ 491              		.align	2
+ 492              	.L41:
+ 493 0030 00700040 		.word	1073770496
+ 494 0034 00ED00E0 		.word	-536810240
+ 495              		.cfi_endproc
+ 496              	.LFE139:
+ 498              		.section	.text.HAL_PWR_EnterSTANDBYMode,"ax",%progbits
+ 499              		.align	1
+ 500              		.global	HAL_PWR_EnterSTANDBYMode
+ 501              		.syntax unified
+ 502              		.thumb
+ 503              		.thumb_func
+ 504              		.fpu fpv4-sp-d16
+ 506              	HAL_PWR_EnterSTANDBYMode:
+ 507              	.LFB140:
+ 453:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 454:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 455:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Enters Standby mode.
+ 456:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note In Standby mode, all I/O pins are high impedance except for:
+ 457:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *          - Reset pad (still available) 
+ 458:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *          - RTC_AF1 pin (PC13) if configured for tamper, time-stamp, RTC 
+ 459:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *            Alarm out, or RTC clock calibration out.
+ 460:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *          - RTC_AF2 pin (PI8) if configured for tamper or time-stamp.  
+ 461:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *          - WKUP pin 1 (PA0) if enabled.       
+ 462:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 463:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 464:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_EnterSTANDBYMode(void)
+ 465:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 508              		.loc 1 465 1 view -0
+ 509              		.cfi_startproc
+ 510              		@ args = 0, pretend = 0, frame = 0
+ 511              		@ frame_needed = 0, uses_anonymous_args = 0
+ 512              		@ link register save eliminated.
+ 466:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Select Standby mode */
+ 467:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   SET_BIT(PWR->CR, PWR_CR_PDDS);
+ 513              		.loc 1 467 3 view .LVU89
+ 514 0000 054A     		ldr	r2, .L44
+ 515 0002 1368     		ldr	r3, [r2]
+ 516 0004 43F00203 		orr	r3, r3, #2
+ 517 0008 1360     		str	r3, [r2]
+ 468:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 469:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Set SLEEPDEEP bit of Cortex System Control Register */
+ 470:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   SET_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SLEEPDEEP_Msk));
+ 518              		.loc 1 470 3 view .LVU90
+ARM GAS  /tmp/ccJo11RQ.s 			page 18
+
+
+ 519 000a 044A     		ldr	r2, .L44+4
+ 520 000c 1369     		ldr	r3, [r2, #16]
+ 521 000e 43F00403 		orr	r3, r3, #4
+ 522 0012 1361     		str	r3, [r2, #16]
+ 471:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   
+ 472:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* This option is used to ensure that store operations are completed */
+ 473:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** #if defined ( __CC_ARM)
+ 474:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   __force_stores();
+ 475:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** #endif
+ 476:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Request Wait For Interrupt */
+ 477:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   __WFI();
+ 523              		.loc 1 477 3 view .LVU91
+ 524              		.syntax unified
+ 525              	@ 477 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4x
+ 526 0014 30BF     		wfi
+ 527              	@ 0 "" 2
+ 478:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 528              		.loc 1 478 1 is_stmt 0 view .LVU92
+ 529              		.thumb
+ 530              		.syntax unified
+ 531 0016 7047     		bx	lr
+ 532              	.L45:
+ 533              		.align	2
+ 534              	.L44:
+ 535 0018 00700040 		.word	1073770496
+ 536 001c 00ED00E0 		.word	-536810240
+ 537              		.cfi_endproc
+ 538              	.LFE140:
+ 540              		.section	.text.HAL_PWR_PVDCallback,"ax",%progbits
+ 541              		.align	1
+ 542              		.weak	HAL_PWR_PVDCallback
+ 543              		.syntax unified
+ 544              		.thumb
+ 545              		.thumb_func
+ 546              		.fpu fpv4-sp-d16
+ 548              	HAL_PWR_PVDCallback:
+ 549              	.LFB142:
+ 479:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 480:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 481:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief This function handles the PWR PVD interrupt request.
+ 482:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note This API should be called under the PVD_IRQHandler().
+ 483:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 484:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 485:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_PVD_IRQHandler(void)
+ 486:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 487:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Check PWR Exti flag */
+ 488:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   if(__HAL_PWR_PVD_EXTI_GET_FLAG() != RESET)
+ 489:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   {
+ 490:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     /* PWR PVD interrupt user callback */
+ 491:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     HAL_PWR_PVDCallback();
+ 492:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     
+ 493:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     /* Clear PWR Exti pending bit */
+ 494:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     __HAL_PWR_PVD_EXTI_CLEAR_FLAG();
+ 495:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   }
+ 496:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 497:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 498:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ARM GAS  /tmp/ccJo11RQ.s 			page 19
+
+
+ 499:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief  PWR PVD interrupt callback
+ 500:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 501:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 502:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** __weak void HAL_PWR_PVDCallback(void)
+ 503:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 550              		.loc 1 503 1 is_stmt 1 view -0
+ 551              		.cfi_startproc
+ 552              		@ args = 0, pretend = 0, frame = 0
+ 553              		@ frame_needed = 0, uses_anonymous_args = 0
+ 554              		@ link register save eliminated.
+ 504:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* NOTE : This function Should not be modified, when the callback is needed,
+ 505:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****             the HAL_PWR_PVDCallback could be implemented in the user file
+ 506:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****    */ 
+ 507:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 555              		.loc 1 507 1 view .LVU94
+ 556 0000 7047     		bx	lr
+ 557              		.cfi_endproc
+ 558              	.LFE142:
+ 560              		.section	.text.HAL_PWR_PVD_IRQHandler,"ax",%progbits
+ 561              		.align	1
+ 562              		.global	HAL_PWR_PVD_IRQHandler
+ 563              		.syntax unified
+ 564              		.thumb
+ 565              		.thumb_func
+ 566              		.fpu fpv4-sp-d16
+ 568              	HAL_PWR_PVD_IRQHandler:
+ 569              	.LFB141:
+ 486:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Check PWR Exti flag */
+ 570              		.loc 1 486 1 view -0
+ 571              		.cfi_startproc
+ 572              		@ args = 0, pretend = 0, frame = 0
+ 573              		@ frame_needed = 0, uses_anonymous_args = 0
+ 574 0000 08B5     		push	{r3, lr}
+ 575              	.LCFI4:
+ 576              		.cfi_def_cfa_offset 8
+ 577              		.cfi_offset 3, -8
+ 578              		.cfi_offset 14, -4
+ 488:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   {
+ 579              		.loc 1 488 3 view .LVU96
+ 488:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   {
+ 580              		.loc 1 488 6 is_stmt 0 view .LVU97
+ 581 0002 064B     		ldr	r3, .L51
+ 582 0004 5B69     		ldr	r3, [r3, #20]
+ 488:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   {
+ 583              		.loc 1 488 5 view .LVU98
+ 584 0006 13F4803F 		tst	r3, #65536
+ 585 000a 00D1     		bne	.L50
+ 586              	.L47:
+ 496:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 587              		.loc 1 496 1 view .LVU99
+ 588 000c 08BD     		pop	{r3, pc}
+ 589              	.L50:
+ 491:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****     
+ 590              		.loc 1 491 5 is_stmt 1 view .LVU100
+ 591 000e FFF7FEFF 		bl	HAL_PWR_PVDCallback
+ 592              	.LVL5:
+ 494:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   }
+ARM GAS  /tmp/ccJo11RQ.s 			page 20
+
+
+ 593              		.loc 1 494 5 view .LVU101
+ 594 0012 024B     		ldr	r3, .L51
+ 595 0014 4FF48032 		mov	r2, #65536
+ 596 0018 5A61     		str	r2, [r3, #20]
+ 496:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 597              		.loc 1 496 1 is_stmt 0 view .LVU102
+ 598 001a F7E7     		b	.L47
+ 599              	.L52:
+ 600              		.align	2
+ 601              	.L51:
+ 602 001c 003C0140 		.word	1073822720
+ 603              		.cfi_endproc
+ 604              	.LFE141:
+ 606              		.section	.text.HAL_PWR_EnableSleepOnExit,"ax",%progbits
+ 607              		.align	1
+ 608              		.global	HAL_PWR_EnableSleepOnExit
+ 609              		.syntax unified
+ 610              		.thumb
+ 611              		.thumb_func
+ 612              		.fpu fpv4-sp-d16
+ 614              	HAL_PWR_EnableSleepOnExit:
+ 615              	.LFB143:
+ 508:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 509:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 510:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Indicates Sleep-On-Exit when returning from Handler mode to Thread mode. 
+ 511:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note Set SLEEPONEXIT bit of SCR register. When this bit is set, the processor 
+ 512:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *       re-enters SLEEP mode when an interruption handling is over.
+ 513:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *       Setting this bit is useful when the processor is expected to run only on
+ 514:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *       interruptions handling.         
+ 515:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 516:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 517:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_EnableSleepOnExit(void)
+ 518:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 616              		.loc 1 518 1 is_stmt 1 view -0
+ 617              		.cfi_startproc
+ 618              		@ args = 0, pretend = 0, frame = 0
+ 619              		@ frame_needed = 0, uses_anonymous_args = 0
+ 620              		@ link register save eliminated.
+ 519:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Set SLEEPONEXIT bit of Cortex System Control Register */
+ 520:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   SET_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SLEEPONEXIT_Msk));
+ 621              		.loc 1 520 3 view .LVU104
+ 622 0000 024A     		ldr	r2, .L54
+ 623 0002 1369     		ldr	r3, [r2, #16]
+ 624 0004 43F00203 		orr	r3, r3, #2
+ 625 0008 1361     		str	r3, [r2, #16]
+ 521:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 626              		.loc 1 521 1 is_stmt 0 view .LVU105
+ 627 000a 7047     		bx	lr
+ 628              	.L55:
+ 629              		.align	2
+ 630              	.L54:
+ 631 000c 00ED00E0 		.word	-536810240
+ 632              		.cfi_endproc
+ 633              	.LFE143:
+ 635              		.section	.text.HAL_PWR_DisableSleepOnExit,"ax",%progbits
+ 636              		.align	1
+ 637              		.global	HAL_PWR_DisableSleepOnExit
+ARM GAS  /tmp/ccJo11RQ.s 			page 21
+
+
+ 638              		.syntax unified
+ 639              		.thumb
+ 640              		.thumb_func
+ 641              		.fpu fpv4-sp-d16
+ 643              	HAL_PWR_DisableSleepOnExit:
+ 644              	.LFB144:
+ 522:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 523:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 524:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Disables Sleep-On-Exit feature when returning from Handler mode to Thread mode. 
+ 525:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note Clears SLEEPONEXIT bit of SCR register. When this bit is set, the processor 
+ 526:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *       re-enters SLEEP mode when an interruption handling is over.          
+ 527:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 528:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 529:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_DisableSleepOnExit(void)
+ 530:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 645              		.loc 1 530 1 is_stmt 1 view -0
+ 646              		.cfi_startproc
+ 647              		@ args = 0, pretend = 0, frame = 0
+ 648              		@ frame_needed = 0, uses_anonymous_args = 0
+ 649              		@ link register save eliminated.
+ 531:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Clear SLEEPONEXIT bit of Cortex System Control Register */
+ 532:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   CLEAR_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SLEEPONEXIT_Msk));
+ 650              		.loc 1 532 3 view .LVU107
+ 651 0000 024A     		ldr	r2, .L57
+ 652 0002 1369     		ldr	r3, [r2, #16]
+ 653 0004 23F00203 		bic	r3, r3, #2
+ 654 0008 1361     		str	r3, [r2, #16]
+ 533:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 655              		.loc 1 533 1 is_stmt 0 view .LVU108
+ 656 000a 7047     		bx	lr
+ 657              	.L58:
+ 658              		.align	2
+ 659              	.L57:
+ 660 000c 00ED00E0 		.word	-536810240
+ 661              		.cfi_endproc
+ 662              	.LFE144:
+ 664              		.section	.text.HAL_PWR_EnableSEVOnPend,"ax",%progbits
+ 665              		.align	1
+ 666              		.global	HAL_PWR_EnableSEVOnPend
+ 667              		.syntax unified
+ 668              		.thumb
+ 669              		.thumb_func
+ 670              		.fpu fpv4-sp-d16
+ 672              	HAL_PWR_EnableSEVOnPend:
+ 673              	.LFB145:
+ 534:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 535:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 536:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Enables CORTEX M4 SEVONPEND bit. 
+ 537:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note Sets SEVONPEND bit of SCR register. When this bit is set, this causes 
+ 538:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *       WFE to wake up when an interrupt moves from inactive to pended.
+ 539:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 540:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 541:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_EnableSEVOnPend(void)
+ 542:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 674              		.loc 1 542 1 is_stmt 1 view -0
+ 675              		.cfi_startproc
+ 676              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /tmp/ccJo11RQ.s 			page 22
+
+
+ 677              		@ frame_needed = 0, uses_anonymous_args = 0
+ 678              		@ link register save eliminated.
+ 543:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Set SEVONPEND bit of Cortex System Control Register */
+ 544:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   SET_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SEVONPEND_Msk));
+ 679              		.loc 1 544 3 view .LVU110
+ 680 0000 024A     		ldr	r2, .L60
+ 681 0002 1369     		ldr	r3, [r2, #16]
+ 682 0004 43F01003 		orr	r3, r3, #16
+ 683 0008 1361     		str	r3, [r2, #16]
+ 545:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 684              		.loc 1 545 1 is_stmt 0 view .LVU111
+ 685 000a 7047     		bx	lr
+ 686              	.L61:
+ 687              		.align	2
+ 688              	.L60:
+ 689 000c 00ED00E0 		.word	-536810240
+ 690              		.cfi_endproc
+ 691              	.LFE145:
+ 693              		.section	.text.HAL_PWR_DisableSEVOnPend,"ax",%progbits
+ 694              		.align	1
+ 695              		.global	HAL_PWR_DisableSEVOnPend
+ 696              		.syntax unified
+ 697              		.thumb
+ 698              		.thumb_func
+ 699              		.fpu fpv4-sp-d16
+ 701              	HAL_PWR_DisableSEVOnPend:
+ 702              	.LFB146:
+ 546:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** 
+ 547:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** /**
+ 548:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @brief Disables CORTEX M4 SEVONPEND bit. 
+ 549:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @note Clears SEVONPEND bit of SCR register. When this bit is set, this causes 
+ 550:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   *       WFE to wake up when an interrupt moves from inactive to pended.         
+ 551:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   * @retval None
+ 552:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   */
+ 553:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** void HAL_PWR_DisableSEVOnPend(void)
+ 554:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** {
+ 703              		.loc 1 554 1 is_stmt 1 view -0
+ 704              		.cfi_startproc
+ 705              		@ args = 0, pretend = 0, frame = 0
+ 706              		@ frame_needed = 0, uses_anonymous_args = 0
+ 707              		@ link register save eliminated.
+ 555:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   /* Clear SEVONPEND bit of Cortex System Control Register */
+ 556:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c ****   CLEAR_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SEVONPEND_Msk));
+ 708              		.loc 1 556 3 view .LVU113
+ 709 0000 024A     		ldr	r2, .L63
+ 710 0002 1369     		ldr	r3, [r2, #16]
+ 711 0004 23F01003 		bic	r3, r3, #16
+ 712 0008 1361     		str	r3, [r2, #16]
+ 557:/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c **** }
+ 713              		.loc 1 557 1 is_stmt 0 view .LVU114
+ 714 000a 7047     		bx	lr
+ 715              	.L64:
+ 716              		.align	2
+ 717              	.L63:
+ 718 000c 00ED00E0 		.word	-536810240
+ 719              		.cfi_endproc
+ 720              	.LFE146:
+ARM GAS  /tmp/ccJo11RQ.s 			page 23
+
+
+ 722              		.text
+ 723              	.Letext0:
+ 724              		.file 2 "/usr/lib/gcc/arm-none-eabi/10.3.1/include/stdint.h"
+ 725              		.file 3 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/CMSIS/Include/core_cm4.h"
+ 726              		.file 4 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/CMSIS/Device/ST/STM32F4xx/Incl
+ 727              		.file 5 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/CMSIS/Device/ST/STM32F4xx/Incl
+ 728              		.file 6 "/home/nick/dev/stm32cube/rave_backpack/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32
+ARM GAS  /tmp/ccJo11RQ.s 			page 24
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 stm32f4xx_hal_pwr.c
+     /tmp/ccJo11RQ.s:18     .text.HAL_PWR_DeInit:0000000000000000 $t
+     /tmp/ccJo11RQ.s:26     .text.HAL_PWR_DeInit:0000000000000000 HAL_PWR_DeInit
+     /tmp/ccJo11RQ.s:48     .text.HAL_PWR_DeInit:0000000000000014 $d
+     /tmp/ccJo11RQ.s:53     .text.HAL_PWR_EnableBkUpAccess:0000000000000000 $t
+     /tmp/ccJo11RQ.s:60     .text.HAL_PWR_EnableBkUpAccess:0000000000000000 HAL_PWR_EnableBkUpAccess
+     /tmp/ccJo11RQ.s:93     .text.HAL_PWR_EnableBkUpAccess:0000000000000014 $d
+     /tmp/ccJo11RQ.s:99     .text.HAL_PWR_DisableBkUpAccess:0000000000000000 $t
+     /tmp/ccJo11RQ.s:106    .text.HAL_PWR_DisableBkUpAccess:0000000000000000 HAL_PWR_DisableBkUpAccess
+     /tmp/ccJo11RQ.s:139    .text.HAL_PWR_DisableBkUpAccess:0000000000000014 $d
+     /tmp/ccJo11RQ.s:145    .text.HAL_PWR_ConfigPVD:0000000000000000 $t
+     /tmp/ccJo11RQ.s:152    .text.HAL_PWR_ConfigPVD:0000000000000000 HAL_PWR_ConfigPVD
+     /tmp/ccJo11RQ.s:239    .text.HAL_PWR_ConfigPVD:000000000000007c $d
+     /tmp/ccJo11RQ.s:245    .text.HAL_PWR_EnablePVD:0000000000000000 $t
+     /tmp/ccJo11RQ.s:252    .text.HAL_PWR_EnablePVD:0000000000000000 HAL_PWR_EnablePVD
+     /tmp/ccJo11RQ.s:269    .text.HAL_PWR_EnablePVD:0000000000000008 $d
+     /tmp/ccJo11RQ.s:274    .text.HAL_PWR_DisablePVD:0000000000000000 $t
+     /tmp/ccJo11RQ.s:281    .text.HAL_PWR_DisablePVD:0000000000000000 HAL_PWR_DisablePVD
+     /tmp/ccJo11RQ.s:298    .text.HAL_PWR_DisablePVD:0000000000000008 $d
+     /tmp/ccJo11RQ.s:303    .text.HAL_PWR_EnableWakeUpPin:0000000000000000 $t
+     /tmp/ccJo11RQ.s:310    .text.HAL_PWR_EnableWakeUpPin:0000000000000000 HAL_PWR_EnableWakeUpPin
+     /tmp/ccJo11RQ.s:329    .text.HAL_PWR_EnableWakeUpPin:000000000000000c $d
+     /tmp/ccJo11RQ.s:334    .text.HAL_PWR_DisableWakeUpPin:0000000000000000 $t
+     /tmp/ccJo11RQ.s:341    .text.HAL_PWR_DisableWakeUpPin:0000000000000000 HAL_PWR_DisableWakeUpPin
+     /tmp/ccJo11RQ.s:360    .text.HAL_PWR_DisableWakeUpPin:000000000000000c $d
+     /tmp/ccJo11RQ.s:365    .text.HAL_PWR_EnterSLEEPMode:0000000000000000 $t
+     /tmp/ccJo11RQ.s:372    .text.HAL_PWR_EnterSLEEPMode:0000000000000000 HAL_PWR_EnterSLEEPMode
+     /tmp/ccJo11RQ.s:421    .text.HAL_PWR_EnterSLEEPMode:000000000000001c $d
+     /tmp/ccJo11RQ.s:426    .text.HAL_PWR_EnterSTOPMode:0000000000000000 $t
+     /tmp/ccJo11RQ.s:433    .text.HAL_PWR_EnterSTOPMode:0000000000000000 HAL_PWR_EnterSTOPMode
+     /tmp/ccJo11RQ.s:493    .text.HAL_PWR_EnterSTOPMode:0000000000000030 $d
+     /tmp/ccJo11RQ.s:499    .text.HAL_PWR_EnterSTANDBYMode:0000000000000000 $t
+     /tmp/ccJo11RQ.s:506    .text.HAL_PWR_EnterSTANDBYMode:0000000000000000 HAL_PWR_EnterSTANDBYMode
+     /tmp/ccJo11RQ.s:535    .text.HAL_PWR_EnterSTANDBYMode:0000000000000018 $d
+     /tmp/ccJo11RQ.s:541    .text.HAL_PWR_PVDCallback:0000000000000000 $t
+     /tmp/ccJo11RQ.s:548    .text.HAL_PWR_PVDCallback:0000000000000000 HAL_PWR_PVDCallback
+     /tmp/ccJo11RQ.s:561    .text.HAL_PWR_PVD_IRQHandler:0000000000000000 $t
+     /tmp/ccJo11RQ.s:568    .text.HAL_PWR_PVD_IRQHandler:0000000000000000 HAL_PWR_PVD_IRQHandler
+     /tmp/ccJo11RQ.s:602    .text.HAL_PWR_PVD_IRQHandler:000000000000001c $d
+     /tmp/ccJo11RQ.s:607    .text.HAL_PWR_EnableSleepOnExit:0000000000000000 $t
+     /tmp/ccJo11RQ.s:614    .text.HAL_PWR_EnableSleepOnExit:0000000000000000 HAL_PWR_EnableSleepOnExit
+     /tmp/ccJo11RQ.s:631    .text.HAL_PWR_EnableSleepOnExit:000000000000000c $d
+     /tmp/ccJo11RQ.s:636    .text.HAL_PWR_DisableSleepOnExit:0000000000000000 $t
+     /tmp/ccJo11RQ.s:643    .text.HAL_PWR_DisableSleepOnExit:0000000000000000 HAL_PWR_DisableSleepOnExit
+     /tmp/ccJo11RQ.s:660    .text.HAL_PWR_DisableSleepOnExit:000000000000000c $d
+     /tmp/ccJo11RQ.s:665    .text.HAL_PWR_EnableSEVOnPend:0000000000000000 $t
+     /tmp/ccJo11RQ.s:672    .text.HAL_PWR_EnableSEVOnPend:0000000000000000 HAL_PWR_EnableSEVOnPend
+     /tmp/ccJo11RQ.s:689    .text.HAL_PWR_EnableSEVOnPend:000000000000000c $d
+     /tmp/ccJo11RQ.s:694    .text.HAL_PWR_DisableSEVOnPend:0000000000000000 $t
+     /tmp/ccJo11RQ.s:701    .text.HAL_PWR_DisableSEVOnPend:0000000000000000 HAL_PWR_DisableSEVOnPend
+     /tmp/ccJo11RQ.s:718    .text.HAL_PWR_DisableSEVOnPend:000000000000000c $d
+
+NO UNDEFINED SYMBOLS
